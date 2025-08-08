@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teja P C - MLOps Engineer Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Custom Cursor -->
+    <div class="cursor"></div>
+    <div class="cursor-trail"></div>
+
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div class="loader">
+            <div class="loader-circle"></div>
+            <div class="loader-text">Loading Portfolio...</div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">TEJA P C</div>
+            <div class="nav-menu">
+                <a href="#home" class="nav-link">Home</a>
+                <a href="#about" class="nav-link">About</a>
+                <a href="#education" class="nav-link">Education</a>
+                <a href="#skills" class="nav-link">Skills</a>
+                <a href="#experience" class="nav-link">Experience</a>
+                <a href="#projects" class="nav-link">Projects</a>
+                <a href="#contact" class="nav-link">Contact</a>
+                <a href="https://scholar.google.com/citations?user=mZGqviAAAAAJ&hl=en" target="_blank">
+                    <i class="fas fa-graduation-cap"></i>
+                </a>
+            </div>
+            <div class="nav-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Scroll Progress -->
+    <div class="scroll-progress"></div>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div id="particles-js"></div>
+        <div class="hero-content">
+            <div class="hero-image">
+                <div class="image-frame">
+                    <img src="teja.jpg" alt="Teja P C Profile" class="profile-img">
+                    <div class="image-glow"></div>
+                </div>
+            </div>
+            <h1 class="hero-title">
+                <span class="typewriter">TEJA P C</span>
+            </h1>
+            <h2 class="hero-subtitle">MLOps Engineer & Software Developer</h2>
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <span class="stat-number" data-target="5">0</span>
+                    <span class="stat-label">Publications</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" data-target="7300">0</span>
+                    <span class="stat-label">Paper Views</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" data-target="5">0</span>
+                    <span class="stat-label">Years Experience</span>
+                </div>
+                    <div class="stat-item">
+                    <span class="stat-number" data-target="100">0</span>
+                    <span class="stat-label">Citations</span>
+                </div>
+            </div>
+            <div class="hero-cta">
+                <a href="#contact" class="btn btn-primary glow-btn">Get In Touch</a>
+                <a href="#projects" class="btn btn-outline">View Work</a>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <div class="scroll-arrow"></div>
+            <span>Scroll Down</span>
+        </div>
+        <canvas id="hero-canvas"></canvas>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <h2 class="section-title">About Me</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p class="about-intro">Passionate MLOps Engineer with expertise in developing scalable machine learning pipelines and cloud-based solutions. Currently leading innovative projects at Tata Consultancy Services with a track record of published research and industry recognition.</p>
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <a href="mailto:pcteja2000@gmail.com">pcteja2000@gmail.com</a>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <span>(+1) 9402394143</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fab fa-linkedin"></i>
+                            <a href="https://www.linkedin.com/in/tejapc" target="_blank">linkedin.com/in/tejapc</a>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Denton, Texas, USA</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-achievements">
+                    <div class="achievement-card">
+                        <div class="achievement-icon">🏆</div>
+                        <h4>2 Time Best Team Member Award</h4>
+                        <p>2022 & 2024 at TCS</p>
+                    </div>
+                    <div class="achievement-card">
+                        <div class="achievement-icon">🎓</div>
+                        <h4>High Academic Excellence</h4>
+                        <p>GPA: 9.33/10.0</p>
+                    </div>
+                    <a href="https://scholar.google.com/citations?user=mZGqviAAAAAJ&hl=en">
+                    <div class="achievement-card">
+                        <div class="achievement-icon">📊</div>
+                        <h4>Research Impact</h4>
+                        <p>7300+ Views, 100+ Citations</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+    <!-- Education Section -->
+    <section id="education" class="education">
+        <div class="container">
+            <h2 class="section-title">Education</h2>
+            <div class="education-grid">
+                <div class="education-card">
+                    <div class="education-content">
+                        <div class="education-icon">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <div class="education-details">
+                            <h3>Bachelor of Technology in Computer Science Engineering</h3>
+                            <h4>Bharath Institute of Higher Education and Research</h4>
+                            <div class="education-meta">
+                                <span class="location"><i class="fas fa-map-marker-alt"></i> Chennai, India</span>
+                                <span class="duration"><i class="fas fa-calendar"></i> Aug 2018 – Aug 2022</span>
+                                <span class="gpa"><i class="fas fa-star"></i> GPA: 9.33/10.0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="education-card">
+                    <div class="education-content">
+                        <div class="education-icon">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <div class="education-details">
+                            <h3>Master of Science in Computer Science</h3>
+                            <h4>University of North Texas</h4>
+                            <div class="education-meta">
+                                <span class="location"><i class="fas fa-map-marker-alt"></i> Denton, Texas, USA</span>
+                                <span class="duration"><i class="fas fa-calendar"></i> Aug 2025 – May 2027</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <style>
+        .education-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        @media (min-width: 768px) {
+            .education-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .education-card {
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .education-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .education-icon {
+            font-size: 2rem;
+            color: #02464b;
+            margin-bottom: 10px;
+        }
+
+        .education-details h3 {
+            font-size: 1.25rem;
+            margin: 0 0 10px;
+            color: #333;
+        }
+
+        .education-details h4 {
+            font-size: 1rem;
+            margin: 0 0 10px;
+            color: #555;
+        }
+
+        .education-meta {
+            font-size: 0.875rem;
+            color: #666;
+        }
+
+        .education-meta span {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .education-meta i {
+            margin-right: 5px;
+            color: #06740f;
+        }
+    </style>
+
+
+
+    <!-- Experience Section -->
+    <section id="experience" class="experience">
+        <div class="container">
+            <h2 class="section-title">Professional Experience</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-header">
+                            <h3>MLOps Engineer</h3>
+                            <span class="company">Tata Consultancy Services</span>
+                            <span class="duration">Aug 2022 – Present</span>
+                            <span class="location">Chennai, India</span>
+                        </div>
+                        <ul class="timeline-achievements">
+                            <li>Led Development of Machine Learning Pipelines using Python for automated data handling and model training</li>
+                            <li>Implemented Cloud-Based Solutions on GCP ensuring optimal performance and reliability</li>
+                            <li>Enhanced Software Development Lifecycle with testing, automation, and performance optimization</li>
+                            <li>Collaborated on SDK Development positioning company as AI technology leader</li>
+                            <li>Received "Best Team Member" award for 2022-2023 from Now Pensions Limited Team</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-header">
+                            <h3>Software Engineer Intern</h3>
+                            <span class="company">Tata Consultancy Services</span>
+                            <span class="duration">Feb 2022 – Jun 2022</span>
+                            <span class="location">Chennai, India</span>
+                        </div>
+                        <ul class="timeline-achievements">
+                            <li>Worked with TCS Client - Insurance company AVIVA</li>
+                            <li>Developed Real-Time Video Messaging model for Personalized Customer Experiences</li>
+                            <li>Utilized NLP techniques to generate Insurance premium details tailored to customer needs</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-header">
+                            <h3>Data Science Intern</h3>
+                            <span class="company">Ural Federal University</span>
+                            <span class="duration">Jun 2019 – Aug 2019</span>
+                            <span class="location">Yekaterinburg, Russia</span>
+                        </div>
+                        <ul class="timeline-achievements">
+                            <li>Led Solar Power Generation prediction project for Astrakhan, Russia solar power plant</li>
+                            <li>Awarded Diploma in Energy Track and achieved 1st place in project competition</li>
+                            <li>Enhanced ML model performance using K-Fold cross-validation and parameter tuning</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="projects">
+        <div class="container">
+            <h2 class="section-title">Projects & Research</h2>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-header">
+                        <h3>Industrial Solar Forecasting System</h3>
+                        <div class="project-links">
+                            <a href="https://doi.org/10.3390/rs12203420" target="_blank" class="project-link">
+                                <i class="fas fa-external-link-alt"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <p>Industry-Scale Photovoltaic Forecasting System implemented for Russian power system with enhanced accuracy using machine learning algorithms.</p>
+                    <div class="project-stats">
+                        <span class="stat">Impact Factor: 5.0</span>
+                        <span class="stat">5000+ Views</span>
+                        <span class="stat">15 Citations</span>
+                    </div>
+                    <div class="project-tags">
+                        <span class="tag">Machine Learning</span>
+                        <span class="tag">Solar Energy</span>
+                        <span class="tag">Forecasting</span>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-header">
+                        <h3>Supreme Court Case Prediction using HCNN</h3>
+                        <div class="project-links">
+                            <a href="https://link.springer.com/article/10.1007/s10772-021-09820-4" target="_blank" class="project-link">
+                                <i class="fas fa-external-link-alt"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <p>Automated web scraping and machine learning system to predict Supreme Court case outcomes using 70 years of judgment data with TensorFlow and NLP.</p>
+                    <div class="project-tags">
+                        <span class="tag">Deep Learning</span>
+                        <span class="tag">NLP</span>
+                        <span class="tag">Web Scraping</span>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-header">
+                        <h3>Random Forest Solar Power Prediction</h3>
+                        <div class="project-links">
+                            <a href="https://doi.org/10.1109/SIBIRCON48586.2019.8958063" target="_blank" class="project-link">
+                                <i class="fas fa-external-link-alt"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <p>Integration of retrospective metering data and weather information using Random Forest Regressor for accurate solar power forecasting.</p>
+                    <div class="project-tags">
+                        <span class="tag">Random Forest</span>
+                        <span class="tag">Data Integration</span>
+                        <span class="tag">Weather Analysis</span>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-header">
+                        <h3>Renewable Energy Strategic Planning</h3>
+                        <div class="project-links">
+                            <a href="https://doi.org/10.1109/ICSTCEE49637.2020.9277484" target="_blank" class="project-link">
+                                <i class="fas fa-external-link-alt"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <p>Comprehensive methodology for renewable energy integration with technical, economic, and environmental criteria for strategic planning.</p>
+                    <div class="project-tags">
+                        <span class="tag">Strategic Planning</span>
+                        <span class="tag">Renewable Energy</span>
+                        <span class="tag">Sustainability</span>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-header">
+                        <h3>Remote Microgrid Development</h3>
+                        <div class="project-links">
+                            <a href="https://doi.org/10.1109/ICSTCEE49637.2020.9276813" target="_blank" class="project-link">
+                                <i class="fas fa-external-link-alt"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <p>Autonomous microgrid solution for remote residential power supply with optimal capacity determination and load forecasting.</p>
+                    <div class="project-tags">
+                        <span class="tag">Microgrid</span>
+                        <span class="tag">Load Forecasting</span>
+                        <span class="tag">Autonomous Systems</span>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-header">
+                        <h3>Personal Portfolio Website</h3>
+                        <div class="project-links">
+                            <a href="https://tejacv.netlify.app/" target="_blank" class="project-link">
+                                <i class="fas fa-external-link-alt"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <p>Interactive ReactJS portfolio with Firebase authentication, Google Sign-in, TIC-TAC-TOE game, and real-time component demonstrations.</p>
+                    <div class="project-tags">
+                        <span class="tag">ReactJS</span>
+                        <span class="tag">Firebase</span>
+                        <span class="tag">Web Development</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Certifications Section -->
+    <section id="certifications" class="certifications">
+        <div class="container">
+            <h2 class="section-title">Certifications & Awards</h2>
+            <div class="cert-grid">
+                <div class="cert-card">
+                    <div class="cert-icon">
+                        <i class="fab fa-oracle"></i>
+                    </div>
+                    <h4>Oracle Cloud Infrastructure 2023</h4>
+                    <p>Certified Application Integration Professional</p>
+                    <a href="https://drive.google.com/file/d/1_AOLDGLTqOq90cfEAI-momwOuCo84f8c/view?usp=sharing" target="_blank" class="cert-link">View Certificate</a>
+                </div>
+                
+                <div class="cert-card">
+                    <div class="cert-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h4>Machine Learning Course</h4>
+                    <p>by Andrew Ng – Coursera Stanford</p>
+                    <a href="https://coursera.org/share/83bc69cadd8b41b12974863d20959261" target="_blank" class="cert-link">View Certificate</a>
+                </div>
+                
+                <div class="cert-card">
+                    <div class="cert-icon">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <h4>Data Science Competition</h4>
+                    <p>Learn from Top Kagglers – HSE University</p>
+                    <a href="https://coursera.org/share/91951b9a234d7a7f439c7763537272f2" target="_blank" class="cert-link">View Certificate</a>
+                </div>
+                
+                <div class="cert-card">
+                    <div class="cert-icon">
+                        <i class="fas fa-award"></i>
+                    </div>
+                    <h4>Research Paper Presentation</h4>
+                    <p>ICAECT 2020 – Springer Conference</p>
+                    <a href="https://drive.google.com/file/d/1Zd0nxcvsxDgN_6NRRKBWFbE6YRrWukXD/view?usp=sharing" target="_blank" class="cert-link">View Certificate</a>
+                </div>
+            </div>
+            
+            <div class="awards-section">
+                <h3>Honors & Awards</h3>
+                <div class="awards-list">
+                    <div class="award-item">
+                        <i class="fas fa-medal"></i>
+                        <span>Won Hackathon and Received Diploma in Ural Federal University</span>
+                    </div>
+                    <div class="award-item">
+                        <i class="fas fa-star"></i>
+                        <span>Best Project Team Award from Ural Federal University</span>
+                    </div>
+                    <div class="award-item">
+                        <i class="fas fa-money-bill"></i>
+                        <span>Received Grant of Rs 4,00,000 to Publish Research Paper in Energies Journal</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+        <!-- Skills Section -->
+    <section id="skills" class="skills">
+        <div class="container">
+            <h2 class="section-title">Technical Skills</h2>
+            <div class="skills-grid">
+                <div class="skill-category">
+                    <h3><i class="fas fa-code"></i> Languages</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Java</span>
+                        <span class="skill-tag">C++</span>
+                        <span class="skill-tag">Python</span>
+                        <span class="skill-tag">C</span>
+                        <span class="skill-tag">R</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3><i class="fas fa-layer-group"></i> Frameworks</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">ReactJS</span>
+                        <span class="skill-tag">Angular</span>
+                        <span class="skill-tag">Spring-Boot</span>
+                        <span class="skill-tag">PyTorch</span>
+                        <span class="skill-tag">TensorFlow</span>
+                        <span class="skill-tag">Kubernetes</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3><i class="fas fa-globe"></i> Web Technologies</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">HTML</span>
+                        <span class="skill-tag">CSS</span>
+                        <span class="skill-tag">JavaScript</span>
+                        <span class="skill-tag">jQuery</span>
+                        <span class="skill-tag">Bootstrap</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3><i class="fas fa-database"></i> Databases</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">MongoDB</span>
+                        <span class="skill-tag">Oracle</span>
+                        <span class="skill-tag">MySQL</span>
+                        <span class="skill-tag">PostgreSQL</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3><i class="fas fa-brain"></i> Advanced Technologies</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Machine Learning</span>
+                        <span class="skill-tag">NLP</span>
+                        <span class="skill-tag">Data Analysis</span>
+                        <span class="skill-tag">Docker</span>
+                        <span class="skill-tag">Linux</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3><i class="fas fa-cloud"></i> Cloud & Deployment</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">GCP</span>
+                        <span class="skill-tag">App Engine</span>
+                        <span class="skill-tag">Cloud Build</span>
+                        <span class="skill-tag">Cloud RUN</span>
+                        <span class="skill-tag">CI/CD</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2 class="section-title">Let's Connect</h2>
+            <div class="contact-content">
+                <div class="contact-info-section">
+                    <h3>Get in Touch</h3>
+                    <p>Ready to collaborate on innovative ML projects or discuss opportunities? Let's connect!</p>
+                    <div class="contact-methods">
+                        <a href="mailto:pcteja2000@gmail.com" class="contact-method">
+                            <i class="fas fa-envelope"></i>
+                            <span>pcteja2000@gmail.com</span>
+                        </a>
+                        <a href="tel:+19402394143" class="contact-method">
+                            <i class="fas fa-phone"></i>
+                            <span>(+1) 9402394143</span>
+                        </a>
+                        <a href="https://www.linkedin.com/in/tejapc" target="_blank" class="contact-method">
+                            <i class="fab fa-linkedin"></i>
+                            <span>LinkedIn Profile</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="contact-form-section">
+                    <form class="contact-form" id="contactForm">
+                        <div class="form-group">
+                            <input type="text" id="name" name="name" required class="form-control">
+                            <label for="name" class="form-label">Your Name</label>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" id="email" name="email" required class="form-control">
+                            <label for="email" class="form-label">Your Email</label>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="subject" name="subject" required class="form-control">
+                            <label for="subject" class="form-label">Subject</label>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="message" name="message" required class="form-control" rows="5"></textarea>
+                            <label for="message" class="form-label">Your Message</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary submit-btn">
+                            <span class="btn-text">Send Message</span>
+                            <span class="btn-loading">Sending...</span>
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <canvas id="contact-canvas"></canvas>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <p>&copy; 2025 Teja P C. All rights reserved.</p>
+                <div class="footer-links">
+                    <a href="https://www.linkedin.com/in/tejapc" target="_blank">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                    <a href="mailto:pcteja2000@gmail.com">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

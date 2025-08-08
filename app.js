@@ -1,0 +1,1099 @@
+// Global variables
+let scene, camera, renderer, particles = [];
+let contactScene, contactCamera, contactRenderer;
+let mouseX = 0, mouseY = 0;
+let windowHalfX = window.innerWidth / 2;
+let windowHalfY = window.innerHeight / 2;
+
+// Skills data with progress levels
+const skillsData = {
+    languages: [
+        { name: 'Python', level: 95 },
+        { name: 'Java', level: 90 },
+        { name: 'C++', level: 85 },
+        { name: 'C', level: 80 },
+        { name: 'R', level: 75 }
+    ],
+    frameworks: [
+        { name: 'TensorFlow', level: 92 },
+        { name: 'PyTorch', level: 88 },
+        { name: 'ReactJS', level: 85 },
+        { name: 'Spring-Boot', level: 82 },
+        { name: 'Angular', level: 78 },
+        { name: 'Kubernetes', level: 85 }
+    ],
+    webTech: [
+        { name: 'HTML/CSS', level: 90 },
+        { name: 'JavaScript', level: 88 },
+        { name: 'Bootstrap', level: 85 },
+        { name: 'jQuery', level: 80 }
+    ],
+    databases: [
+        { name: 'MongoDB', level: 85 },
+        { name: 'PostgreSQL', level: 82 },
+        { name: 'MySQL', level: 80 },
+        { name: 'Oracle', level: 75 }
+    ],
+    advancedTech: [
+        { name: 'Machine Learning', level: 95 },
+        { name: 'NLP', level: 90 },
+        { name: 'Docker', level: 88 },
+        { name: 'Data Analysis', level: 92 },
+        { name: 'Linux', level: 85 }
+    ],
+    deployment: [
+        { name: 'GCP', level: 90 },
+        { name: 'CI/CD Pipelines', level: 85 },
+        { name: 'Cloud Build', level: 82 },
+        { name: 'App Engine', level: 80 },
+        { name: 'Cloud RUN', level: 85 }
+    ]
+};
+
+// Project details for expansion
+const projectDetails = {
+    'Industrial Solar Forecasting System': {
+        fullDescription: 'Developed a comprehensive machine learning-based photovoltaic forecasting system for large-scale solar power plants within the Russian power system. The system integrates multiple data sources including weather patterns, historical generation data, and real-time sensor inputs to provide accurate day-ahead forecasting.',
+        technologies: ['Python', 'Machine Learning', 'Time Series Analysis', 'Weather APIs', 'Data Preprocessing'],
+        achievements: [
+            'Achieved 95% forecasting accuracy for day-ahead predictions',
+            'Reduced forecasting errors by 40% compared to traditional methods',
+            'Successfully deployed in production for Russian power grid',
+            'Research published in high-impact Energies Journal (Impact Factor 5.0)'
+        ]
+    },
+    'Supreme Court Case Prediction using HCNN': {
+        fullDescription: 'Built an advanced deep learning system using Hierarchical Convolutional Neural Networks (HCNN) to predict Supreme Court case outcomes. The project involved extensive web scraping, natural language processing, and deep learning techniques to analyze 70 years of judicial data.',
+        technologies: ['TensorFlow', 'NLP', 'Web Scraping', 'HCNN', 'Gensim', 'Word2Vec', 'Python'],
+        achievements: [
+            'Processed and analyzed 70 years of Supreme Court judgment data',
+            'Achieved 78% prediction accuracy using HCNN architecture',
+            'Implemented advanced NLP preprocessing pipeline',
+            'Published research in prestigious Springer conference'
+        ]
+    },
+    'Random Forest Solar Power Prediction': {
+        fullDescription: 'Developed a robust solar power generation prediction system using Random Forest Regressor algorithms. The project focused on integrating retrospective metering data with open-source weather information to create accurate forecasting models.',
+        technologies: ['Random Forest', 'Python', 'Weather Data APIs', 'Statistical Analysis', 'Feature Engineering'],
+        achievements: [
+            'Integrated multiple data sources for comprehensive analysis',
+            'Optimized feature selection for improved model performance',
+            'Tested on real solar power plant in southern Russia',
+            'Demonstrated practical implementation and validation'
+        ]
+    },
+    'Renewable Energy Strategic Planning': {
+        fullDescription: 'Created a comprehensive methodology for integrating renewable energy sources into strategic energy sector development plans. The research emphasized using integrated technical, economic, and environmental criteria for decision-making processes.',
+        technologies: ['Strategic Planning', 'Economic Analysis', 'Environmental Assessment', 'Python', 'Data Visualization'],
+        achievements: [
+            'Developed multi-criteria decision framework',
+            'Created ranked project evaluation system',
+            'Applied methodology to real regional power system',
+            'Provided practical implementation guidelines'
+        ]
+    },
+    'Remote Microgrid Development': {
+        fullDescription: 'Successfully developed an autonomous microgrid solution specifically designed for remote residential customers\' power supply. The project addressed unique geographical challenges and prioritized technological efficiency and environmental sustainability.',
+        technologies: ['Load Forecasting', 'Optimization Algorithms', 'Renewable Energy', 'Grid Management', 'Python'],
+        achievements: [
+            'Designed autonomous power supply solution',
+            'Implemented optimal generation capacity determination',
+            'Applied advanced load forecasting techniques',
+            'Focused on environmental sustainability'
+        ]
+    },
+    'Personal Portfolio Website': {
+        fullDescription: 'Built a comprehensive personal portfolio website showcasing full-stack development skills. The project features modern React architecture, Firebase integration, authentication systems, and interactive games to demonstrate various technical capabilities.',
+        technologies: ['ReactJS', 'NodeJS', 'Firebase', 'Google Auth', 'Netlify', 'React Hooks'],
+        achievements: [
+            'Implemented Google Authentication with Firebase',
+            'Created interactive TIC-TAC-TOE game',
+            'Built SAAS application with real-time components',
+            'Deployed on Netlify with continuous integration'
+        ]
+    }
+};
+
+// Initialize everything when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize loading screen
+    initLoadingScreen();
+    
+    // Initialize all components after a delay
+    setTimeout(() => {
+        initCustomCursor();
+        initNavigation();
+        initScrollProgress();
+        initThreeJS();
+        initContactCanvas();
+        initScrollAnimations();
+        initTypewriter();
+        initCounters();
+        initContactForm();
+        initParticles();
+        initSkillsSection();
+        initTimelineInteractions();
+        initProjectInteractions();
+        hideLoadingScreen();
+    }, 2000);
+});
+
+// Loading Screen
+function initLoadingScreen() {
+    const loadingScreen = document.getElementById('loading-screen');
+    
+    // Add some dynamic loading text
+    const loadingText = document.querySelector('.loader-text');
+    const messages = [
+        'Loading Portfolio...',
+        'Initializing 3D Elements...',
+        'Preparing Experience...',
+        'Almost Ready...'
+    ];
+    
+    let messageIndex = 0;
+    const messageInterval = setInterval(() => {
+        if (messageIndex < messages.length - 1) {
+            messageIndex++;
+            loadingText.textContent = messages[messageIndex];
+        } else {
+            clearInterval(messageInterval);
+        }
+    }, 500);
+}
+
+function hideLoadingScreen() {
+    const loadingScreen = document.getElementById('loading-screen');
+    loadingScreen.classList.add('hidden');
+    
+    // Remove loading screen from DOM after transition
+    setTimeout(() => {
+        loadingScreen.style.display = 'none';
+    }, 500);
+}
+
+// Custom Cursor
+function initCustomCursor() {
+    const cursor = document.querySelector('.cursor');
+    const cursorTrail = document.querySelector('.cursor-trail');
+    
+    let cursorX = 0, cursorY = 0;
+    let trailX = 0, trailY = 0;
+    
+    document.addEventListener('mousemove', (e) => {
+        cursorX = e.clientX;
+        cursorY = e.clientY;
+    });
+    
+    function updateCursor() {
+        cursor.style.left = cursorX + 'px';
+        cursor.style.top = cursorY + 'px';
+        
+        // Smooth trail following
+        trailX += (cursorX - trailX) * 0.1;
+        trailY += (cursorY - trailY) * 0.1;
+        
+        cursorTrail.style.left = trailX + 'px';
+        cursorTrail.style.top = trailY + 'px';
+        
+        requestAnimationFrame(updateCursor);
+    }
+    updateCursor();
+    
+    // Cursor interactions
+    const interactiveElements = document.querySelectorAll('a, button, .btn, .project-card, .skill-tag, .timeline-content, .skill-item');
+    
+    interactiveElements.forEach(element => {
+        element.addEventListener('mouseenter', () => {
+            cursor.style.transform = 'scale(1.5)';
+        });
+        
+        element.addEventListener('mouseleave', () => {
+            cursor.style.transform = 'scale(1)';
+        });
+    });
+}
+
+// Enhanced Skills Section
+function initSkillsSection() {
+    const skillsContainer = document.querySelector('.skills-grid');
+    skillsContainer.innerHTML = ''; // Clear existing content
+    
+    Object.entries(skillsData).forEach(([categoryKey, skills]) => {
+        const categoryDiv = document.createElement('div');
+        categoryDiv.className = 'skill-category';
+        
+        const categoryTitles = {
+            languages: 'Languages',
+            frameworks: 'Frameworks', 
+            webTech: 'Web Technologies',
+            databases: 'Databases',
+            advancedTech: 'Advanced Technologies',
+            deployment: 'Cloud & Deployment'
+        };
+        
+        const categoryIcons = {
+            languages: 'fas fa-code',
+            frameworks: 'fas fa-layer-group',
+            webTech: 'fas fa-globe',
+            databases: 'fas fa-database',
+            advancedTech: 'fas fa-brain',
+            deployment: 'fas fa-cloud'
+        };
+        
+        categoryDiv.innerHTML = `
+            <h3><i class="${categoryIcons[categoryKey]}"></i> ${categoryTitles[categoryKey]}</h3>
+            <div class="skill-list">
+                ${skills.map(skill => `
+                    <div class="skill-item">
+                        <div class="skill-name">
+                            <span>${skill.name}</span>
+                            <span class="skill-level">${skill.level}%</span>
+                        </div>
+                        <div class="skill-progress">
+                            <div class="skill-progress-bar" data-width="${skill.level}%"></div>
+                        </div>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+        
+        skillsContainer.appendChild(categoryDiv);
+    });
+    
+    // Animate progress bars on scroll
+    const observerOptions = {
+        threshold: 0.3,
+        rootMargin: '0px 0px -100px 0px'
+    };
+    
+    const skillObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const progressBars = entry.target.querySelectorAll('.skill-progress-bar');
+                progressBars.forEach((bar, index) => {
+                    setTimeout(() => {
+                        bar.style.width = bar.getAttribute('data-width');
+                    }, index * 100);
+                });
+                skillObserver.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+    
+    document.querySelectorAll('.skill-category').forEach(category => {
+        skillObserver.observe(category);
+    });
+    
+    // Add hover effects for skill items
+    document.querySelectorAll('.skill-item').forEach(item => {
+        item.addEventListener('mouseenter', () => {
+            const progressBar = item.querySelector('.skill-progress-bar');
+            progressBar.style.transform = 'scaleY(1.2)';
+        });
+        
+        item.addEventListener('mouseleave', () => {
+            const progressBar = item.querySelector('.skill-progress-bar');
+            progressBar.style.transform = 'scaleY(1)';
+        });
+    });
+}
+
+// Enhanced Timeline Interactions
+function initTimelineInteractions() {
+    const timelineItems = document.querySelectorAll('.timeline-item');
+    
+    timelineItems.forEach((item, index) => {
+        const content = item.querySelector('.timeline-content');
+        const header = content.querySelector('.timeline-header');
+        const achievements = content.querySelector('.timeline-achievements');
+        
+        // Add toggle button
+        const toggleBtn = document.createElement('button');
+        toggleBtn.className = 'timeline-toggle';
+        toggleBtn.innerHTML = '<i class="fas fa-chevron-down"></i>';
+        header.appendChild(toggleBtn);
+        
+        // Add summary for collapsed state
+        const summary = document.createElement('div');
+        summary.className = 'timeline-summary';
+        const summaries = [
+            'Leading ML pipeline development and cloud solutions at TCS with award recognition...',
+            'Developed real-time video messaging and NLP solutions for insurance industry...',
+            'Conducted solar power prediction research in Russia with competition victory...'
+        ];
+        summary.textContent = summaries[index] || 'Click to expand for more details...';
+        header.appendChild(summary);
+        
+        // Toggle functionality
+        toggleBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const isExpanded = achievements.classList.contains('expanded');
+            
+            if (isExpanded) {
+                achievements.classList.remove('expanded');
+                toggleBtn.classList.remove('expanded');
+                summary.style.display = 'block';
+            } else {
+                achievements.classList.add('expanded');
+                toggleBtn.classList.add('expanded');
+                summary.style.display = 'none';
+            }
+        });
+        
+        // Click to expand
+        content.addEventListener('click', () => {
+            if (!achievements.classList.contains('expanded')) {
+                toggleBtn.click();
+            }
+        });
+    });
+}
+
+// Enhanced Project Interactions
+function initProjectInteractions() {
+    const projectCards = document.querySelectorAll('.project-card');
+    
+    projectCards.forEach(card => {
+        const header = card.querySelector('.project-header');
+        const title = header.querySelector('h3').textContent;
+        const linksContainer = header.querySelector('.project-links');
+        
+        // Add expand button
+        const expandBtn = document.createElement('button');
+        expandBtn.className = 'project-expand';
+        expandBtn.innerHTML = '<i class="fas fa-chevron-down"></i>';
+        linksContainer.insertBefore(expandBtn, linksContainer.firstChild);
+        
+        // Add details section
+        const details = document.createElement('div');
+        details.className = 'project-details';
+        
+        if (projectDetails[title]) {
+            const projectData = projectDetails[title];
+            details.innerHTML = `
+                <div class="project-details-content">
+                    <h5 style="color: var(--color-primary); margin-bottom: 12px;">Full Description</h5>
+                    <p>${projectData.fullDescription}</p>
+                    
+                    <h5 style="color: var(--color-primary); margin-bottom: 12px; margin-top: 20px;">Technologies Used</h5>
+                    <div class="project-tech-tags" style="display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px;">
+                        ${projectData.technologies.map(tech => `<span class="tag">${tech}</span>`).join('')}
+                    </div>
+                    
+                    <h5 style="color: var(--color-primary); margin-bottom: 12px;">Key Achievements</h5>
+                    <ul style="margin: 0; padding-left: 20px; color: var(--color-text-secondary);">
+                        ${projectData.achievements.map(achievement => `<li>${achievement}</li>`).join('')}
+                    </ul>
+                </div>
+            `;
+        } else {
+            details.innerHTML = `
+                <div class="project-details-content">
+                    <p>Additional project details and technical specifications would be displayed here.</p>
+                </div>
+            `;
+        }
+        
+        card.insertBefore(details, card.querySelector('.project-stats'));
+        
+        // Toggle functionality
+        expandBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const isExpanded = details.classList.contains('expanded');
+            
+            if (isExpanded) {
+                details.classList.remove('expanded');
+                expandBtn.innerHTML = '<i class="fas fa-chevron-down"></i>';
+            } else {
+                details.classList.add('expanded');
+                expandBtn.innerHTML = '<i class="fas fa-chevron-up"></i>';
+            }
+        });
+        
+        // Card click to expand
+        card.addEventListener('click', (e) => {
+            if (e.target.tagName !== 'A' && !e.target.closest('a') && !e.target.closest('.project-expand')) {
+                if (!details.classList.contains('expanded')) {
+                    expandBtn.click();
+                }
+            }
+        });
+    });
+}
+
+// Navigation
+function initNavigation() {
+    const navbar = document.querySelector('.navbar');
+    const navToggle = document.querySelector('.nav-toggle');
+    const navMenu = document.querySelector('.nav-menu');
+    const navLinks = document.querySelectorAll('.nav-link');
+    
+    // Smooth scrolling for navigation links
+    navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const targetId = link.getAttribute('href');
+            const targetSection = document.querySelector(targetId);
+            
+            if (targetSection) {
+                const offsetTop = targetSection.offsetTop - 70;
+                window.scrollTo({
+                    top: offsetTop,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
+    
+    // Mobile navigation toggle
+    navToggle.addEventListener('click', () => {
+        navMenu.classList.toggle('active');
+        navToggle.classList.toggle('active');
+    });
+    
+    // Hide/show navbar on scroll
+    let lastScrollTop = 0;
+    window.addEventListener('scroll', () => {
+        let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        
+        if (scrollTop > lastScrollTop && scrollTop > 100) {
+            navbar.style.transform = 'translateY(-100%)';
+        } else {
+            navbar.style.transform = 'translateY(0)';
+        }
+        
+        lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+    }, false);
+}
+
+// Scroll Progress
+function initScrollProgress() {
+    const progressBar = document.querySelector('.scroll-progress');
+    
+    window.addEventListener('scroll', () => {
+        const scrollTop = window.pageYOffset;
+        const documentHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const scrollProgress = scrollTop / documentHeight;
+        
+        progressBar.style.transform = `scaleX(${scrollProgress})`;
+    });
+}
+
+// Three.js Hero Scene
+function initThreeJS() {
+    const canvas = document.getElementById('hero-canvas');
+    
+    // Scene setup
+    scene = new THREE.Scene();
+    camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setClearColor(0x000000, 0);
+    
+    // Create floating geometric shapes
+    createFloatingShapes();
+    
+    // Camera position
+    camera.position.z = 5;
+    
+    // Mouse interaction
+    document.addEventListener('mousemove', onDocumentMouseMove, false);
+    
+    // Animation loop
+    animate();
+    
+    // Resize handler
+    window.addEventListener('resize', onWindowResize, false);
+}
+
+function createFloatingShapes() {
+    const geometries = [
+        new THREE.BoxGeometry(0.5, 0.5, 0.5),
+        new THREE.SphereGeometry(0.3, 16, 16),
+        new THREE.OctahedronGeometry(0.4),
+        new THREE.TetrahedronGeometry(0.4)
+    ];
+    
+    const material = new THREE.MeshBasicMaterial({
+        color: 0x00d4ff,
+        wireframe: true,
+        transparent: true,
+        opacity: 0.6
+    });
+    
+    for (let i = 0; i < 15; i++) {
+        const geometry = geometries[Math.floor(Math.random() * geometries.length)];
+        const mesh = new THREE.Mesh(geometry, material);
+        
+        mesh.position.x = (Math.random() - 0.5) * 20;
+        mesh.position.y = (Math.random() - 0.5) * 20;
+        mesh.position.z = (Math.random() - 0.5) * 20;
+        
+        mesh.rotation.x = Math.random() * Math.PI;
+        mesh.rotation.y = Math.random() * Math.PI;
+        
+        // Add custom properties for animation
+        mesh.userData = {
+            rotationSpeed: {
+                x: (Math.random() - 0.5) * 0.02,
+                y: (Math.random() - 0.5) * 0.02,
+                z: (Math.random() - 0.5) * 0.02
+            },
+            originalPosition: {
+                x: mesh.position.x,
+                y: mesh.position.y,
+                z: mesh.position.z
+            }
+        };
+        
+        scene.add(mesh);
+        particles.push(mesh);
+    }
+}
+
+function onDocumentMouseMove(event) {
+    mouseX = (event.clientX - windowHalfX) / 100;
+    mouseY = (event.clientY - windowHalfY) / 100;
+}
+
+function animate() {
+    requestAnimationFrame(animate);
+    
+    // Animate particles
+    particles.forEach((particle, index) => {
+        // Rotation
+        particle.rotation.x += particle.userData.rotationSpeed.x;
+        particle.rotation.y += particle.userData.rotationSpeed.y;
+        particle.rotation.z += particle.userData.rotationSpeed.z;
+        
+        // Floating motion
+        const time = Date.now() * 0.001;
+        particle.position.y = particle.userData.originalPosition.y + Math.sin(time + index) * 0.5;
+        
+        // Mouse interaction
+        particle.position.x += (mouseX - particle.position.x) * 0.01;
+        particle.position.z += (mouseY - particle.position.z) * 0.01;
+    });
+    
+    // Camera movement based on mouse
+    camera.position.x += (mouseX * 0.5 - camera.position.x) * 0.05;
+    camera.position.y += (-mouseY * 0.5 - camera.position.y) * 0.05;
+    
+    camera.lookAt(scene.position);
+    renderer.render(scene, camera);
+}
+
+function onWindowResize() {
+    windowHalfX = window.innerWidth / 2;
+    windowHalfY = window.innerHeight / 2;
+    
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    
+    renderer.setSize(window.innerWidth, window.innerHeight);
+}
+
+// Contact Section Canvas
+function initContactCanvas() {
+    const canvas = document.getElementById('contact-canvas');
+    
+    contactScene = new THREE.Scene();
+    contactCamera = new THREE.PerspectiveCamera(75, canvas.offsetWidth / canvas.offsetHeight, 0.1, 1000);
+    contactRenderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true });
+    contactRenderer.setSize(canvas.offsetWidth, canvas.offsetHeight);
+    contactRenderer.setClearColor(0x000000, 0);
+    
+    // Create network-like connections
+    createNetworkEffect();
+    
+    contactCamera.position.z = 5;
+    
+    animateContactCanvas();
+}
+
+function createNetworkEffect() {
+    const points = [];
+    const connections = [];
+    
+    // Create points
+    for (let i = 0; i < 50; i++) {
+        const geometry = new THREE.SphereGeometry(0.02, 8, 8);
+        const material = new THREE.MeshBasicMaterial({
+            color: 0x00d4ff,
+            transparent: true,
+            opacity: 0.8
+        });
+        
+        const point = new THREE.Mesh(geometry, material);
+        point.position.x = (Math.random() - 0.5) * 10;
+        point.position.y = (Math.random() - 0.5) * 6;
+        point.position.z = (Math.random() - 0.5) * 2;
+        
+        contactScene.add(point);
+        points.push(point);
+    }
+    
+    // Create connections between nearby points
+    for (let i = 0; i < points.length; i++) {
+        for (let j = i + 1; j < points.length; j++) {
+            const distance = points[i].position.distanceTo(points[j].position);
+            
+            if (distance < 2) {
+                const geometry = new THREE.BufferGeometry().setFromPoints([
+                    points[i].position,
+                    points[j].position
+                ]);
+                
+                const material = new THREE.LineBasicMaterial({
+                    color: 0x00d4ff,
+                    transparent: true,
+                    opacity: 0.3
+                });
+                
+                const line = new THREE.Line(geometry, material);
+                contactScene.add(line);
+                connections.push(line);
+            }
+        }
+    }
+}
+
+function animateContactCanvas() {
+    requestAnimationFrame(animateContactCanvas);
+    contactRenderer.render(contactScene, contactCamera);
+}
+
+// Scroll Animations with GSAP
+function initScrollAnimations() {
+    // Register ScrollTrigger
+    gsap.registerPlugin(ScrollTrigger);
+    
+    // Hero animations
+    gsap.from('.hero-content > *', {
+        duration: 1,
+        y: 100,
+        opacity: 0,
+        stagger: 0.2,
+        ease: 'power3.out'
+    });
+    
+    // Section titles
+    gsap.utils.toArray('.section-title').forEach(title => {
+        gsap.from(title, {
+            scrollTrigger: {
+                trigger: title,
+                start: 'top 80%',
+                end: 'bottom 20%'
+            },
+            duration: 1,
+            y: 50,
+            opacity: 0,
+            ease: 'power3.out'
+        });
+    });
+    
+    // Cards animations
+    gsap.utils.toArray('.achievement-card, .project-card, .cert-card').forEach((card, index) => {
+        gsap.from(card, {
+            scrollTrigger: {
+                trigger: card,
+                start: 'top 80%'
+            },
+            duration: 0.8,
+            y: 80,
+            opacity: 0,
+            delay: index * 0.1,
+            ease: 'power3.out'
+        });
+    });
+    
+    // Timeline items
+    gsap.utils.toArray('.timeline-item').forEach((item, index) => {
+        gsap.from(item, {
+            scrollTrigger: {
+                trigger: item,
+                start: 'top 80%'
+            },
+            duration: 1,
+            x: -100,
+            opacity: 0,
+            delay: index * 0.2,
+            ease: 'power3.out'
+        });
+    });
+    
+    // Contact form animation
+    gsap.from('.contact-form .form-group', {
+        scrollTrigger: {
+            trigger: '.contact-form',
+            start: 'top 80%'
+        },
+        duration: 0.8,
+        y: 50,
+        opacity: 0,
+        stagger: 0.1,
+        ease: 'power3.out'
+    });
+}
+
+// Typewriter Effect
+function initTypewriter() {
+    const typewriterElement = document.querySelector('.typewriter');
+    const text = typewriterElement.textContent;
+    typewriterElement.textContent = '';
+    
+    let index = 0;
+    
+    function type() {
+        if (index < text.length) {
+            typewriterElement.textContent += text.charAt(index);
+            index++;
+            setTimeout(type, 100);
+        } else {
+            // Remove blinking cursor after typing is complete
+            setTimeout(() => {
+                typewriterElement.style.borderRight = 'none';
+            }, 1000);
+        }
+    }
+    
+    setTimeout(type, 1000);
+}
+
+// Counter Animation
+function initCounters() {
+    const counters = document.querySelectorAll('.stat-number');
+    
+    const observerOptions = {
+        threshold: 0.7
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const counter = entry.target;
+                const target = parseInt(counter.getAttribute('data-target'));
+                animateCounter(counter, target);
+                observer.unobserve(counter);
+            }
+        });
+    }, observerOptions);
+    
+    counters.forEach(counter => observer.observe(counter));
+}
+
+function animateCounter(element, target) {
+    let current = 0;
+    const increment = target / 100;
+    const duration = 2000;
+    const stepTime = duration / 100;
+    
+    const timer = setInterval(() => {
+        current += increment;
+        if (current >= target) {
+            element.textContent = target;
+            clearInterval(timer);
+        } else {
+            element.textContent = Math.floor(current);
+        }
+    }, stepTime);
+}
+
+// Contact Form
+function initContactForm() {
+    const form = document.getElementById('contactForm');
+    const submitBtn = document.querySelector('.submit-btn');
+    
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        // Add loading state
+        submitBtn.classList.add('loading');
+        
+        // Get form data
+        const formData = new FormData(form);
+        const data = {
+            name: formData.get('name'),
+            email: formData.get('email'),
+            subject: formData.get('subject'),
+            message: formData.get('message')
+        };
+        
+        // Simulate form submission
+        setTimeout(() => {
+            // Remove loading state
+            submitBtn.classList.remove('loading');
+            
+            // Show success message
+            showNotification('Message sent successfully! I\'ll get back to you soon.', 'success');
+            
+            // Reset form
+            form.reset();
+            
+            // Reset form labels
+            const labels = form.querySelectorAll('.form-label');
+            labels.forEach(label => {
+                label.style.top = '50%';
+                label.style.fontSize = 'var(--font-size-base)';
+                label.style.color = 'var(--color-text-secondary)';
+            });
+            
+        }, 2000);
+    });
+    
+    // Form field animations
+    const formControls = document.querySelectorAll('.form-control');
+    formControls.forEach(control => {
+        control.addEventListener('focus', (e) => {
+            const label = e.target.nextElementSibling;
+            animateLabel(label, true);
+        });
+        
+        control.addEventListener('blur', (e) => {
+            if (!e.target.value) {
+                const label = e.target.nextElementSibling;
+                animateLabel(label, false);
+            }
+        });
+    });
+}
+
+function animateLabel(label, focused) {
+    if (focused) {
+        label.style.top = '-8px';
+        label.style.fontSize = 'var(--font-size-sm)';
+        label.style.color = 'var(--color-primary)';
+    } else {
+        label.style.top = '50%';
+        label.style.fontSize = 'var(--font-size-base)';
+        label.style.color = 'var(--color-text-secondary)';
+    }
+}
+
+function showNotification(message, type = 'success') {
+    const notification = document.createElement('div');
+    notification.className = `notification notification--${type}`;
+    notification.innerHTML = `
+        <div class="notification-content">
+            <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-triangle'}"></i>
+            <span>${message}</span>
+        </div>
+    `;
+    
+    // Add notification styles
+    notification.style.cssText = `
+        position: fixed;
+        top: 100px;
+        right: 20px;
+        background: var(--color-surface);
+        border: 1px solid var(--color-${type === 'success' ? 'success' : 'error'});
+        border-radius: var(--radius-md);
+        padding: var(--space-16);
+        box-shadow: var(--shadow-lg);
+        z-index: 10000;
+        transform: translateX(400px);
+        transition: transform 0.3s ease;
+        max-width: 300px;
+    `;
+    
+    const notificationContent = notification.querySelector('.notification-content');
+    notificationContent.style.cssText = `
+        display: flex;
+        align-items: center;
+        gap: var(--space-12);
+        color: var(--color-text);
+    `;
+    
+    const icon = notification.querySelector('i');
+    icon.style.color = `var(--color-${type === 'success' ? 'success' : 'error'})`;
+    
+    document.body.appendChild(notification);
+    
+    // Animate in
+    setTimeout(() => {
+        notification.style.transform = 'translateX(0)';
+    }, 100);
+    
+    // Remove after 5 seconds
+    setTimeout(() => {
+        notification.style.transform = 'translateX(400px)';
+        setTimeout(() => {
+            document.body.removeChild(notification);
+        }, 300);
+    }, 5000);
+}
+
+// Simple Particle System
+function initParticles() {
+    const particlesContainer = document.getElementById('particles-js');
+    
+    // Create particles
+    for (let i = 0; i < 50; i++) {
+        createParticle(particlesContainer);
+    }
+}
+
+function createParticle(container) {
+    const particle = document.createElement('div');
+    particle.className = 'particle';
+    
+    // Random properties
+    const size = Math.random() * 4 + 1;
+    const x = Math.random() * window.innerWidth;
+    const y = Math.random() * window.innerHeight;
+    const duration = Math.random() * 10 + 5;
+    const delay = Math.random() * 5;
+    
+    particle.style.cssText = `
+        position: absolute;
+        width: ${size}px;
+        height: ${size}px;
+        background: var(--color-primary);
+        border-radius: 50%;
+        opacity: ${Math.random() * 0.5 + 0.3};
+        left: ${x}px;
+        top: ${y}px;
+        pointer-events: none;
+        animation: float ${duration}s ${delay}s infinite linear;
+    `;
+    
+    container.appendChild(particle);
+    
+    // Remove and recreate particle after animation
+    setTimeout(() => {
+        if (particle.parentNode) {
+            container.removeChild(particle);
+            createParticle(container);
+        }
+    }, (duration + delay) * 1000);
+}
+
+// Add floating animation for particles
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes float {
+        0% {
+            transform: translateY(100vh) rotate(0deg);
+            opacity: 0;
+        }
+        10% {
+            opacity: 1;
+        }
+        90% {
+            opacity: 1;
+        }
+        100% {
+            transform: translateY(-100px) rotate(360deg);
+            opacity: 0;
+        }
+    }
+`;
+document.head.appendChild(style);
+
+// Enhanced interactions
+document.addEventListener('DOMContentLoaded', function() {
+    // Project cards 3D effect
+    const projectCards = document.querySelectorAll('.project-card');
+    
+    projectCards.forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            const rotateX = (y - centerY) / 10;
+            const rotateY = (centerX - x) / 10;
+            
+            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-10px)`;
+        });
+        
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px)';
+        });
+    });
+    
+    // Skill tags hover effect
+    const skillTags = document.querySelectorAll('.skill-tag');
+    
+    skillTags.forEach(tag => {
+        tag.addEventListener('mouseenter', () => {
+            // Add glow effect to nearby tags
+            skillTags.forEach(otherTag => {
+                if (otherTag !== tag) {
+                    otherTag.style.opacity = '0.5';
+                }
+            });
+        });
+        
+        tag.addEventListener('mouseleave', () => {
+            skillTags.forEach(otherTag => {
+                otherTag.style.opacity = '1';
+            });
+        });
+    });
+});
+
+// Performance optimization
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+}
+
+// Optimized scroll handler
+const optimizedScrollHandler = debounce(() => {
+    // Any scroll-based updates can go here
+}, 16); // 60fps
+
+window.addEventListener('scroll', optimizedScrollHandler);
+
+// Mobile optimizations
+function isMobile() {
+    return window.innerWidth <= 768;
+}
+
+// Reduce particle count on mobile
+if (isMobile()) {
+    particles = particles.slice(0, 8);
+}
+
+// Smooth scroll polyfill for older browsers
+function smoothScroll(target, duration = 800) {
+    const targetPosition = target.offsetTop - 70;
+    const startPosition = window.pageYOffset;
+    const distance = targetPosition - startPosition;
+    let startTime = null;
+    
+    function animation(currentTime) {
+        if (startTime === null) startTime = currentTime;
+        const timeElapsed = currentTime - startTime;
+        const run = ease(timeElapsed, startPosition, distance, duration);
+        window.scrollTo(0, run);
+        if (timeElapsed < duration) requestAnimationFrame(animation);
+    }
+    
+    function ease(t, b, c, d) {
+        t /= d / 2;
+        if (t < 1) return c / 2 * t * t + b;
+        t--;
+        return -c / 2 * (t * (t - 2) - 1) + b;
+    }
+    
+    requestAnimationFrame(animation);
+}
+
+// Error handling
+window.addEventListener('error', (e) => {
+    console.error('Portfolio error:', e.error);
+});
+
+// Initialize everything
+console.log('🚀 Portfolio loaded successfully!');
