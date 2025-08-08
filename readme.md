@@ -11,6 +11,10 @@ Welcome to the 3D animated portfolio website for Teja P C. This project delivers
 - Animated professional timeline and statistics
 - Functional contact form and accessible contact links
 
+## Live Demo
+
+Experience the portfolio live at:  
+🌐 **[Teja P C – 3D Animated Portfolio](https://teja3d.netlify.app/)**
 
 ## Getting Started
 
@@ -35,13 +39,11 @@ Welcome to the 3D animated portfolio website for Teja P C. This project delivers
 - `placeholder-profile.png` – Placeholder image for your portrait
 - `README.md` – Project instructions and overview
 
-
 ## Customization
 
 - Edit your skills, experience, projects, and contact details directly in the HTML.
 - Change color themes via CSS variables in `style.css`.
 - Adjust animation timing within CSS or JS as preferred.
-
 
 ## License
 
@@ -49,7 +51,7 @@ This portfolio is for personal use only. Contact the project author for permissi
 
 ***
 
-**Created by Teja P C**
+**Created by Teja P C**  
 Questions or feedback? Connect by email at pcteja2000@gmail.com or on [LinkedIn](https://www.linkedin.com/in/tejapc).
 
 ---
