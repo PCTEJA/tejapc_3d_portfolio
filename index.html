@@ -9,11 +9,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <!-- Custom Cursor -->
     <div class="cursor"></div>
     <div class="cursor-trail"></div>
 
-    <!-- Loading Screen -->
     <div id="loading-screen">
         <div class="loader">
             <div class="loader-circle"></div>
@@ -21,20 +19,21 @@
         </div>
     </div>
 
-    <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
             <div class="nav-logo">TEJA P C</div>
             <div class="nav-menu">
                 <a href="#home" class="nav-link">Home</a>
                 <a href="#about" class="nav-link">About</a>
-                <a href="#education" class="nav-link">Education</a>
-                <a href="#skills" class="nav-link">Skills</a>
                 <a href="#experience" class="nav-link">Experience</a>
                 <a href="#projects" class="nav-link">Projects</a>
+                <a href="#gallery" class="nav-link">Gallery</a>
                 <a href="#contact" class="nav-link">Contact</a>
-                <a href="https://scholar.google.com/citations?user=mZGqviAAAAAJ&hl=en" target="_blank">
+                <a href="https://scholar.google.com/citations?user=mZGqviAAAAAJ&hl=en" target="_blank" class="nav-link-icon" title="Google Scholar">
                     <i class="fas fa-graduation-cap"></i>
+                </a>
+                <a href="#" id="resume-link" class="nav-link-icon" title="View Resume">
+                    <i class="fas fa-file-alt"></i>
                 </a>
             </div>
             <div class="nav-toggle">
@@ -45,10 +44,8 @@
         </div>
     </nav>
 
-    <!-- Scroll Progress -->
     <div class="scroll-progress"></div>
 
-    <!-- Hero Section -->
     <section id="home" class="hero">
         <div id="particles-js"></div>
         <div class="hero-content">
@@ -61,7 +58,7 @@
             <h1 class="hero-title">
                 <span class="typewriter">TEJA P C</span>
             </h1>
-            <h2 class="hero-subtitle">MLOps Engineer & Software Developer</h2>
+            <h2 class="hero-subtitle">ML/AI Enthusiast & MLOps Engineer</h2>
             <div class="hero-stats">
                 <div class="stat-item">
                     <span class="stat-number" data-target="5">0</span>
@@ -92,13 +89,14 @@
         <canvas id="hero-canvas"></canvas>
     </section>
 
-    <!-- About Section -->
     <section id="about" class="about">
         <div class="container">
             <h2 class="section-title">About Me</h2>
             <div class="about-content">
                 <div class="about-text">
-                    <p class="about-intro">Passionate MLOps Engineer with expertise in developing scalable machine learning pipelines and cloud-based solutions. Currently leading innovative projects at Tata Consultancy Services with a track record of published research and industry recognition.</p>
+                    <p class="about-intro">
+                        A passionate MLOps Engineer with expertise in developing scalable machine learning pipelines and cloud-native solutions. I am currently pursuing a <strong>Master's in Computer Science</strong> and am actively seeking opportunities to apply my skills to complex challenges in <strong>Machine Learning and Artificial Intelligence</strong>. My goal is to contribute to innovative projects that push the boundaries of AI. My professional background includes leading impactful projects at Tata Consultancy Services, supported by a strong record of published research and industry accolades.
+                    </p>
                     <div class="contact-info">
                         <div class="contact-item">
                             <i class="fas fa-envelope"></i>
@@ -141,7 +139,6 @@
     </section>
 
     
-    <!-- Education Section -->
     <section id="education" class="education">
         <div class="container">
             <h2 class="section-title">Education</h2>
@@ -149,23 +146,7 @@
                 <div class="education-card">
                     <div class="education-content">
                         <div class="education-icon">
-                            <i class="fas fa-graduation-cap"></i>
-                        </div>
-                        <div class="education-details">
-                            <h3>Bachelor of Technology in Computer Science Engineering</h3>
-                            <h4>Bharath Institute of Higher Education and Research</h4>
-                            <div class="education-meta">
-                                <span class="location"><i class="fas fa-map-marker-alt"></i> Chennai, India</span>
-                                <span class="duration"><i class="fas fa-calendar"></i> Aug 2018 – Aug 2022</span>
-                                <span class="gpa"><i class="fas fa-star"></i> GPA: 9.33/10.0</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="education-card">
-                    <div class="education-content">
-                        <div class="education-icon">
-                            <i class="fas fa-graduation-cap"></i>
+                            <i class="fas fa-university"></i>
                         </div>
                         <div class="education-details">
                             <h3>Master of Science in Computer Science</h3>
@@ -177,74 +158,26 @@
                         </div>
                     </div>
                 </div>
+                <div class="education-card">
+                    <div class="education-content">
+                        <div class="education-icon">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <div class="education-details">
+                            <h3>Bachelor of Technology in Computer Science</h3>
+                            <h4>Bharath Institute of Higher Education and Research</h4>
+                            <div class="education-meta">
+                                <span class="location"><i class="fas fa-map-marker-alt"></i> Chennai, India</span>
+                                <span class="duration"><i class="fas fa-calendar"></i> Aug 2018 – Aug 2022</span>
+                                <span class="gpa"><i class="fas fa-star"></i> GPA: 9.33/10.0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <style>
-        .education-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 20px;
-        }
-
-        @media (min-width: 768px) {
-            .education-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-
-        .education-card {
-            background: #f9f9f9;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .education-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
-        }
-
-        .education-icon {
-            font-size: 2rem;
-            color: #02464b;
-            margin-bottom: 10px;
-        }
-
-        .education-details h3 {
-            font-size: 1.25rem;
-            margin: 0 0 10px;
-            color: #333;
-        }
-
-        .education-details h4 {
-            font-size: 1rem;
-            margin: 0 0 10px;
-            color: #555;
-        }
-
-        .education-meta {
-            font-size: 0.875rem;
-            color: #666;
-        }
-
-        .education-meta span {
-            display: block;
-            margin-bottom: 5px;
-        }
-
-        .education-meta i {
-            margin-right: 5px;
-            color: #06740f;
-        }
-    </style>
-
-
-
-    <!-- Experience Section -->
     <section id="experience" class="experience">
         <div class="container">
             <h2 class="section-title">Professional Experience</h2>
@@ -305,7 +238,6 @@
         </div>
     </section>
 
-    <!-- Projects Section -->
     <section id="projects" class="projects">
         <div class="container">
             <h2 class="section-title">Projects & Research</h2>
@@ -323,7 +255,7 @@
                     <div class="project-stats">
                         <span class="stat">Impact Factor: 5.0</span>
                         <span class="stat">5000+ Views</span>
-                        <span class="stat">15 Citations</span>
+                        <span class="stat">19 Citations</span>
                     </div>
                     <div class="project-tags">
                         <span class="tag">Machine Learning</span>
@@ -420,7 +352,46 @@
         </div>
     </section>
 
-    <!-- Certifications Section -->
+    <section id="gallery" class="gallery">
+        <div class="container">
+            <h2 class="section-title">Achievement Gallery</h2>
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <img src="gallery/1.jpg" alt="Achievement 1">
+                    <div class="gallery-overlay"><i class="fas fa-search-plus"></i></div>
+                </div>
+                <div class="gallery-item">
+                    <img src="gallery/2.jpg" alt="Achievement 2">
+                    <div class="gallery-overlay"><i class="fas fa-search-plus"></i></div>
+                </div>
+                <div class="gallery-item">
+                    <img src="gallery/3.jpg" alt="Achievement 3">
+                    <div class="gallery-overlay"><i class="fas fa-search-plus"></i></div>
+                </div>
+                <div class="gallery-item">
+                    <img src="gallery/6.jpg" alt="Achievement 4">
+                    <div class="gallery-overlay"><i class="fas fa-search-plus"></i></div>
+                </div>
+                <div class="gallery-item">
+                    <img src="gallery/5.jpg" alt="Achievement 5">
+                    <div class="gallery-overlay"><i class="fas fa-search-plus"></i></div>
+                </div>
+                <div class="gallery-item">
+                    <img src="gallery/9.jpg" alt="Achievement 6">
+                    <div class="gallery-overlay"><i class="fas fa-search-plus"></i></div>
+                </div>
+                <div class="gallery-item">
+                    <img src="gallery/7.jpg" alt="Achievement 7">
+                    <div class="gallery-overlay"><i class="fas fa-search-plus"></i></div>
+                </div>
+                <div class="gallery-item">
+                    <img src="gallery/8.jpg" alt="Achievement 8">
+                    <div class="gallery-overlay"><i class="fas fa-search-plus"></i></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <section id="certifications" class="certifications">
         <div class="container">
             <h2 class="section-title">Certifications & Awards</h2>
@@ -482,8 +453,7 @@
         </div>
     </section>
 
-        <!-- Skills Section -->
-    <section id="skills" class="skills">
+        <section id="skills" class="skills">
         <div class="container">
             <h2 class="section-title">Technical Skills</h2>
             <div class="skills-grid">
@@ -551,7 +521,6 @@
         </div>
     </section>
     
-    <!-- Contact Section -->
     <section id="contact" class="contact">
         <div class="container">
             <h2 class="section-title">Let's Connect</h2>
@@ -578,19 +547,19 @@
                 <div class="contact-form-section">
                     <form class="contact-form" id="contactForm">
                         <div class="form-group">
-                            <input type="text" id="name" name="name" required class="form-control">
+                            <input type="text" id="name" name="name" required class="form-control" placeholder=" ">
                             <label for="name" class="form-label">Your Name</label>
                         </div>
                         <div class="form-group">
-                            <input type="email" id="email" name="email" required class="form-control">
+                            <input type="email" id="email" name="email" required class="form-control" placeholder=" ">
                             <label for="email" class="form-label">Your Email</label>
                         </div>
                         <div class="form-group">
-                            <input type="text" id="subject" name="subject" required class="form-control">
+                            <input type="text" id="subject" name="subject" required class="form-control" placeholder=" ">
                             <label for="subject" class="form-label">Subject</label>
                         </div>
                         <div class="form-group">
-                            <textarea id="message" name="message" required class="form-control" rows="5"></textarea>
+                            <textarea id="message" name="message" required class="form-control" rows="5" placeholder=" "></textarea>
                             <label for="message" class="form-label">Your Message</label>
                         </div>
                         <button type="submit" class="btn btn-primary submit-btn">
@@ -605,7 +574,6 @@
         <canvas id="contact-canvas"></canvas>
     </section>
 
-    <!-- Footer -->
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
@@ -622,7 +590,12 @@
         </div>
     </footer>
 
-    <!-- Scripts -->
+    <div id="gallery-lightbox" class="lightbox">
+        <span class="lightbox-close">&times;</span>
+        <img class="lightbox-content" id="lightbox-img">
+        <div id="lightbox-caption"></div>
+    </div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
