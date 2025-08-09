@@ -942,7 +942,7 @@ select.form-control {
   overflow: hidden;
   border: 3px solid var(--color-primary);
   box-shadow: 0 0 30px rgba(var(--color-teal-300-rgb), 0.5);
-  animation: float 7s ease-in-out infinite, easeInOut 7s ease-in-out infinite;
+  animation: float 4s ease-in-out infinite, easeInOut 4s ease-in-out infinite;
 }
 
 @keyframes easeInOut {
