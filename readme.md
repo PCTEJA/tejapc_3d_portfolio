@@ -1,6 +1,6 @@
 # Teja P C – 3D Animated Portfolio
 
-Welcome to the 3D animated portfolio website for Teja P C. This project delivers a modern, interactive user experience with advanced animations, responsive design, and a showcase of professional achievements in technology and engineering.
+Welcome to the 3D animated portfolio website. This project delivers a modern, interactive user experience with advanced animations, responsive design, and a showcase of professional achievements in technology and engineering.
 
 ## Features
 
