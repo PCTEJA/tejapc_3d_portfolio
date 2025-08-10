@@ -1,6 +1,6 @@
 # Teja P C – 3D Animated Portfolio
 
-[Watch the video]([https://youtu.be/wFGX0Bzs93M])
+[![Watch the video](https://github.com/PCTEJA/tejapc_3d_portfolio/blob/main/portfolio_video.gif)](https://youtu.be/wFGX0Bzs93M)
 
 Welcome to the 3D animated portfolio website. This project delivers a modern, interactive user experience with advanced animations, responsive design, and a showcase of professional achievements in technology and engineering.
 
