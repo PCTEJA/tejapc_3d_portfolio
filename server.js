@@ -172,7 +172,8 @@ app.post('/chat', async (req, res) => {
       response: botResponse,
       timestamp: new Date().toISOString()
     });
-
+    console.log('User message:', message);
+    console.log('Bot response:', botResponse);
   } catch (error) {
     console.error('Error in chat endpoint:', error);
     res.status(500).json({
