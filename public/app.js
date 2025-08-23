@@ -144,9 +144,60 @@ document.addEventListener('DOMContentLoaded', function() {
         initEnhancedInteractions();
         initChatbot();
         hideLoadingScreen();
+        initMusicPlayer();
     }, 2000);
 });
 
+
+// New function to initialize music player
+function initMusicPlayer() {
+    const music = document.getElementById('background-music');
+    const muteButton = document.getElementById('mute-button');
+    const muteIcon = muteButton.querySelector('i');
+
+    // Set initial volume
+    music.volume = 0.2; // Start with a low volume
+
+    let isPlaying = false;
+
+    // Function to toggle play/mute
+    const toggleMusic = () => {
+        if (music.paused || music.muted) {
+            music.play().then(() => {
+                music.muted = false;
+                muteIcon.classList.remove('fa-volume-mute');
+                muteIcon.classList.add('fa-volume-up');
+                muteButton.setAttribute('title', 'Mute Music');
+            }).catch(error => console.error("Music playback failed:", error));
+        } else {
+            music.muted = true;
+            muteIcon.classList.remove('fa-volume-up');
+            muteIcon.classList.add('fa-volume-mute');
+            muteButton.setAttribute('title', 'Unmute Music');
+        }
+    };
+    
+    // Start music on the first user interaction to comply with autoplay policies
+    const startMusicOnInteraction = () => {
+        if (!isPlaying) {
+            isPlaying = true;
+            toggleMusic(); // This will play and unmute
+            // Remove this event listener so it only runs once
+            document.body.removeEventListener('click', startMusicOnInteraction);
+            document.body.removeEventListener('keydown', startMusicOnInteraction);
+        }
+    };
+    
+    document.body.addEventListener('click', startMusicOnInteraction);
+    document.body.addEventListener('keydown', startMusicOnInteraction);
+
+
+    // Mute button event listener
+    muteButton.addEventListener('click', (e) => {
+        e.stopPropagation(); // Prevent triggering the body click listener
+        toggleMusic();
+    });
+}
 
 // Chatbot initialization
 function initChatbot() {
@@ -198,7 +249,7 @@ function initChatbot() {
 
     // Initial welcome message
     setTimeout(() => {
-        addBotMessage("👋 Hi! I'm here to help you learn about my professional background, skills, and projects. What would you like to know?");
+        addBotMessage("Hello! I'm here to help you learn about my professional background, skills, and projects. What would you like to know?");
     }, 1000);
 }
 
@@ -287,6 +338,19 @@ function addUserMessage(message) {
     scrollToBottom();
 }
 
+// 🆕 New function for text-to-speech
+function readOutMessage(text) {
+    if ('speechSynthesis' in window) {
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.voice = window.speechSynthesis.getVoices().find(voice => voice.name.includes('Google') || voice.lang.startsWith('en-'));
+        utterance.rate = 1.0; // Speed of speech
+        utterance.pitch = 1.0; // Pitch of voice
+        window.speechSynthesis.speak(utterance);
+    } else {
+        console.warn('Speech Synthesis not supported in this browser.');
+    }
+}
+
 function addBotMessage(message) {
     const messagesContainer = document.getElementById('chat-messages');
     const messageDiv = document.createElement('div');
@@ -302,7 +366,9 @@ function addBotMessage(message) {
     `;
     messagesContainer.appendChild(messageDiv);
     scrollToBottom();
+    readOutMessage(message);
 }
+
 
 function showTyping() {
     isTyping = true;

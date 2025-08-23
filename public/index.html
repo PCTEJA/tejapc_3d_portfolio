@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+    <audio id="background-music" src="music.wav" loop></audio>
     <div class="cursor"></div>
     <div class="cursor-trail"></div>
 
@@ -25,7 +26,11 @@
     <nav class="navbar">
         <div class="nav-container">
             <div class="nav-logo">TEJA P C</div>
+            
             <div class="nav-menu">
+                <button id="mute-button" class="nav-link-icon" title="Mute Music">
+                    <i class="fas fa-volume-up"></i>
+                </button>
                 <a href="#home" class="nav-link">Home</a>
                 <a href="#about" class="nav-link">About</a>
                 <a href="#experience" class="nav-link">Experience</a>

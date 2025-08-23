@@ -313,6 +313,19 @@ body {
   padding: 0;
 }
 
+#mute-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--color-primary);
+    font-size: var(--font-size-lg);
+    padding: 0;
+}
+
+#mute-button:hover {
+    color: var(--color-primary-hover);
+}
+
 *,
 *::before,
 *::after {
