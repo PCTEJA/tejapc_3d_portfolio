@@ -20,10 +20,11 @@
   "author": "MLOps Engineer",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.18.2",
     "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
     "openai": "^4.20.1",
-    "dotenv": "^16.3.1"
+    "vercel": "^46.0.2"
   },
   "devDependencies": {
     "nodemon": "^3.0.1"
