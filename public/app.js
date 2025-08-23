@@ -232,7 +232,7 @@ async function sendMessage() {
     
     try {
         // Send message to backend
-        const response = await fetch('http://localhost:3000/chat', {
+        const response = await fetch('https://tejapc-3d-portfolio.vercel.app/chat', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

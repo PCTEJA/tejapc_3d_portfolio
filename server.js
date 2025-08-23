@@ -191,5 +191,5 @@ app.get('/health', (req, res) => {
 // Start server
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
-  console.log(`Chat endpoint: http://localhost:${PORT}/chat`);
+  console.log(`Chat endpoint: https://tejapc-3d-portfolio.vercel.app/chat`);
 });
