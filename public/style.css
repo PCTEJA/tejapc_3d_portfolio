@@ -976,7 +976,7 @@ select.form-control {
 }
 
 .image-frame:hover .profile-img {
-  transform: scale(1.1);
+  transform: scale(.99);
 }
 
 .image-glow {
