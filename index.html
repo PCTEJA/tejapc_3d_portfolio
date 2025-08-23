@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Teja P C - MLOps Engineer Portfolio</title>
     <link rel="stylesheet" href="style.css">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -589,6 +592,47 @@
             </div>
         </div>
     </footer>
+
+    <!-- Chatbot -->
+    <div id="chatbot-toggle" class="chatbot-toggle" title="Ask about my experience">
+        <i class="fas fa-comments"></i>
+    </div>
+
+    <div id="chatbot-container" class="chatbot-container">
+        <div class="chatbot-header">
+            <div class="chatbot-title">
+                <i class="fas fa-robot"></i>
+                <span>Portfolio Assistant</span>
+            </div>
+            <div class="chatbot-controls">
+                <button id="chatbot-minimize" class="chatbot-control" title="Minimize">
+                    <i class="fas fa-minus"></i>
+                </button>
+                <button id="chatbot-close" class="chatbot-control" title="Close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+        
+        <div class="chatbot-body">
+            <div id="chat-messages" class="chat-messages">
+                <!-- Messages will be added here dynamically -->
+            </div>
+            
+            <div class="chat-input-container">
+                <div class="chat-input-wrapper">
+                    <input type="text" id="chat-input" class="chat-input" placeholder="Ask about my skills, experience, or projects...">
+                    <button id="send-message" class="chat-send-btn" title="Send message">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="chatbot-footer">
+            <span class="chatbot-powered">Powered by AI • Ask me anything!</span>
+        </div>
+    </div>
 
     <div id="gallery-lightbox" class="lightbox">
         <span class="lightbox-close">&times;</span>

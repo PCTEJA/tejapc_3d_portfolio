@@ -5,6 +5,11 @@ let mouseX = 0, mouseY = 0;
 let windowHalfX = window.innerWidth / 2;
 let windowHalfY = window.innerHeight / 2;
 
+// Chatbot global variables
+let conversationHistory = [];
+let isTyping = false;
+let chatbotVisible = false;
+
 // Skills data with progress levels
 const skillsData = {
     languages: [
@@ -136,10 +141,225 @@ document.addEventListener('DOMContentLoaded', function() {
         initProjectInteractions();
         initResumeLink();
         initGalleryLightbox();
-        initEnhancedInteractions(); // <-- NEWLY ADDED
+        initEnhancedInteractions();
+        initChatbot();
         hideLoadingScreen();
     }, 2000);
 });
+
+
+// Chatbot initialization
+function initChatbot() {
+    const chatbotToggle = document.getElementById('chatbot-toggle');
+    const chatbotContainer = document.getElementById('chatbot-container');
+    const chatbotClose = document.getElementById('chatbot-close');
+    const chatbotMinimize = document.getElementById('chatbot-minimize');
+    const chatInput = document.getElementById('chat-input');
+    const sendButton = document.getElementById('send-message');
+    const messagesContainer = document.getElementById('chat-messages');
+
+    if (!chatbotToggle || !chatbotContainer) return;
+
+    // Toggle chatbot visibility
+    chatbotToggle.addEventListener('click', () => {
+        toggleChatbot();
+    });
+
+    // Close chatbot
+    if (chatbotClose) {
+        chatbotClose.addEventListener('click', () => {
+            toggleChatbot();
+        });
+    }
+
+    // Minimize chatbot
+    if (chatbotMinimize) {
+        chatbotMinimize.addEventListener('click', () => {
+            chatbotContainer.classList.toggle('minimized');
+        });
+    }
+
+    // Send message on button click
+    if (sendButton) {
+        sendButton.addEventListener('click', () => {
+            sendMessage();
+        });
+    }
+
+    // Send message on Enter key press
+    if (chatInput) {
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+    }
+
+    // Initial welcome message
+    setTimeout(() => {
+        addBotMessage("👋 Hi! I'm here to help you learn about my professional background, skills, and projects. What would you like to know?");
+    }, 1000);
+}
+
+function toggleChatbot() {
+    const chatbotContainer = document.getElementById('chatbot-container');
+    const chatbotToggle = document.getElementById('chatbot-toggle');
+    
+    chatbotVisible = !chatbotVisible;
+    
+    if (chatbotVisible) {
+        chatbotContainer.classList.add('active');
+        chatbotToggle.classList.add('active');
+    } else {
+        chatbotContainer.classList.remove('active');
+        chatbotToggle.classList.remove('active');
+    }
+}
+
+async function sendMessage() {
+    const chatInput = document.getElementById('chat-input');
+    const message = chatInput.value.trim();
+    
+    if (!message || isTyping) return;
+    
+    // Add user message to chat
+    addUserMessage(message);
+    chatInput.value = '';
+    
+    // Show typing indicator
+    showTyping();
+    
+    try {
+        // Send message to backend
+        const response = await fetch('http://localhost:3000/chat', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                message: message,
+                conversationHistory: conversationHistory
+            })
+        });
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            // Add bot response
+            hideTyping();
+            addBotMessage(data.response);
+            
+            // Update conversation history
+            conversationHistory.push(
+                { role: 'user', content: message },
+                { role: 'assistant', content: data.response }
+            );
+        } else {
+            throw new Error(data.error || 'Unknown error occurred');
+        }
+        
+    } catch (error) {
+        console.error('Error sending message:', error);
+        hideTyping();
+        addBotMessage("Sorry, I'm having trouble connecting to my knowledge base right now. Please try again later. 🤖");
+    }
+}
+
+function addUserMessage(message) {
+    const messagesContainer = document.getElementById('chat-messages');
+    const messageDiv = document.createElement('div');
+    messageDiv.className = 'message user-message';
+    messageDiv.innerHTML = `
+        <div class="message-content">
+            <div class="message-text">${escapeHtml(message)}</div>
+            <div class="message-time">${getCurrentTime()}</div>
+        </div>
+        <div class="message-avatar user-avatar">
+            <i class="fas fa-user"></i>
+        </div>
+    `;
+    messagesContainer.appendChild(messageDiv);
+    scrollToBottom();
+}
+
+function addBotMessage(message) {
+    const messagesContainer = document.getElementById('chat-messages');
+    const messageDiv = document.createElement('div');
+    messageDiv.className = 'message bot-message';
+    messageDiv.innerHTML = `
+        <div class="message-avatar bot-avatar">
+            <i class="fas fa-robot"></i>
+        </div>
+        <div class="message-content">
+            <div class="message-text">${formatBotMessage(message)}</div>
+            <div class="message-time">${getCurrentTime()}</div>
+        </div>
+    `;
+    messagesContainer.appendChild(messageDiv);
+    scrollToBottom();
+}
+
+function showTyping() {
+    isTyping = true;
+    const messagesContainer = document.getElementById('chat-messages');
+    const typingDiv = document.createElement('div');
+    typingDiv.className = 'message bot-message typing-message';
+    typingDiv.id = 'typing-indicator';
+    typingDiv.innerHTML = `
+        <div class="message-avatar bot-avatar">
+            <i class="fas fa-robot"></i>
+        </div>
+        <div class="message-content">
+            <div class="typing-indicator">
+                <div class="typing-dots">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    `;
+    messagesContainer.appendChild(typingDiv);
+    scrollToBottom();
+}
+
+function hideTyping() {
+    isTyping = false;
+    const typingIndicator = document.getElementById('typing-indicator');
+    if (typingIndicator) {
+        typingIndicator.remove();
+    }
+}
+
+function formatBotMessage(message) {
+    // Simple formatting for bot messages
+    return message
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*(.*?)\*/g, '<em>$1</em>')
+        .replace(/\n/g, '<br>');
+}
+
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+function getCurrentTime() {
+    return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+}
+
+function scrollToBottom() {
+    const messagesContainer = document.getElementById('chat-messages');
+    if (messagesContainer) {
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
+}
 
 // Loading Screen
 function initLoadingScreen() {
@@ -204,7 +424,7 @@ function initCustomCursor() {
     updateCursor();
     
     // Cursor interactions
-    const interactiveElements = document.querySelectorAll('a, button, .btn, .project-card, .skill-tag, .timeline-content, .skill-item, .gallery-item');
+    const interactiveElements = document.querySelectorAll('a, button, .btn, .project-card, .skill-tag, .timeline-content, .skill-item, .gallery-item, #chatbot-toggle, .message');
     
     interactiveElements.forEach(element => {
         element.addEventListener('mouseenter', () => {
@@ -1111,9 +1331,19 @@ function smoothScrollPolyfill(target, duration = 800) {
     requestAnimationFrame(animation);
 }
 
-// ===============================================
-// END OF NEWLY ADDED/INTEGRATED CODE
-// ===============================================
+// Add chatbot floating action button animation
+function animateChatbotButton() {
+    const chatbotToggle = document.getElementById('chatbot-toggle');
+    if (chatbotToggle) {
+        chatbotToggle.classList.add('pulse');
+        setTimeout(() => {
+            chatbotToggle.classList.remove('pulse');
+        }, 2000);
+    }
+}
+
+// Animate chatbot button periodically
+setInterval(animateChatbotButton, 30000); // Every 30 seconds
 
 // Error handling
 window.addEventListener('error', (e) => {
