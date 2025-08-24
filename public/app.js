@@ -119,19 +119,6 @@ const projectDetails = {
     }
 };
 
-function initAnimatedFavicon() {
-    const favicon = document.querySelector("link[rel='icon']");
-    if (!favicon) return;
-
-    const frames = Array.from({ length: 30 }, (_, i) => `favic_icons/ezgif-frame-${String(i + 10).padStart(3, '0')}.png`);
-    let currentFrame = 0;
-    setInterval(() => {
-        favicon.href = frames[currentFrame];
-    
-        currentFrame = (currentFrame + 1) % frames.length;
-    }, 100);
-}
-
 // Initialize everything when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize loading screen
@@ -139,7 +126,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize all components after a delay
     setTimeout(() => {
-        initAnimatedFavicon();
         initCustomCursor();
         initNavigation();
         initScrollProgress();
