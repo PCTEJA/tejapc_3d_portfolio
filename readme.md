@@ -1,6 +1,7 @@
 # Teja P C – 3D Animated Portfolio - With RAG Enabled ChatBot
 
 [![Watch the video](https://github.com/PCTEJA/tejapc_3d_portfolio/blob/main/portfolio_video.gif)](https://youtu.be/wFGX0Bzs93M)
+[![Watch the video](https://github.com/PCTEJA/tejapc_3d_portfolio/blob/main/Teja_Rag_bot.gif)](https://youtu.be/1lkcN14hc2s?si=y-w37uiDu4gqYF8p)
 
 Welcome to the 3D animated portfolio website. This project delivers a modern, interactive user experience with advanced animations, responsive design, and a showcase of professional achievements in technology and engineering.
 
