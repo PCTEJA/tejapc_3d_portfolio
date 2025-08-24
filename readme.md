@@ -1,4 +1,4 @@
-# Teja P C – 3D Animated Portfolio
+# Teja P C – 3D Animated Portfolio - With RAG Enabled ChatBot
 
 [![Watch the video](https://github.com/PCTEJA/tejapc_3d_portfolio/blob/main/portfolio_video.gif)](https://youtu.be/wFGX0Bzs93M)
 
