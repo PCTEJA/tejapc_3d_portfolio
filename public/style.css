@@ -2908,3 +2908,40 @@ section {
     border-color: var(--color-success);
     color: var(--color-success);
 }
+
+/* Floating Action Button */
+.fab-container {
+  position: fixed;
+  bottom: var(--space-24);
+  left: var(--space-24);  
+  z-index: 999;
+}
+
+.fab {
+  width: 56px;
+  height: 56px;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-teal-300));
+  border: none;
+  border-radius: 50%;
+  color: var(--color-btn-primary-text);
+  font-size: var(--font-size-xl);
+  cursor: pointer;
+  box-shadow: var(--shadow-lg);
+  transition: all var(--duration-normal) var(--ease-standard);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fab:hover {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 8px 25px rgba(var(--color-primary-rgb), 0.4);
+}
+
+.fab-icon {
+  transition: transform var(--duration-fast) var(--ease-standard);
+}
+
+.fab:hover .fab-icon {
+  transform: translateY(-2px);
+}
