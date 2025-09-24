@@ -518,7 +518,7 @@ function initResumeLink() {
         resumeLink.addEventListener('click', function(e) {
             e.preventDefault();
             if (confirm("Would you like to view my resume?")) {
-                window.open('tejacv.pdf', '_blank');
+                window.open('gallery/tejacv.pdf', '_blank');
             }
         });
     }
