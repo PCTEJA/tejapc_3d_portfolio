@@ -116,11 +116,19 @@ const passed = (label) => {
   passed("A small vertical mouse-wheel gesture travels sideways to work");
 
   await page.getByRole("tab", { name: "Data Engineering" }).click();
+  await page.locator(".reference-work-art").evaluate(img => img.decode());
+  assert.match(await page.locator(".reference-work-art").getAttribute("src"), /reference-data-art/);
+  await page.getByRole("button", { name: "Explore forecasting models", exact: true }).click();
+  assert.equal(await page.locator("#dialog-title").textContent(), "Learning the patterns");
+  await page.keyboard.press("Escape");
+  await page.getByRole("tab", { name: "Data Engineering" }).focus();
   assert.equal(
     await page.locator("#project-title").textContent(),
     "Industrial Solar Forecasting",
   );
   await page.keyboard.press("ArrowDown");
+  await page.locator(".reference-work-art").evaluate(img => img.decode());
+  assert.match(await page.locator(".reference-work-art").getAttribute("src"), /reference-fullstack-art/);
   assert.equal(
     await page.locator("#project-title").textContent(),
     "Full-Stack LLM Integration",
@@ -259,6 +267,9 @@ const passed = (label) => {
     await page.setViewportSize(viewport);
     await page.getByRole("link", { name: "Teja PC, home" }).click();
     await chapter(0);
+    const heroBounds = await page.locator(".reference-intro-art").boundingBox();
+    assert.ok(Math.abs(heroBounds.x) <= 2, "Hero artwork must start at the viewport edge");
+    assert.equal(Math.round(heroBounds.width), viewport.width, "Hero artwork must fill the viewport width");
     await page.screenshot({
       path: path.join(output, `home-${viewport.width}x${viewport.height}.png`),
     });
@@ -268,6 +279,8 @@ const passed = (label) => {
       .locator("#work")
       .evaluate((panel) => panel.scrollHeight - panel.clientHeight);
     assert.ok(height <= 1, `Work overflow at ${viewport.width}: ${height}`);
+    const contentBounds = await page.locator(".project-content").boundingBox();
+    assert.ok(Math.abs(contentBounds.x + contentBounds.width - viewport.width) <= 2, "Work content must reach the right viewport edge");
   }
   passed("Laptop and large desktop layouts");
 

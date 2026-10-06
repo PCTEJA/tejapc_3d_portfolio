@@ -1,5 +1,18 @@
 # Reference-derived artwork
 
+
+## Matching companion projects
+
+The Data Engineering and Full Stack tabs use `reference-data-art.png` and `reference-fullstack-art.png`, generated with the built-in imagegen tool using `reference-work-art.png` as the style/composition reference. Outer empty margins were cropped and optimized WebP files are loaded only when the corresponding tab is selected. Desktop controls overlay the three stages; mobile shows the same illustration with readable stage controls below it.
+
+### Data Engineering prompt
+
+Use case: style-transfer. Create the DATA ENGINEERING companion of this exact portfolio illustration. Reference input is the current AI illustration; preserve its glossy violet glass, luminous cyan/violet/coral ribbon, soft white lavender background, lighting, perspective, large objects and composition. Output a wide 1381:379 illustration strip, full bleed. Replace ONLY the project-specific objects: at left x3-30% use three floating translucent white data sheets with a small blue solar panel array in front, labeled 'Weather', 'Generation', 'History'; center x34-54% keep the same thick rounded violet glass processor and ribbon passing across it, label 'ML' and 'FORECASTING'; right x59-81% white glass dashboard labeled 'Solar forecast', with elegant blue/cyan line graph (no numerical metrics); far right x85-98% four floating white output cards labeled 'Forecasts', 'Research', 'Insights', 'Planning'. Bottom captions 'Connected data', 'Learn & predict', 'Energy insights'. Same object scale/locations as supplied reference; beautiful precisely rendered 3D, subtle shadows and crisp dark navy labels. No page header, title, navigation, buttons, website UI or outer margins. Ribbon enters and exits edges. Keep all objects within frame.
+
+### Full Stack prompt
+
+Use case: style-transfer. Create the FULL STACK LLM INTEGRATION companion of this exact portfolio illustration. Reference input is current AI illustration. Preserve glossy violet glass, luminous cyan/violet/coral broad ribbon, soft white lavender background, perspective, lighting, large objects and composition. Wide 1381:379 illustration strip, full bleed. Change only project-specific objects: left x3-30% floating white browser-window cards with a minimal portfolio interface and a visitor question bubble labeled 'Your question'; center x34-54% same thick violet rounded glass processor with ribbon flowing across it labeled 'LLM' and 'CONTEXT + API'; right x59-81% a white glass conversation card labeled 'Portfolio assistant' with three clean alternating blue and lavender message bars (no paragraphs, no invented facts); far right x85-98% four floating white cards labeled 'Answers', 'Context', 'Discovery', 'Connect'. Bottom captions 'Visitor experience', 'Context + intelligence', 'Useful answers'. Same scale and object placements as reference. Premium precisely rendered 3D. Crisp dark navy lettering. Not a whole website screenshot: no outer website title, navigation, page buttons or outer margins. Ribbon enters and exits image edges. Keep objects entirely in frame.
+
 This revision replaces the earlier independently generated scene on the Intro and AI Work chapters with artwork taken from the two 1672×941 reference images supplied by Teja. The user explicitly requested extracting the artwork and removing its surroundings.
 
 ## Masters and provenance

@@ -85,7 +85,12 @@
   .project-context dd { white-space: nowrap; }
   .sidebar-note { border-radius: calc(18 * var(--u)); padding: calc(18 * var(--v)) calc(17 * var(--u)); gap: calc(18 * var(--u)); min-height: calc(90 * var(--v)); }
   .sidebar-note svg { width: calc(40 * var(--u)); height: calc(40 * var(--u)); }
-  .sidebar-note p { font-size: calc(15 * var(--u)); line-height: 1.65; white-space: nowrap; }
+  .sidebar-note p { min-width: 0; font-size: calc(15 * var(--u)); line-height: 1.65; }
+  .sidebar-note svg { flex-shrink: 0; }
+  .companion-project .work-sidebar { min-height: 0; padding-bottom: calc(24 * var(--v)); }
+  .companion-project .project-context h3 { margin-bottom: calc(18 * var(--v)); }
+  .companion-project .project-context dl div { margin-bottom: calc(14 * var(--v)); }
+  .companion-project .sidebar-note p { font-size: calc(13 * var(--u)); }
   .sidebar-resume { min-height: calc(66 * var(--v)); font-size: calc(18 * var(--u)); gap: calc(24 * var(--u)); margin-top: calc(28 * var(--v)); border-radius: calc(16 * var(--u)); }
   .sidebar-resume svg { width: calc(25 * var(--u)); height: calc(25 * var(--u)); }
   .project-content { padding: 0; min-height: 0; display: block; }
@@ -94,7 +99,7 @@
   .project-heading h2 em { font-size: 1.07em; }
   .project-heading > p { font-size: calc(17.5 * var(--u)); max-width: calc(294 * var(--u)); padding-top: calc(31 * var(--v)); line-height: 1.5; letter-spacing: -.02em; }
   .project-visual { position: absolute; top: calc(176 * var(--v)); left: 0; right: 0; height: calc(379 * var(--v)); min-height: 0; max-height: none; margin: 0; padding: 0; display: block; container-type: normal; }
-  .reference-work-art { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; pointer-events: none; }
+  .reference-work-art { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: fill; pointer-events: none; }
   .reference-scene-active .reference-work-art { display: block; }
   .scene-frame { width: 100%; height: 100%; aspect-ratio: auto; }
   .reference-scene-active .work-scene,
@@ -133,26 +138,22 @@
   /* Reserve the far corner without sitting over cards or chapter controls. */
   .assistant-toggle { right: calc(14 * var(--u)); bottom: calc(var(--footer) + 10 * var(--u)); width: calc(34 * var(--u)); height: calc(34 * var(--u)); opacity: .85; }
 }
-@media (min-width: 761px) and (max-height: 760px) and (min-height: 601px) {
+@media (min-width: 761px) and (max-height: 800px) and (min-height: 601px) {
+  .work-sidebar { min-height: 0; padding-bottom: calc(24 * var(--v)); }
+  .project-context h3 { margin-bottom: calc(18 * var(--v)); }
+  .project-context dl div { margin-bottom: calc(14 * var(--v)); }
+  .sidebar-note p { font-size: calc(13 * var(--u)); }
   .hero-copy h1 { font-size: min(calc(100 * var(--u)), 11.5vh); }
   .hero-copy h2 { font-size: min(calc(32 * var(--u)), 3.8vh); }
   .hero-description { font-size: min(calc(23 * var(--u)), 2.7vh); }
   .hero-actions .button { min-height: min(calc(62 * var(--u)), 7vh); }
 }
-/* A wide, short window gets a centered composition at a uniform scale. This
-   protects portrait proportions and keeps the title, scene and actions apart. */
+/* Keep type comfortable on wide screens while the chapters and artwork bleed
+   all the way to the viewport edges. No centered canvas or side gutters. */
 @media (min-width: 761px) and (min-height: 601px) and (min-aspect-ratio: 2/1) {
   :root, :root[data-active-chapter="work"] {
     --u: calc(100dvh / 941);
-    --v: var(--u);
-    --gutter: calc((100vw - 1672 * var(--u)) / 2);
   }
-  .site-header, .journey-controls { padding-left: calc(var(--gutter) + 71 * var(--u)); padding-right: calc(var(--gutter) + 62 * var(--u)); }
-  .reference-intro-art { left: var(--gutter); right: var(--gutter); }
-  .hero-copy { left: calc(var(--gutter) + 71 * var(--u)); }
-  .hero-projects { left: calc(var(--gutter) + 70 * var(--u)); }
-  .work-panel { grid-template-columns: calc(291 * var(--u)) calc(1381 * var(--u)); justify-content: center; }
-  .hero-panel { background: #f9faff; }
 }
 @media (max-width: 760px) {
   .reference-work-art { display: none; }
@@ -173,4 +174,25 @@
 }
 @media (prefers-reduced-motion: reduce) {
   .journey-flow-bridge { display: none; }
+}
+/* Companion projects share the same full-width illustration and stage targets. */
+@media (min-width: 761px) and (max-height: 600px) {
+  .companion-scene .reference-work-art { display: block; position: absolute; inset: 0; width: 100%; height: 100%; object-fit: fill; }
+  .companion-scene .pipeline-node > * { opacity: 0; }
+  .companion-scene .scene-frame { width: 100%; height: 100%; }
+}
+@media (max-width: 760px) {
+  .companion-scene { padding: 0; }
+  .companion-scene .reference-work-art { display: block; position: relative; width: calc(100% + 52px); max-width: none; height: auto; margin: 0 -26px 22px; }
+  .companion-scene .scene-frame { display: grid; grid-template-columns: 1fr; gap: 12px; }
+  .companion-scene .scene-frame .pipeline-node {
+    position: relative; inset: auto; width: 100%; height: auto; min-height: 94px; margin: 0;
+    padding: 18px; background: linear-gradient(120deg, #fff, #f2edff);
+    border: 1px solid #e6ddff; border-radius: 18px; box-shadow: 0 8px 24px #5b36aa0a;
+    transform: none; text-align: left;
+  }
+  .companion-stage-label { display: grid; gap: 7px; }
+  .companion-stage-label small { font-size: 9px; letter-spacing: 1.5px; color: #72658c; }
+  .companion-stage-label strong { font-size: 16px; }
+  .companion-stage-label > span { font-size: 12px; color: #5134ff; }
 }

@@ -334,17 +334,23 @@ const projects = {
 };
 let selectedProject = "ai";
 const initialDiagram = $("#project-visual").innerHTML;
-const initialSceneArtwork = $(".work-scene", $("#project-visual")).outerHTML;
-const initialDiagramFlow = $(".diagram-flow", $("#project-visual")).outerHTML;
 const arrow = '<svg aria-hidden="true"><use href="#i-up"/></svg>';
 function alternateDiagram(key) {
   const data = key === "data";
-  return `<div class="scene-frame">${initialSceneArtwork}${initialDiagramFlow}<button class="document-stack pipeline-node" data-stage="input" aria-label="Explore ${data ? "forecasting inputs" : "user questions"}"><span class="paper paper-back"></span><span class="paper paper-middle"></span><span class="paper paper-front"><span class="paper-label">${data ? "WEATHER + ENERGY" : "THE INTERFACE"}</span><b>${data ? "Signals for<br>a better forecast." : "Curiosity,<br>in conversation."}</b><i></i><i></i><i></i><i></i><span class="paper-footer">01 / INPUT</span></span><span class="node-caption">${data ? "Connected data" : "A visitor’s question"}</span></button><button class="ai-engine pipeline-node" data-stage="engine" aria-label="Explore ${data ? "forecasting models" : "the language model"}"><span class="engine-inner"><svg><use href="#${data ? "i-data" : "i-ai"}"/></svg><strong>${data ? "ML" : "LLM"}</strong><span>${data ? "FORECASTING" : "CONVERSATION"}</span><i class="engine-status">${data ? "LEARNING PATTERNS" : "CONNECTING IDEAS"}</i></span><span class="node-caption">${data ? "Patterns become predictions" : "Context + intelligence"}</span></button><button class="structured-card pipeline-node" data-stage="output" aria-label="Explore ${data ? "solar predictions" : "assistant responses"}"><span class="structured-title">${data ? "Solar forecast" : "Useful answers"} <span>✓</span></span>${(data ? ["Weather", "Generation", "Patterns", "Prediction", "Planning"] : ["Experience", "Skills", "Research", "Projects", "Connections"]).map((label, i) => `<span class="data-row"><b>${["◇", "▦", "↗", "▤", "▧"][i]}</b> ${label} <i></i></span>`).join("")}<span class="node-caption">${data ? "Energy, understood" : "A more personal experience"}</span></button><div class="output-formats">${(data ? ["Forecasts", "Research", "Insights", "Planning"] : ["Answers", "Context", "Discovery", "Connect"]).map((label, i) => `<span><b>${["↗", "◇", "▦", "✳"][i]}</b> ${label}</span>`).join("")}</div></div>`;
+  const labels = data
+    ? ["forecasting inputs", "forecasting models", "solar predictions"]
+    : ["user questions", "the language model", "assistant responses"];
+  const description = data
+    ? "Weather and generation data flow through a violet glass machine-learning processor into solar forecasts, research, insights and planning."
+    : "A visitor’s question flows through a glass LLM processor into a portfolio assistant, with answers, context, discovery and connections.";
+  return `<img class="reference-work-art" src="assets/reference-${key}-art.webp" width="1600" height="483" alt="${description}" decoding="async"><div class="scene-frame">${["input", "engine", "output"].map((stage, i) => `<button class="${["document-stack", "ai-engine", "structured-card"][i]} pipeline-node" data-stage="${stage}" aria-label="Explore ${labels[i]}"><span class="companion-stage-label"><small>0${i + 1} / ${stage.toUpperCase()}</small><strong>${projects[key].stages[stage][0]}</strong><span>Explore stage ↗</span></span></button>`).join("")}</div>`;
 }
 function selectProject(key) {
   if (!projects[key]) return;
   selectedProject = key;
-  $("#project-visual").classList.toggle("reference-scene-active", key === "ai");
+  $("#work").classList.toggle("companion-project", key !== "ai");
+  $("#project-visual").classList.add("reference-scene-active");
+  $("#project-visual").classList.toggle("companion-scene", key !== "ai");
   const project = projects[key];
   $$("[data-project]").forEach((tab) => {
     tab.setAttribute("aria-selected", String(tab.dataset.project === key));
