@@ -1,60 +1,49 @@
-# Teja P C – 3D Animated Portfolio - With RAG Enabled ChatBot
+# Teja PC — Editorial Flow
 
-[![Watch the video](https://github.com/PCTEJA/tejapc_3d_portfolio/blob/main/portfolio_video.gif)](https://youtu.be/wFGX0Bzs93M)
-[![Watch the video](https://github.com/PCTEJA/tejapc_3d_portfolio/blob/main/Teja_Rag_bot.gif)](https://youtu.be/1lkcN14hc2s?si=y-w37uiDu4gqYF8p)
+A portrait-led portfolio with a continuous animated ribbon and a horizontal, five-chapter journey: introduction, work, experience, about, and contact.
 
-Welcome to the 3D animated portfolio website. This project delivers a modern, interactive user experience with advanced animations, responsive design, and a showcase of professional achievements in technology and engineering.
+## Preview
 
-## Features
+```sh
+npm run preview
+```
 
-- 3D animated backgrounds and effects
-- Glass morphism cards with neon highlights
-- Entirely responsive design for all devices
-- Interactive skills and projects section
-- Animated professional timeline and statistics
-- Functional contact form and accessible contact links
+Open http://127.0.0.1:4173. The static preview uses only Node.js and does not need dependencies or API credentials.
 
-## Live Demo
+The existing Express application remains available with `npm start` (or `npm run dev`). Install dependencies and configure `OPENAI_API_KEY` in your local environment to use its `/chat` endpoint. The frontend now calls this same-origin endpoint; the static preview deliberately returns an unavailable response. No live assistant request is needed to view or test the design.
 
-Experience the portfolio live at:  
-🌐 **[Teja P C – 3D Animated Portfolio](https://teja3d.netlify.app/)**
+## Interaction
 
-## Getting Started
+- Mouse-wheel and trackpad scrolling moves the journey horizontally and settles on a chapter.
+- Chapter navigation, header links, and previous/next buttons jump directly to sections.
+- Left/right arrow keys and Home/End navigate chapters, without intercepting inputs or project-tab controls.
+- Touch devices can swipe horizontally. Tall mobile chapters scroll internally so their content remains readable.
+- Project tabs switch between AI, data, and full-stack work. Each pipeline stage opens an explanation.
+- Native modal dialogs contain project details, publications, certifications, and the achievement gallery.
+- Ambient animation can be paused. System reduced-motion preferences are respected.
 
-1. **Download all project files:**
-    - `index.html`
-    - `style.css`
-    - `app.js`
-    - `placeholder-profile.png`
-2. **Customize:**
-    - Replace `placeholder-profile.png` with your professional photo
-    - Update personal/project information as needed in the HTML
-3. **Preview:**
-    - Open `index.html` in any modern browser (Chrome, Firefox, Edge, Safari)
-4. **Deploy:**
-    - Host easily on Netlify, Vercel, or GitHub Pages
+## Validation
 
-## File Overview
+Use Node.js 20 or newer for development and the browser tests.
 
-- `index.html` – Primary website structure and content
-- `style.css` – Custom styles, responsive layout, and animations
-- `app.js` – JavaScript for interactivity and 3D effects
-- `placeholder-profile.png` – Placeholder image for your portrait
-- `README.md` – Project instructions and overview
+```sh
+npm install
+npm run build
+npx playwright install chromium
+npm test
+```
 
-## Customization
+The build validates JavaScript syntax, local assets, anchor targets, and unique HTML IDs. The browser suite starts its own static server on port 4174, tests navigation, wheel scrolling, project interactions, dialogs, clipboard, assistant states, responsive layouts, and reduced motion. Screenshots and results are written to the ignored `.artifacts/` directory. The assistant success test uses a mocked API response; it does not verify live model credentials or deployment.
 
-- Edit your skills, experience, projects, and contact details directly in the HTML.
-- Change color themes via CSS variables in `style.css`.
-- Adjust animation timing within CSS or JS as preferred.
+## Editing
 
-## License
+- `public/index.html`: page content, navigation, experience, education, and contact details.
+- `public/style.css`: layout, typography, glass treatments, responsive behavior, and animation.
+- `public/app.js`: scrolling, vector/canvas ribbons, project content, dialogs, and assistant interaction.
+- `public/assets/teja-portrait.png`: transparent portrait prepared from the supplied photo.
+- `public/assets/README.md`: portrait generation provenance and prompt.
+- `public/gallery/`: existing résumé and gallery assets.
 
-This portfolio is for personal use only. Contact the project author for permissions regarding reuse.
+The frontend uses HTML, CSS, JavaScript, Canvas 2D, and inline SVG without a production frontend dependency. Google Fonts provides Manrope and DM Sans with system-font fallbacks. The existing backend and hosting configuration have not been migrated. The frontend can still be served directly from `public`; deployment is a separate step.
 
-***
-
-**Created by Teja P C**  
-Questions or feedback? Connect by email at pcteja2000@gmail.com or on [LinkedIn](https://www.linkedin.com/in/tejapc).
-
----
+Project names and technical context from the supplied design reference are included in the work showcase. Experience, education, research links, certifications, and contact information come from the existing site. No numerical performance claims from the reference were added without supporting project material.

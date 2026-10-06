@@ -7,8 +7,9 @@
     "start": "node server.js",
     "dev": "nodemon server.js",
     "install-client": "npm install",
-    "build": "echo 'No build step required for static files'",
-    "test": "echo 'Tests not implemented yet'"
+    "preview": "node scripts/preview.cjs",
+    "build": "node scripts/check.cjs",
+    "test": "node tests/portfolio.cjs"
   },
   "keywords": [
     "portfolio",
@@ -27,10 +28,11 @@
     "vercel": "^46.0.2"
   },
   "devDependencies": {
-    "nodemon": "^3.0.1"
+    "nodemon": "^3.0.1",
+    "playwright": "1.62.1"
   },
   "engines": {
-    "node": ">=16.0.0",
+    "node": ">=20.0.0",
     "npm": ">=8.0.0"
   }
 }

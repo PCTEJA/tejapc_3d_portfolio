@@ -1,664 +1,666 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Teja P C - MLOps Engineer Portfolio</title>
-    <link rel="icon" type="image/png" href="tab_icon.png" />
-    <link rel="stylesheet" href="style.css">
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
-<body>
-    <audio id="background-music" src="music.wav" loop></audio>
-    <div class="cursor"></div>
-    <div class="cursor-trail"></div>
-
-    <div id="loading-screen">
-        <div class="loader">
-            <div class="loader-circle"></div>
-            <div class="loader-text">Loading Portfolio...</div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f9faff" />
+    <meta
+      name="description"
+      content="Teja P C — MLOps engineer building practical AI systems, thoughtful data products, and experiences that make a difference."
+    />
+    <title>Teja PC — Human curiosity. Engineered impact.</title>
+    <link rel="icon" href="tab_icon.png" />
+    <link rel="preload" as="image" href="assets/teja-portrait.png" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <svg
+      class="icon-library"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+    >
+      <defs>
+        <symbol id="i-arrow" viewBox="0 0 24 24">
+          <path d="M5 12h14m-6-6 6 6-6 6" />
+        </symbol>
+        <symbol id="i-up" viewBox="0 0 24 24">
+          <path d="M6 18 18 6M6 6h12v12" />
+        </symbol>
+        <symbol id="i-file" viewBox="0 0 24 24">
+          <path
+            d="M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8Zm0 0v6h5M9 13h6m-6 4h6"
+          />
+        </symbol>
+        <symbol id="i-code" viewBox="0 0 24 24">
+          <path d="m7 6-6 6 6 6m10-12 6 6-6 6M14 3l-4 18" />
+        </symbol>
+        <symbol id="i-data" viewBox="0 0 24 24">
+          <ellipse cx="12" cy="5" rx="8" ry="3" />
+          <path d="M4 5v14c0 4 16 4 16 0V5M4 12c0 4 16 4 16 0" />
+        </symbol>
+        <symbol id="i-ai" viewBox="0 0 24 24">
+          <rect x="5" y="5" width="14" height="14" rx="4" />
+          <path
+            d="M9 1v4m6-4v4M9 19v4m6-4v4M1 9h4m-4 6h4m14-6h4m-4 6h4M9 9h6v6H9z"
+          />
+        </symbol>
+        <symbol id="i-close" viewBox="0 0 24 24">
+          <path d="m6 6 12 12M6 18 18 6" />
+        </symbol>
+        <symbol id="i-mail" viewBox="0 0 24 24">
+          <rect x="3" y="5" width="18" height="14" rx="3" />
+          <path d="m3 7 9 7 9-7" />
+        </symbol>
+        <symbol id="i-spark" viewBox="0 0 24 24">
+          <path d="m12 2 2.5 7.5L22 12l-7.5 2.5L12 22l-2.5-7.5L2 12l7.5-2.5Z" />
+        </symbol>
+      </defs>
+    </svg>
+    <a class="skip-link" href="#work">Skip to work</a>
+    <div class="site-shell">
+      <header class="site-header">
+        <a class="wordmark" href="#home" aria-label="Teja PC, home"
+          >TEJA PC<span class="brand-dot">.</span></a
+        >
+        <nav class="primary-nav" aria-label="Main navigation">
+          <a href="#work">Work</a><a href="#experience">Experience</a
+          ><a href="#about">About</a>
+        </nav>
+        <div class="header-note">
+          <span class="status-dot"></span> Open to possibilities
         </div>
-    </div>
-
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="nav-logo">TEJA P C</div>
-            
-            <div class="nav-menu">
-                <button id="mute-button" class="nav-link-icon" title="Mute Music">
-                    <i class="fas fa-volume-up"></i>
+        <a href="#contact" class="button button-primary button-small"
+          >Let’s talk <svg><use href="#i-up" /></svg
+        ></a>
+      </header>
+      <main
+        id="journey"
+        class="journey"
+        aria-label="Portfolio chapters. Scroll or swipe sideways to explore."
+      >
+        <canvas id="flow-canvas" aria-hidden="true"></canvas>
+        <div class="panel-track" id="panel-track">
+          <section
+            id="home"
+            class="panel hero-panel"
+            aria-labelledby="hero-title"
+            tabindex="-1"
+          >
+            <div class="hero-aura" aria-hidden="true"></div>
+            <div class="hero-copy">
+              <p class="eyebrow">
+                <span class="tiny-line"></span> THE PORTFOLIO OF TEJA P C
+              </p>
+              <h1 id="hero-title">
+                Human <em>curiosity.</em><br />Engineered<br
+                  class="desktop-break"
+                />
+                impact.
+              </h1>
+              <h2>AI / MLOps <span>·</span> Data <span>·</span> Full Stack</h2>
+              <p class="hero-description">
+                I turn complex information into practical AI<br
+                  class="wide-break"
+                />
+                systems. Thoughtfully built. Made to matter.
+              </p>
+              <div class="hero-actions">
+                <a href="#work" class="button button-primary"
+                  >Explore my work <svg><use href="#i-up" /></svg></a
+                ><a
+                  href="gallery/tejacv.pdf"
+                  target="_blank"
+                  rel="noopener"
+                  class="button button-white"
+                  ><svg><use href="#i-file" /></svg> Résumé</a
+                >
+              </div>
+            </div>
+            <div class="portrait-stage">
+              <img
+                class="hero-portrait"
+                src="assets/teja-portrait.png"
+                width="1254"
+                height="1254"
+                alt="Teja P C in a navy suit and blue tie"
+                fetchpriority="high"
+              />
+            </div>
+            <div class="flow-pin pin-data"><span>DATA</span><i></i></div>
+            <div class="flow-pin pin-ai"><span>AI</span><i></i></div>
+            <div class="flow-pin pin-product"><span>PRODUCT</span><i></i></div>
+            <div class="hero-front-flow" aria-hidden="true"></div>
+            <div class="hero-projects">
+              <button class="mini-project" data-project-jump="ai">
+                <span class="icon-tile"
+                  ><svg><use href="#i-file" /></svg></span
+                ><span
+                  ><strong>AI Document Extraction</strong
+                  ><small
+                    >From unstructured documents to useful data.</small
+                  ></span
+                ><span class="round-arrow"
+                  ><svg><use href="#i-arrow" /></svg
+                ></span></button
+              ><button class="mini-project" data-project-jump="fullstack">
+                <span class="icon-tile pink"
+                  ><svg><use href="#i-code" /></svg></span
+                ><span
+                  ><strong>Full-Stack LLM Integration</strong
+                  ><small>Intelligence, built into the experience.</small></span
+                ><span class="round-arrow"
+                  ><svg><use href="#i-arrow" /></svg
+                ></span>
+              </button>
+            </div>
+            <span class="hero-caption"
+              >A little curiosity. A lot of possibility.</span
+            >
+          </section>
+          <section
+            id="work"
+            class="panel work-panel"
+            aria-labelledby="work-heading"
+            tabindex="-1"
+          >
+            <aside class="work-sidebar">
+              <p class="eyebrow">EXPLORE MY WORK</p>
+              <div
+                class="project-tabs"
+                role="tablist"
+                aria-label="Project disciplines"
+                aria-orientation="vertical"
+              >
+                <button
+                  id="tab-ai"
+                  role="tab"
+                  aria-selected="true"
+                  aria-controls="project-content"
+                  data-project="ai"
+                >
+                  <svg><use href="#i-ai" /></svg><span>AI & MLOps</span
+                  ><svg><use href="#i-arrow" /></svg></button
+                ><button
+                  id="tab-data"
+                  role="tab"
+                  aria-selected="false"
+                  aria-controls="project-content"
+                  data-project="data"
+                  tabindex="-1"
+                >
+                  <svg><use href="#i-data" /></svg><span>Data Engineering</span
+                  ><svg><use href="#i-arrow" /></svg></button
+                ><button
+                  id="tab-fullstack"
+                  role="tab"
+                  aria-selected="false"
+                  aria-controls="project-content"
+                  data-project="fullstack"
+                  tabindex="-1"
+                >
+                  <svg><use href="#i-code" /></svg><span>Full Stack</span
+                  ><svg><use href="#i-arrow" /></svg>
                 </button>
-                <a href="#home" class="nav-link">Home</a>
-                <a href="#about" class="nav-link">About</a>
-                <a href="#experience" class="nav-link">Experience</a>
-                <a href="#projects" class="nav-link">Projects</a>
-                <a href="#gallery" class="nav-link">Gallery</a>
-                <a href="#contact" class="nav-link">Contact</a>
-                <a href="https://scholar.google.com/citations?user=mZGqviAAAAAJ&hl=en" target="_blank" class="nav-link-icon" title="Google Scholar">
-                    <i class="fas fa-graduation-cap"></i>
-                </a>
-                <a href="https://github.com/PCTEJA/" target="_blank" class="nav-link-icon" title="GitHub Profile">
-                    <i class="fab fa-github"></i>
-                </a>
-                <a href="#" id="resume-link" class="nav-link-icon" title="View Resume">
-                    <i class="fas fa-file-alt"></i>
-                </a>
-            </div>
-            <div class="nav-toggle">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-        </div>
-    </nav>
-
-    <div class="scroll-progress"></div>
-
-    <section id="home" class="hero">
-        <div id="particles-js"></div>
-        <div class="hero-content">
-            <div class="hero-image">
-                <div class="image-frame">
-                    <img src="hero_gif.gif" alt="Teja P C Profile" class="profile-img">
-                    <div class="image-glow"></div>
+              </div>
+              <div class="project-context">
+                <p class="eyebrow">PROJECT CONTEXT</p>
+                <h3 id="context-title">AI Document Extraction</h3>
+                <dl>
+                  <div>
+                    <dt>Role</dt>
+                    <dd id="context-role">MLOps Engineer</dd>
+                  </div>
+                  <div>
+                    <dt>Focus</dt>
+                    <dd id="context-focus">AI · Cloud · Automation</dd>
+                  </div>
+                </dl>
+              </div>
+              <div class="sidebar-note">
+                <svg><use href="#i-spark" /></svg>
+                <p>
+                  Complex problems.<br /><strong>Clearer possibilities.</strong>
+                </p>
+              </div>
+              <a
+                href="gallery/tejacv.pdf"
+                target="_blank"
+                rel="noopener"
+                class="button button-white sidebar-resume"
+                ><svg><use href="#i-file" /></svg> Résumé
+                <svg><use href="#i-up" /></svg
+              ></a>
+            </aside>
+            <div
+              id="project-content"
+              class="project-content"
+              role="tabpanel"
+              aria-labelledby="tab-ai"
+              tabindex="0"
+            >
+              <div class="project-heading">
+                <div>
+                  <p class="eyebrow">
+                    SELECTED WORK <span id="project-number">/ 01</span>
+                  </p>
+                  <h2 id="work-heading">
+                    From documents<br /> to <em>usable data.</em>
+                  </h2>
                 </div>
-            </div>
-            <h1 class="hero-title">
-                <span class="typewriter">TEJA P C</span>
-            </h1>
-            <h2 class="hero-subtitle">ML/AI Enthusiast & MLOps Engineer</h2>
-            <div class="hero-stats">
-                <div class="stat-item">
-                    <span class="stat-number" data-target="5">0</span>
-                    <span class="stat-label">Publications</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number" data-target="7300">0</span>
-                    <span class="stat-label">Paper Views</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number" data-target="5">0</span>
-                    <span class="stat-label">Years Experience</span>
-                </div>
-                    <div class="stat-item">
-                    <span class="stat-number" data-target="100">0</span>
-                    <span class="stat-label">Citations</span>
-                </div>
-            </div>
-            <div class="hero-cta">
-                <a href="#contact" class="btn btn-primary glow-btn">Get In Touch</a>
-                <a href="#projects" class="btn btn-outline">View Work</a>
-            </div>
-        </div>
-        <div class="scroll-indicator">
-            <div class="scroll-arrow"></div>
-            <span>Scroll Down</span>
-        </div>
-        <canvas id="hero-canvas"></canvas>
-    </section>
-
-    <section id="about" class="about">
-        <div class="container">
-            <h2 class="section-title">About Me</h2>
-            <div class="about-content">
-                <div class="about-text">
-                    <p class="about-intro">
-                        A passionate MLOps Engineer with expertise in developing scalable machine learning pipelines and cloud-native solutions. I am currently pursuing a <strong>Master's in Computer Science</strong> and am actively seeking opportunities to apply my skills to complex challenges in <strong>Machine Learning and Artificial Intelligence</strong>. My goal is to contribute to innovative projects that push the boundaries of AI. My professional background includes leading impactful projects at Tata Consultancy Services, supported by a strong record of published research and industry accolades.
-                    </p>
-                    <div class="contact-info">
-                        <div class="contact-item">
-                            <i class="fas fa-envelope"></i>
-                            <a href="mailto:pcteja2000@gmail.com">pcteja2000@gmail.com</a>
-                        </div>
-                        <div class="contact-item">
-                            <i class="fas fa-phone"></i>
-                            <span>(+1) 9402394143</span>
-                        </div>
-                        <div class="contact-item">
-                            <i class="fab fa-linkedin"></i>
-                            <a href="https://www.linkedin.com/in/tejapc" target="_blank">linkedin.com/in/tejapc</a>
-                        </div>
-                        <div class="contact-item">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <span>Denton, Texas, USA</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="about-achievements">
-                    <div class="achievement-card">
-                        <div class="achievement-icon">🏆</div>
-                        <h4>2 Time Best Team Member Award</h4>
-                        <p>2022 & 2024 at TCS</p>
-                    </div>
-                    <div class="achievement-card">
-                        <div class="achievement-icon">🎓</div>
-                        <h4>High Academic Excellence</h4>
-                        <p>GPA: 9.33/10.0</p>
-                    </div>
-                    <a href="https://scholar.google.com/citations?user=mZGqviAAAAAJ&hl=en">
-                    <div class="achievement-card">
-                        <div class="achievement-icon">📊</div>
-                        <h4>Research Impact</h4>
-                        <p>7300+ Views, 100+ Citations</p>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    
-    <section id="education" class="education">
-        <div class="container">
-            <h2 class="section-title">Education</h2>
-            <div class="education-grid">
-                <div class="education-card">
-                    <div class="education-content">
-                        <div class="education-icon">
-                            <i class="fas fa-university"></i>
-                        </div>
-                        <div class="education-details">
-                            <h3>Master of Science in Computer Science</h3>
-                            <h4>University of North Texas</h4>
-                            <div class="education-meta">
-                                <span class="location"><i class="fas fa-map-marker-alt"></i> Denton, Texas, USA</span>
-                                <span class="duration"><i class="fas fa-calendar"></i> Aug 2025 – May 2027</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="education-card">
-                    <div class="education-content">
-                        <div class="education-icon">
-                            <i class="fas fa-graduation-cap"></i>
-                        </div>
-                        <div class="education-details">
-                            <h3>Bachelor of Technology in Computer Science</h3>
-                            <h4>Bharath Institute of Higher Education and Research</h4>
-                            <div class="education-meta">
-                                <span class="location"><i class="fas fa-map-marker-alt"></i> Chennai, India</span>
-                                <span class="duration"><i class="fas fa-calendar"></i> Aug 2018 – Aug 2022</span>
-                                <span class="gpa"><i class="fas fa-star"></i> GPA: 9.33/10.0</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="experience" class="experience">
-        <div class="container">
-            <h2 class="section-title">Professional Experience</h2>
-            <div class="timeline">
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <div class="timeline-header">
-                            <h3>MLOps Engineer</h3>
-                            <span class="company">Tata Consultancy Services</span>
-                            <span class="duration">Aug 2022 – Present</span>
-                            <span class="location">Chennai, India</span>
-                        </div>
-                        <ul class="timeline-achievements">
-                            <li>Led Development of Machine Learning Pipelines using Python for automated data handling and model training</li>
-                            <li>Implemented Cloud-Based Solutions on GCP ensuring optimal performance and reliability</li>
-                            <li>Enhanced Software Development Lifecycle with testing, automation, and performance optimization</li>
-                            <li>Collaborated on SDK Development positioning company as AI technology leader</li>
-                            <li>Received "Best Team Member" award for 2022-2023 from Now Pensions Limited Team</li>
-                        </ul>
-                    </div>
-                </div>
-                
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <div class="timeline-header">
-                            <h3>Software Engineer Intern</h3>
-                            <span class="company">Tata Consultancy Services</span>
-                            <span class="duration">Feb 2022 – Jun 2022</span>
-                            <span class="location">Chennai, India</span>
-                        </div>
-                        <ul class="timeline-achievements">
-                            <li>Worked with TCS Client - Insurance company AVIVA</li>
-                            <li>Developed Real-Time Video Messaging model for Personalized Customer Experiences</li>
-                            <li>Utilized NLP techniques to generate Insurance premium details tailored to customer needs</li>
-                        </ul>
-                    </div>
-                </div>
-                
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <div class="timeline-header">
-                            <h3>Data Science Intern</h3>
-                            <span class="company">Ural Federal University</span>
-                            <span class="duration">Jun 2019 – Aug 2019</span>
-                            <span class="location">Yekaterinburg, Russia</span>
-                        </div>
-                        <ul class="timeline-achievements">
-                            <li>Led Solar Power Generation prediction project for Astrakhan, Russia solar power plant</li>
-                            <li>Awarded Diploma in Energy Track and achieved 1st place in project competition</li>
-                            <li>Enhanced ML model performance using K-Fold cross-validation and parameter tuning</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="projects" class="projects">
-        <div class="container">
-            <h2 class="section-title">Projects & Research</h2>
-            <div class="projects-grid">
-                <div class="project-card">
-                    <div class="project-header">
-                        <h3>Industrial Solar Forecasting System</h3>
-                        <div class="project-links">
-                            <a href="https://doi.org/10.3390/rs12203420" target="_blank" class="project-link">
-                                <i class="fas fa-external-link-alt"></i>
-                            </a>
-                        </div>
-                    </div>
-                    <p>Industry-Scale Photovoltaic Forecasting System implemented for Russian power system with enhanced accuracy using machine learning algorithms.</p>
-                    <div class="project-stats">
-                        <span class="stat">Impact Factor: 5.0</span>
-                        <span class="stat">5000+ Views</span>
-                        <span class="stat">19 Citations</span>
-                    </div>
-                    <div class="project-tags">
-                        <span class="tag">Machine Learning</span>
-                        <span class="tag">Solar Energy</span>
-                        <span class="tag">Forecasting</span>
-                    </div>
-                </div>
-
-                <div class="project-card">
-                    <div class="project-header">
-                        <h3>Supreme Court Case Prediction using HCNN</h3>
-                        <div class="project-links">
-                            <a href="https://link.springer.com/article/10.1007/s10772-021-09820-4" target="_blank" class="project-link">
-                                <i class="fas fa-external-link-alt"></i>
-                            </a>
-                        </div>
-                    </div>
-                    <p>Automated web scraping and machine learning system to predict Supreme Court case outcomes using 70 years of judgment data with TensorFlow and NLP.</p>
-                    <div class="project-tags">
-                        <span class="tag">Deep Learning</span>
-                        <span class="tag">NLP</span>
-                        <span class="tag">Web Scraping</span>
-                    </div>
-                </div>
-
-                <div class="project-card">
-                    <div class="project-header">
-                        <h3>Random Forest Solar Power Prediction</h3>
-                        <div class="project-links">
-                            <a href="https://doi.org/10.1109/SIBIRCON48586.2019.8958063" target="_blank" class="project-link">
-                                <i class="fas fa-external-link-alt"></i>
-                            </a>
-                        </div>
-                    </div>
-                    <p>Integration of retrospective metering data and weather information using Random Forest Regressor for accurate solar power forecasting.</p>
-                    <div class="project-tags">
-                        <span class="tag">Random Forest</span>
-                        <span class="tag">Data Integration</span>
-                        <span class="tag">Weather Analysis</span>
-                    </div>
-                </div>
-
-                <div class="project-card">
-                    <div class="project-header">
-                        <h3>Renewable Energy Strategic Planning</h3>
-                        <div class="project-links">
-                            <a href="https://doi.org/10.1109/ICSTCEE49637.2020.9277484" target="_blank" class="project-link">
-                                <i class="fas fa-external-link-alt"></i>
-                            </a>
-                        </div>
-                    </div>
-                    <p>Comprehensive methodology for renewable energy integration with technical, economic, and environmental criteria for strategic planning.</p>
-                    <div class="project-tags">
-                        <span class="tag">Strategic Planning</span>
-                        <span class="tag">Renewable Energy</span>
-                        <span class="tag">Sustainability</span>
-                    </div>
-                </div>
-
-                <div class="project-card">
-                    <div class="project-header">
-                        <h3>Remote Microgrid Development</h3>
-                        <div class="project-links">
-                            <a href="https://doi.org/10.1109/ICSTCEE49637.2020.9276813" target="_blank" class="project-link">
-                                <i class="fas fa-external-link-alt"></i>
-                            </a>
-                        </div>
-                    </div>
-                    <p>Autonomous microgrid solution for remote residential power supply with optimal capacity determination and load forecasting.</p>
-                    <div class="project-tags">
-                        <span class="tag">Microgrid</span>
-                        <span class="tag">Load Forecasting</span>
-                        <span class="tag">Autonomous Systems</span>
-                    </div>
-                </div>
-
-                <div class="project-card">
-                    <div class="project-header">
-                        <h3>Personal Portfolio Website</h3>
-                        <div class="project-links">
-                            <a href="https://tejacv.netlify.app/" target="_blank" class="project-link">
-                                <i class="fas fa-external-link-alt"></i>
-                            </a>
-                        </div>
-                    </div>
-                    <p>Interactive ReactJS portfolio with Firebase authentication, Google Sign-in, TIC-TAC-TOE game, and real-time component demonstrations.</p>
-                    <div class="project-tags">
-                        <span class="tag">ReactJS</span>
-                        <span class="tag">Firebase</span>
-                        <span class="tag">Web Development</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="gallery" class="gallery">
-        <div class="container">
-            <h2 class="section-title">Achievement Gallery</h2>
-            <div class="gallery-grid">
-                <div class="gallery-item">
-                    <img src="gallery/1.jpg" alt="Achievement 1">
-                    <div class="gallery-overlay"><i class="fas fa-search-plus"></i></div>
-                </div>
-                <div class="gallery-item">
-                    <img src="gallery/2.jpg" alt="Achievement 2">
-                    <div class="gallery-overlay"><i class="fas fa-search-plus"></i></div>
-                </div>
-                <div class="gallery-item">
-                    <img src="gallery/3.jpg" alt="Achievement 3">
-                    <div class="gallery-overlay"><i class="fas fa-search-plus"></i></div>
-                </div>
-                <div class="gallery-item">
-                    <img src="gallery/6.jpg" alt="Achievement 4">
-                    <div class="gallery-overlay"><i class="fas fa-search-plus"></i></div>
-                </div>
-                <div class="gallery-item">
-                    <img src="gallery/5.jpg" alt="Achievement 5">
-                    <div class="gallery-overlay"><i class="fas fa-search-plus"></i></div>
-                </div>
-                <div class="gallery-item">
-                    <img src="gallery/9.jpg" alt="Achievement 6">
-                    <div class="gallery-overlay"><i class="fas fa-search-plus"></i></div>
-                </div>
-                <div class="gallery-item">
-                    <img src="gallery/7.jpg" alt="Achievement 7">
-                    <div class="gallery-overlay"><i class="fas fa-search-plus"></i></div>
-                </div>
-                <div class="gallery-item">
-                    <img src="gallery/8.jpg" alt="Achievement 8">
-                    <div class="gallery-overlay"><i class="fas fa-search-plus"></i></div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="certifications" class="certifications">
-        <div class="container">
-            <h2 class="section-title">Certifications & Awards</h2>
-            <div class="cert-grid">
-                <div class="cert-card">
-                    <div class="cert-icon">
-                        <i class="fab fa-oracle"></i>
-                    </div>
-                    <h4>Oracle Cloud Infrastructure 2023</h4>
-                    <p>Certified Application Integration Professional</p>
-                    <a href="https://drive.google.com/file/d/1_AOLDGLTqOq90cfEAI-momwOuCo84f8c/view?usp=sharing" target="_blank" class="cert-link">View Certificate</a>
-                </div>
-                
-                <div class="cert-card">
-                    <div class="cert-icon">
-                        <i class="fas fa-brain"></i>
-                    </div>
-                    <h4>Machine Learning Course</h4>
-                    <p>by Andrew Ng – Coursera Stanford</p>
-                    <a href="https://coursera.org/share/83bc69cadd8b41b12974863d20959261" target="_blank" class="cert-link">View Certificate</a>
-                </div>
-                
-                <div class="cert-card">
-                    <div class="cert-icon">
-                        <i class="fas fa-trophy"></i>
-                    </div>
-                    <h4>Data Science Competition</h4>
-                    <p>Learn from Top Kagglers – HSE University</p>
-                    <a href="https://coursera.org/share/91951b9a234d7a7f439c7763537272f2" target="_blank" class="cert-link">View Certificate</a>
-                </div>
-                
-                <div class="cert-card">
-                    <div class="cert-icon">
-                        <i class="fas fa-award"></i>
-                    </div>
-                    <h4>Research Paper Presentation</h4>
-                    <p>ICAECT 2020 – Springer Conference</p>
-                    <a href="https://drive.google.com/file/d/1Zd0nxcvsxDgN_6NRRKBWFbE6YRrWukXD/view?usp=sharing" target="_blank" class="cert-link">View Certificate</a>
-                </div>
-            </div>
-            
-            <div class="awards-section">
-                <h3>Honors & Awards</h3>
-                <div class="awards-list">
-                    <div class="award-item">
-                        <i class="fas fa-medal"></i>
-                        <span>Won Hackathon and Received Diploma in Ural Federal University</span>
-                    </div>
-                    <div class="award-item">
-                        <i class="fas fa-star"></i>
-                        <span>Best Project Team Award from Ural Federal University</span>
-                    </div>
-                    <div class="award-item">
-                        <i class="fas fa-money-bill"></i>
-                        <span>Received Grant of Rs 4,00,000 to Publish Research Paper in Energies Journal</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-        <section id="skills" class="skills">
-        <div class="container">
-            <h2 class="section-title">Technical Skills</h2>
-            <div class="skills-grid">
-                <div class="skill-category">
-                    <h3><i class="fas fa-code"></i> Languages</h3>
-                    <div class="skill-tags">
-                        <span class="skill-tag">Java</span>
-                        <span class="skill-tag">C++</span>
-                        <span class="skill-tag">Python</span>
-                        <span class="skill-tag">C</span>
-                        <span class="skill-tag">R</span>
-                    </div>
-                </div>
-                <div class="skill-category">
-                    <h3><i class="fas fa-layer-group"></i> Frameworks</h3>
-                    <div class="skill-tags">
-                        <span class="skill-tag">ReactJS</span>
-                        <span class="skill-tag">Angular</span>
-                        <span class="skill-tag">Spring-Boot</span>
-                        <span class="skill-tag">PyTorch</span>
-                        <span class="skill-tag">TensorFlow</span>
-                        <span class="skill-tag">Kubernetes</span>
-                    </div>
-                </div>
-                <div class="skill-category">
-                    <h3><i class="fas fa-globe"></i> Web Technologies</h3>
-                    <div class="skill-tags">
-                        <span class="skill-tag">HTML</span>
-                        <span class="skill-tag">CSS</span>
-                        <span class="skill-tag">JavaScript</span>
-                        <span class="skill-tag">jQuery</span>
-                        <span class="skill-tag">Bootstrap</span>
-                    </div>
-                </div>
-                <div class="skill-category">
-                    <h3><i class="fas fa-database"></i> Databases</h3>
-                    <div class="skill-tags">
-                        <span class="skill-tag">MongoDB</span>
-                        <span class="skill-tag">Oracle</span>
-                        <span class="skill-tag">MySQL</span>
-                        <span class="skill-tag">PostgreSQL</span>
-                    </div>
-                </div>
-                <div class="skill-category">
-                    <h3><i class="fas fa-brain"></i> Advanced Technologies</h3>
-                    <div class="skill-tags">
-                        <span class="skill-tag">Machine Learning</span>
-                        <span class="skill-tag">NLP</span>
-                        <span class="skill-tag">Data Analysis</span>
-                        <span class="skill-tag">Docker</span>
-                        <span class="skill-tag">Linux</span>
-                    </div>
-                </div>
-                <div class="skill-category">
-                    <h3><i class="fas fa-cloud"></i> Cloud & Deployment</h3>
-                    <div class="skill-tags">
-                        <span class="skill-tag">GCP</span>
-                        <span class="skill-tag">App Engine</span>
-                        <span class="skill-tag">Cloud Build</span>
-                        <span class="skill-tag">Cloud RUN</span>
-                        <span class="skill-tag">CI/CD</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <section id="contact" class="contact">
-        <div class="container">
-            <h2 class="section-title">Let's Connect</h2>
-            <div class="contact-content">
-                <div class="contact-info-section">
-                    <h3>Get in Touch</h3>
-                    <p>Ready to collaborate on innovative ML projects or discuss opportunities? Let's connect!</p>
-                    <div class="contact-methods">
-                        <a href="mailto:pcteja2000@gmail.com" class="contact-method">
-                            <i class="fas fa-envelope"></i>
-                            <span>pcteja2000@gmail.com</span>
-                        </a>
-                        <a href="tel:+19402394143" class="contact-method">
-                            <i class="fas fa-phone"></i>
-                            <span>(+1) 9402394143</span>
-                        </a>
-                        <a href="https://www.linkedin.com/in/tejapc" target="_blank" class="contact-method">
-                            <i class="fab fa-linkedin"></i>
-                            <span>LinkedIn Profile</span>
-                        </a>
-                    </div>
-                </div>
-                
-                <div class="contact-form-section">
-                    <form class="contact-form" id="contactForm">
-                        <div class="form-group">
-                            <input type="text" id="name" name="name" required class="form-control" placeholder=" ">
-                            <label for="name" class="form-label">Your Name</label>
-                        </div>
-                        <div class="form-group">
-                            <input type="email" id="email" name="email" required class="form-control" placeholder=" ">
-                            <label for="email" class="form-label">Your Email</label>
-                        </div>
-                        <div class="form-group">
-                            <input type="text" id="subject" name="subject" required class="form-control" placeholder=" ">
-                            <label for="subject" class="form-label">Subject</label>
-                        </div>
-                        <div class="form-group">
-                            <textarea id="message" name="message" required class="form-control" rows="5" placeholder=" "></textarea>
-                            <label for="message" class="form-label">Your Message</label>
-                        </div>
-                        <button type="submit" class="btn btn-primary submit-btn">
-                            <span class="btn-text">Send Message</span>
-                            <span class="btn-loading">Sending...</span>
-                            <i class="fas fa-paper-plane"></i>
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
-        <canvas id="contact-canvas"></canvas>
-    </section>
-
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <p>&copy; 2025 Teja P C. All rights reserved.</p>
-                <div class="footer-links">
-                    <a href="https://www.linkedin.com/in/tejapc" target="_blank">
-                        <i class="fab fa-linkedin"></i>
-                    </a>
-                    <a href="mailto:pcteja2000@gmail.com">
-                        <i class="fas fa-envelope"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Chatbot -->
-    <div id="chatbot-toggle" class="chatbot-toggle" title="Ask about my experience">
-        <i class="fas fa-comments"></i>
-    </div>
-
-    <div id="chatbot-container" class="chatbot-container">
-        <div class="chatbot-header">
-            <div class="chatbot-title">
-                <i class="fas fa-robot"></i>
-                <span>Portfolio Assistant</span>
-            </div>
-            <div class="chatbot-controls">
-                <button id="chatbot-minimize" class="chatbot-control" title="Minimize">
-                    <i class="fas fa-minus"></i>
+                <p id="project-description">
+                  Turning unstructured documents into validated, structured data
+                  with AI and cloud services.
+                </p>
+              </div>
+              <div
+                class="project-visual"
+                id="project-visual"
+                aria-label="Interactive document processing pipeline"
+              >
+                <div class="diagram-flow" aria-hidden="true"></div>
+                <button
+                  class="document-stack pipeline-node"
+                  data-stage="input"
+                  aria-label="Explore source documents"
+                >
+                  <span class="paper paper-back"></span
+                  ><span class="paper paper-middle"></span
+                  ><span class="paper paper-front"
+                    ><span class="paper-label"
+                      >INVOICE <svg><use href="#i-file" /></svg></span
+                    ><b>Information,<br />waiting to flow.</b><i></i><i></i
+                    ><i></i><i></i
+                    ><span class="paper-footer">01 / SOURCE</span></span
+                  ><span class="node-caption">Documents in</span></button
+                ><button
+                  class="ai-engine pipeline-node"
+                  data-stage="engine"
+                  aria-label="Explore the AI extraction stage"
+                >
+                  <span class="engine-inner"
+                    ><svg><use href="#i-ai" /></svg><strong>AI</strong
+                    ><span>EXTRACTION</span
+                    ><i class="engine-status">PROCESSING</i></span
+                  ><span class="node-caption"
+                    >Intelligence at work</span
+                  ></button
+                ><button
+                  class="structured-card pipeline-node"
+                  data-stage="output"
+                  aria-label="Explore structured output"
+                >
+                  <span class="structured-title"
+                    >Structured data <span>✓</span></span
+                  ><span class="data-row"><b>◇</b> Name <i></i></span
+                  ><span class="data-row"><b>▦</b> Date <i></i></span
+                  ><span class="data-row"><b>$</b> Amount <i></i></span
+                  ><span class="data-row"><b>▤</b> Vendor <i></i></span
+                  ><span class="data-row"><b>▧</b> Category <i></i></span
+                  ><span class="node-caption">Ready for what’s next</span>
                 </button>
-                <button id="chatbot-close" class="chatbot-control" title="Close">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-        </div>
-        
-        <div class="chatbot-body">
-            <div id="chat-messages" class="chat-messages">
-                <!-- Messages will be added here dynamically -->
-            </div>
-            
-            <div class="chat-input-container">
-                <div class="chat-input-wrapper">
-                    <input type="text" id="chat-input" class="chat-input" placeholder="Ask about my skills, experience, or projects...">
-                    <button id="send-message" class="chat-send-btn" title="Send message">
-                        <i class="fas fa-paper-plane"></i>
-                    </button>
+                <div class="output-formats">
+                  <span><b>{ }</b> JSON</span><span><b>▦</b> CSV</span
+                  ><span
+                    ><svg><use href="#i-data" /></svg> Database</span
+                  ><span><b>↗</b> API ready</span>
                 </div>
+              </div>
+              <div class="project-bottom">
+                <div>
+                  <h3 id="project-title">AI Document Extraction</h3>
+                  <div class="tags" id="project-tags">
+                    <span>Gemini</span><span>OCR</span><span>FastAPI</span
+                    ><span>Cloud Run</span>
+                  </div>
+                </div>
+                <button class="button button-primary" id="case-study-button">
+                  Explore project <svg><use href="#i-up" /></svg>
+                </button>
+              </div>
+              <button class="next-project" id="next-project">
+                <span class="icon-tile coral"
+                  ><svg><use href="#i-data" /></svg></span
+                ><span
+                  ><small>UP NEXT / DATA ENGINEERING</small
+                  ><strong>Forecasting a cleaner future</strong
+                  ><span>Machine learning meets renewable energy.</span></span
+                ><span class="round-arrow"
+                  ><svg><use href="#i-arrow" /></svg
+                ></span>
+              </button>
             </div>
+          </section>
+          <section
+            id="experience"
+            class="panel experience-panel"
+            aria-labelledby="experience-title"
+            tabindex="-1"
+          >
+            <div class="section-topline">
+              <p class="eyebrow">02 / THE JOURNEY SO FAR</p>
+              <span class="quiet-label"
+                >Ideas become impact through experience.</span
+              >
+            </div>
+            <div class="section-intro">
+              <h2 id="experience-title">
+                Built with purpose.<br />Grown through <em>experience.</em>
+              </h2>
+              <p>
+                From forecasting solar energy to engineering cloud-native ML
+                systems. Always learning. Always building.
+              </p>
+            </div>
+            <div class="experience-grid">
+              <article class="experience-card">
+                <span class="timeline-node"></span>
+                <div class="experience-meta">
+                  <span>01 / INDUSTRY</span><span>2022 — PRESENT</span>
+                </div>
+                <span class="company-monogram">tcs<span>_</span></span>
+                <h3>MLOps Engineer</h3>
+                <h4>Tata Consultancy Services</h4>
+                <p>
+                  Scalable machine learning pipelines, automated model training,
+                  and reliable cloud-based solutions on Google Cloud.
+                </p>
+                <div class="tags">
+                  <span>Python</span><span>GCP</span><span>MLOps</span>
+                </div>
+                <button class="text-button" data-detail="tcs">
+                  The work behind the role <svg><use href="#i-up" /></svg>
+                </button>
+              </article>
+              <article class="experience-card">
+                <span class="timeline-node"></span>
+                <div class="experience-meta">
+                  <span>02 / FOUNDATIONS</span><span>FEB — JUN 2022</span>
+                </div>
+                <span class="company-monogram light">tcs<span>_</span></span>
+                <h3>Software Engineer Intern</h3>
+                <h4>TCS · AVIVA</h4>
+                <p>
+                  Personalized customer experiences through real-time video
+                  messaging and natural language processing.
+                </p>
+                <div class="tags"><span>NLP</span><span>Engineering</span></div>
+                <button class="text-button" data-detail="intern">
+                  Explore the experience <svg><use href="#i-up" /></svg>
+                </button>
+              </article>
+              <article class="experience-card">
+                <span class="timeline-node"></span>
+                <div class="experience-meta">
+                  <span>03 / DISCOVERY</span><span>JUN — AUG 2019</span>
+                </div>
+                <span class="company-monogram university"
+                  >UrFU<span>↗</span></span
+                >
+                <h3>Data Science Intern</h3>
+                <h4>Ural Federal University · Russia</h4>
+                <p>
+                  Solar generation forecasting for a real power plant. Research,
+                  experimentation, and a first-place project award.
+                </p>
+                <div class="tags">
+                  <span>Forecasting</span><span>Research</span>
+                </div>
+                <button class="text-button" data-detail="ural">
+                  Where the curiosity started <svg><use href="#i-up" /></svg>
+                </button>
+              </article>
+            </div>
+            <div class="experience-footnote">
+              <span
+                ><svg><use href="#i-spark" /></svg> Two-time Best Team Member ·
+                TCS</span
+              ><a href="gallery/tejacv.pdf" target="_blank" rel="noopener"
+                >The full story, on paper <svg><use href="#i-up" /></svg
+              ></a>
+            </div>
+          </section>
+          <section
+            id="about"
+            class="panel about-panel"
+            aria-labelledby="about-title"
+            tabindex="-1"
+          >
+            <div class="about-main">
+              <p class="eyebrow">03 / THE HUMAN BEHIND THE SYSTEMS</p>
+              <h2 id="about-title">
+                An engineer’s mind.<br />A researcher’s<br /><em>curiosity.</em>
+              </h2>
+              <p class="about-description">
+                I’m Teja, an MLOps engineer and computer science graduate
+                student. I like connecting the dots between research, reliable
+                systems, and things people actually use.
+              </p>
+              <p class="about-location">
+                <span class="status-dot"></span> Based in Denton, Texas ·
+                Building beyond borders
+              </p>
+              <div class="about-links">
+                <a
+                  class="text-button"
+                  href="https://github.com/PCTEJA/"
+                  target="_blank"
+                  rel="noopener"
+                  >GitHub <svg><use href="#i-up" /></svg></a
+                ><a
+                  class="text-button"
+                  href="https://www.linkedin.com/in/tejapc"
+                  target="_blank"
+                  rel="noopener"
+                  >LinkedIn <svg><use href="#i-up" /></svg></a
+                ><button class="text-button" data-detail="gallery">
+                  Life & milestones <svg><use href="#i-up" /></svg>
+                </button>
+              </div>
+              <div class="skill-cloud">
+                <span>Python</span><span>TensorFlow</span><span>PyTorch</span
+                ><span>GCP</span><span>Docker</span><span>Kubernetes</span
+                ><span>React</span><span>PostgreSQL</span><span>CI/CD</span>
+              </div>
+            </div>
+            <div class="about-aside">
+              <div class="education-block">
+                <p class="eyebrow">ALWAYS A STUDENT</p>
+                <h3>MS, Computer Science</h3>
+                <p>University of North Texas</p>
+                <span>2025 — 2027 · Denton, Texas</span>
+                <div class="education-divider"></div>
+                <h3>BTech, Computer Science</h3>
+                <p>Bharath Institute of Higher Education and Research</p>
+                <span>2018 — 2022 · 9.33 / 10 GPA</span>
+              </div>
+              <button class="research-card" data-detail="research">
+                <span class="eyebrow">CURIOSITY, PUBLISHED</span
+                ><span class="research-number">05<span>publications</span></span
+                ><span>Energy. Machine learning. Real-world questions.</span
+                ><span class="research-cta"
+                  >Explore my research <svg><use href="#i-up" /></svg
+                ></span></button
+              ><button
+                class="text-button certificates-link"
+                data-detail="certificates"
+              >
+                Certifications & recognition <svg><use href="#i-up" /></svg>
+              </button>
+            </div>
+          </section>
+          <section
+            id="contact"
+            class="panel contact-panel"
+            aria-labelledby="contact-title"
+            tabindex="-1"
+          >
+            <p class="eyebrow">04 / THE NEXT CONNECTION</p>
+            <span class="contact-star" aria-hidden="true">✳</span>
+            <h2 id="contact-title">
+              Great things start<br />with a <em>conversation.</em>
+            </h2>
+            <p>
+              Have an interesting problem, an opportunity,<br />or a spark of an
+              idea? Let’s see where it flows.
+            </p>
+            <a class="email-link" href="mailto:pcteja2000@gmail.com"
+              >pcteja2000@gmail.com <svg><use href="#i-up" /></svg
+            ></a>
+            <div class="contact-actions">
+              <button class="button button-white" id="copy-email">
+                <svg><use href="#i-mail" /></svg><span>Copy email</span></button
+              ><a
+                class="button button-primary"
+                href="https://www.linkedin.com/in/tejapc"
+                target="_blank"
+                rel="noopener"
+                >Connect on LinkedIn <svg><use href="#i-up" /></svg
+              ></a>
+            </div>
+            <div class="contact-footer">
+              <span>© <span id="year">2026</span> Teja P C</span
+              ><span>Made with intention. Driven by curiosity.</span
+              ><a href="#home"
+                >Back to the beginning <svg><use href="#i-arrow" /></svg
+              ></a>
+            </div>
+          </section>
         </div>
-        
-        <div class="chatbot-footer">
-            <span class="chatbot-powered">Powered by AI • Ask me anything!</span>
+      </main>
+      <footer class="journey-controls">
+        <div class="scroll-hint">
+          <span class="mouse-icon"></span><span>Scroll to explore</span
+          ><svg><use href="#i-arrow" /></svg>
         </div>
+        <nav class="chapter-nav" aria-label="Portfolio chapters">
+          <a href="#home" aria-label="01, Introduction" aria-current="page"
+            ><i></i><span>Intro</span></a
+          ><a href="#work" aria-label="02, Work"><i></i><span>Work</span></a
+          ><a href="#experience" aria-label="03, Experience"
+            ><i></i><span>Experience</span></a
+          ><a href="#about" aria-label="04, About"><i></i><span>About</span></a
+          ><a href="#contact" aria-label="05, Contact"
+            ><i></i><span>Connect</span></a
+          ><span class="chapter-line"><span id="chapter-progress"></span></span>
+        </nav>
+        <div class="navigation-actions">
+          <button
+            class="motion-toggle"
+            id="motion-toggle"
+            aria-label="Pause ambient animation"
+            aria-pressed="false"
+          >
+            <span>Ⅱ</span></button
+          ><span class="page-count"><b id="page-number">01</b> / 05</span
+          ><button
+            class="nav-arrow"
+            id="previous-panel"
+            aria-label="Previous chapter"
+            disabled
+          >
+            <svg><use href="#i-arrow" /></svg></button
+          ><button class="nav-arrow" id="next-panel" aria-label="Next chapter">
+            <svg><use href="#i-arrow" /></svg>
+          </button>
+        </div>
+      </footer>
     </div>
-
-    <div id="gallery-lightbox" class="lightbox">
-        <span class="lightbox-close">&times;</span>
-        <img class="lightbox-content" id="lightbox-img">
-        <div id="lightbox-caption"></div>
-    </div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script src="app.js"></script>
-
-    <div class="fab-container">
-        <button class="fab" onclick="scrollToTop()">
-            <span class="fab-icon">↑</span>
+    <button
+      class="assistant-toggle"
+      id="assistant-toggle"
+      aria-label="Ask about Teja"
+      aria-expanded="false"
+    >
+      <svg><use href="#i-spark" /></svg>
+    </button>
+    <aside
+      id="assistant-panel"
+      class="assistant-panel"
+      aria-label="Portfolio assistant"
+      hidden
+    >
+      <div class="assistant-header">
+        <span
+          ><svg><use href="#i-spark" /></svg> A little more about Teja</span
+        ><button
+          id="assistant-close"
+          class="icon-button"
+          aria-label="Close assistant"
+        >
+          <svg><use href="#i-close" /></svg>
         </button>
-    </div>
-    
-</body>
+      </div>
+      <div
+        id="chat-messages"
+        class="chat-messages"
+        role="log"
+        aria-live="polite"
+      >
+        <p class="assistant-message">
+          Curious about my work? Ask about my experience, skills, or research.
+        </p>
+      </div>
+      <form id="chat-form">
+        <label class="sr-only" for="chat-input">Your question about Teja</label
+        ><input
+          id="chat-input"
+          maxlength="1000"
+          required
+          placeholder="Ask a question…"
+          autocomplete="off"
+        /><button type="submit" class="icon-button" aria-label="Send question">
+          <svg><use href="#i-arrow" /></svg>
+        </button>
+      </form>
+      <small>AI responses may be imperfect.</small>
+    </aside>
+    <dialog id="detail-dialog" aria-labelledby="dialog-title">
+      <div class="dialog-top">
+        <span class="eyebrow">A CLOSER LOOK</span
+        ><button
+          class="icon-button"
+          id="close-dialog"
+          aria-label="Close details"
+        >
+          <svg><use href="#i-close" /></svg>
+        </button>
+      </div>
+      <div id="dialog-content"></div>
+    </dialog>
+    <div id="toast" class="toast" role="status"></div>
+    <noscript
+      ><style>
+        .journey {
+          overflow: auto;
+        }
+        .panel-track {
+          display: block;
+        }
+        .panel {
+          min-height: 850px;
+          height: auto;
+        }
+        .site-shell {
+          height: auto;
+          overflow: visible;
+        }
+        .journey-controls,
+        .assistant-toggle {
+          display: none;
+        }
+        body {
+          overflow: auto;
+        }
+        .hero-copy {
+          opacity: 1;
+        }
+      </style>
+      <p class="noscript-note">
+        Enable JavaScript for the animated horizontal journey and project
+        interactions. Contact:
+        <a href="mailto:pcteja2000@gmail.com">pcteja2000@gmail.com</a>.
+      </p></noscript
+    >
+  </body>
 </html>
