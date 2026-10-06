@@ -1,7 +1,7 @@
 {
   "name": "portfolio-chatbot",
   "version": "1.0.0",
-  "description": "Intelligent portfolio chatbot with OpenAI integration",
+  "description": "Portfolio assistant with server-side Gemini and Netlify Functions",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
@@ -9,12 +9,13 @@
     "install-client": "npm install",
     "preview": "node scripts/preview.cjs",
     "build": "node scripts/vendor.cjs && node scripts/check.cjs",
-    "test": "node tests/portfolio.cjs && node tests/artwork.cjs && node tests/ribbons.cjs"
+    "test": "node --test tests/chat.cjs && node tests/portfolio.cjs && node tests/artwork.cjs && node tests/ribbons.cjs",
+    "test:chat": "node --test tests/chat.cjs && node tests/chat-ui.cjs"
   },
   "keywords": [
     "portfolio",
     "chatbot",
-    "openai",
+    "gemini",
     "express",
     "node.js"
   ],

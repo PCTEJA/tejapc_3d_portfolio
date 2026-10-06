@@ -309,7 +309,7 @@ const projects = {
       "Connecting an interactive portfolio to a conversational assistant that makes professional experience easier to explore.",
     role: "Full-Stack Developer",
     focus: "Experience · APIs · AI",
-    tags: ["JavaScript", "Node.js", "Express", "OpenAI"],
+    tags: ["JavaScript", "Node.js", "Netlify", "Gemini"],
     next: "ai",
     nextLabel: "AI & MLOPS",
     nextTitle: "From documents to usable data",
@@ -654,6 +654,7 @@ $("#assistant-panel").addEventListener("keydown", (event) => {
     setAssistant(false);
   }
 });
+const conversationHistory = [];
 function chatMessage(message, role) {
   const bubble = document.createElement("p");
   bubble.className = `${role}-message`;
@@ -678,14 +679,20 @@ $("#chat-form").addEventListener("submit", async (event) => {
     const response = await fetch("/chat", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message }),
+      body: JSON.stringify({ message, conversationHistory }),
       signal: controller.signal,
     });
+    if (response.status === 429) {
+      responseBubble.textContent = "The assistant is busy or has reached its free-tier limit. Please try again in a minute, or contact pcteja2000@gmail.com.";
+      return;
+    }
     if (!response.ok) throw new Error("Assistant unavailable");
     const result = await response.json();
     if (typeof result.response !== "string" || !result.response.trim())
       throw new Error("Empty response");
     responseBubble.textContent = result.response;
+    conversationHistory.push({ role: "user", content: message }, { role: "assistant", content: result.response.slice(0, 3000) });
+    conversationHistory.splice(0, Math.max(0, conversationHistory.length - 8));
   } catch {
     responseBubble.textContent =
       "The AI assistant is unavailable right now. You can still explore my work and research, or reach me at pcteja2000@gmail.com.";

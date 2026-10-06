@@ -1,0 +1,12 @@
+[build]
+  base = "."
+  command = "npm run build"
+  publish = "public"
+
+[build.environment]
+  NODE_VERSION = "22"
+  NPM_FLAGS = "--include=dev"
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"

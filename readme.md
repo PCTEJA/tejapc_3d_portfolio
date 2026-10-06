@@ -10,7 +10,19 @@ npm run preview
 
 Open http://127.0.0.1:4173. The static preview uses only Node.js and does not need dependencies or API credentials.
 
-The existing Express application remains available with `npm start` (or `npm run dev`). Install dependencies and configure `OPENAI_API_KEY` in your local environment to use its `/chat` endpoint. The frontend now calls this same-origin endpoint; the static preview deliberately returns an unavailable response. No live assistant request is needed to view or test the design.
+For the live assistant locally, copy `.env.example` to `.env`, set `GEMINI_API_KEY`, and run `npm start`. The static preview deliberately returns an unavailable response. Never put a key in `public/` or commit an `.env` file.
+
+## Gemini assistant on Netlify
+
+`netlify.toml` builds from the repository root and publishes only `public/`. The server-side function at `netlify/functions/chat.mjs` handles `/chat`; its shared logic is in `lib/chat.cjs`. Keep professional facts current in `lib/resume.cjs` (sourced from the portfolio). Express and the legacy API entry point use the same implementation.
+
+In Google AI Studio, create a dedicated project **without billing enabled**, confirm it shows **Free tier**, and create its API key. A key from a paid project uses paid pricing even for models that have a free tier. The default model is `gemini-3.5-flash-lite`; override with `GEMINI_MODEL` if needed. Google controls model availability and quota; the application cannot force an API project onto the free tier.
+
+In Netlify → teja3d → Environment variables, store `GEMINI_API_KEY` for the production context, preferably with Functions-only scope and marked secret when the plan supports those controls. Do not store it in `netlify.toml`, GitHub, frontend code, build arguments or logs. Redeploy after changing environment values. Local `.env*`, Netlify state and key files are ignored by Git. Only `.env.example`, with no key value, is tracked.
+
+The function bounds input size, validates conversation roles, limits output tokens, times out upstream calls, rejects cross-site browser requests and configures five requests per minute per IP/domain at Netlify's edge. This mitigates abuse but does not guarantee uninterrupted quota or impose a global spending cap. Leave Google billing disabled to remain on the free tier. No prompts, model replies or credentials are logged by this application. Conversation history stays in the browser's memory and is sent to Google for follow-up answers. Google's free-tier terms permit use of content to improve products; visitors should avoid sensitive information.
+
+`npm run test:chat` verifies validation, server-only authentication, history mapping, upstream errors and the Netlify handler without a real key. A production smoke test is still needed after key setup and deployment.
 
 ## Interaction
 

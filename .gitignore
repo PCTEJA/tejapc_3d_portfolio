@@ -1,4 +1,9 @@
 .env
+.env.*
+!.env.example
+.netlify/
+*.pem
+*.key
 node_modules/
 .vercel
 .artifacts/

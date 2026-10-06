@@ -2,5 +2,8 @@
 /node_modules
 .dockerignore
 .env
+.env.*
+.netlify
+.artifacts
 Dockerfile
 fly.toml
