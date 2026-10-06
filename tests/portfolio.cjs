@@ -40,8 +40,7 @@ const passed = (label) => {
     if (response.status() >= 400 && !response.url().endsWith("/chat"))
       failedAssets.push(`${response.status()} ${response.url()}`);
   });
-  // Count application animation callbacks without creating an animation loop
-  // in the test itself. Ambient decoration should be handled by the compositor.
+  // Only the visible, unpaused 3D scene should continuously request frames.
   await page.addInitScript(() => {
     window.__animationCallbacks = 0;
     const requestFrame = window.requestAnimationFrame.bind(window);
@@ -99,9 +98,8 @@ const passed = (label) => {
   assert.ok(initialResources.bytes < 750000, `Initial transfer exceeded 750 KB: ${initialResources.bytes}`);
   assert.deepEqual(initialResources.external, [], "Initial rendering must not depend on external font services");
   assert.equal(initialResources.images.some((url) => /teja-portrait\.png/.test(url)), false);
-  assert.equal(await page.locator("canvas").count(), 0);
-  await expectIdle("Introduction");
-  passed("Responsive artwork loads below the 750 KB startup budget without idle JavaScript animation");
+  await page.waitForSelector('.ribbon-canvas[data-chapter="home"]');
+  passed("Responsive artwork and live ribbon shader load below the 750 KB startup budget");
 
   await page.mouse.move(700, 420);
   await page.mouse.wheel(0, 120);
@@ -111,7 +109,15 @@ const passed = (label) => {
   assert.equal(await page.locator("#work .hero-portrait").count(), 0);
   await page.locator("#work .reference-work-art").evaluateAll((images) => Promise.all(images.map((img) => img.decode())));
   assert.ok(await page.locator(".scene-frame").evaluate(el => el.clientWidth > 600), "Work scene must retain visible dimensions");
-  await expectIdle("Work chapter");
+  await page.waitForSelector(".scene-live canvas");
+  const before3D = await page.evaluate(() => window.__animationCallbacks);
+  await page.waitForTimeout(350);
+  assert.ok(await page.evaluate(() => window.__animationCallbacks) > before3D + 2, "The visible pipeline must animate");
+  const canvasBefore = await page.locator(".scene-canvas").screenshot();
+  await page.waitForTimeout(180);
+  assert.notDeepEqual(await page.locator(".scene-canvas").screenshot(), canvasBefore, "3D must visibly change between frames");
+  await page.getByRole("button", { name: "Replay project flow" }).click();
+  passed("Three.js loads on demand and the project flow animates and replays");
   await page.screenshot({ path: path.join(output, "desktop-work.png") });
   passed("A small vertical mouse-wheel gesture travels sideways to work");
 
@@ -249,7 +255,7 @@ const passed = (label) => {
   await page.getByRole("button", { name: "Resume ambient animation" }).click();
   await page.getByRole("link", { name: "Teja PC, home" }).click();
   await chapter(0);
-  await expectIdle("Resumed chapter navigation");
+  await page.waitForSelector('.ribbon-canvas[data-chapter="home"]');
   passed("Keyboard chapter navigation and usable navigation while animation is paused");
 
   await page.context().grantPermissions(["clipboard-read", "clipboard-write"]);
@@ -321,7 +327,7 @@ const passed = (label) => {
   assert.deepEqual(artworkBounds, [291, 260, 1381, 379], "Work illustration must align with the supplied reference");
   await page.getByRole("link", { name: "Teja PC, home" }).click();
   await chapter(0);
-  await expectIdle("Before checking the transition artwork");
+  await page.waitForSelector('.ribbon-canvas[data-chapter="home"]');
   await page.evaluate(() => { document.querySelector("#panel-track").scrollLeft = innerWidth / 2; });
   await page.waitForFunction(() => +getComputedStyle(document.querySelector(".journey-flow-bridge")).opacity > .99);
   assert.equal(await page.locator(".journey-flow-bridge").evaluate(el => getComputedStyle(el).pointerEvents), "none");
@@ -469,8 +475,50 @@ const passed = (label) => {
   await chapter(0);
   await page.locator('.chapter-nav a[href="#experience"]').click();
   await chapter(2);
-  await expectIdle("Visible document after resume");
+  await page.waitForSelector('.ribbon-canvas[data-chapter="experience"]');
   passed("Hidden-document lifecycle cancels animation work and navigation recovers");
+
+  // Exercise renderer-specific lifecycle and graceful fallback independently.
+  const scenePage = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+  scenePage.on("pageerror", error => errors.push(error.message));
+  await scenePage.goto(`http://127.0.0.1:${port}/#work`);
+  await scenePage.waitForSelector(".scene-live canvas");
+  await scenePage.getByRole("button", { name: "Pause ambient animation" }).click();
+  await scenePage.waitForTimeout(150);
+  const frozen = await scenePage.locator("canvas").screenshot();
+  await scenePage.waitForTimeout(200);
+  assert.deepEqual(await scenePage.locator("canvas").screenshot(), frozen, "Pause must freeze rendered pixels");
+  assert.equal(await scenePage.locator(".scene-replay").isDisabled(), true);
+  await scenePage.getByRole("button", { name: "Resume ambient animation" }).click();
+  for (const key of ["data", "fullstack", "ai", "fullstack", "data"]) {
+    await scenePage.locator(`#tab-${key}`).click();
+    assert.equal(await scenePage.locator("canvas").count(), 1, "Tab changes must reuse the renderer");
+    assert.equal(await scenePage.locator("canvas").getAttribute("data-project"), key);
+  }
+  await scenePage.evaluate(() => document.querySelector("canvas").getContext("webgl2").getExtension("WEBGL_lose_context").loseContext());
+  await scenePage.waitForFunction(() => !document.querySelector(".scene-live"));
+  assert.equal(await scenePage.locator(".reference-work-art").evaluate(el => getComputedStyle(el).opacity), "1");
+  await scenePage.locator('[data-stage="engine"]').click();
+  assert.equal(await scenePage.locator("#detail-dialog").evaluate(el => el.open), true);
+  await scenePage.close();
+  passed("3D pause freezes pixels, project changes reuse one canvas, and context loss restores usable artwork");
+
+  const fallback = await browser.newPage();
+  fallback.on("pageerror", error => errors.push(error.message));
+  await fallback.addInitScript(() => {
+    const original = HTMLCanvasElement.prototype.getContext;
+    HTMLCanvasElement.prototype.getContext = function(type, ...args) {
+      return type.startsWith("webgl") ? null : original.call(this, type, ...args);
+    };
+  });
+  await fallback.goto(`http://127.0.0.1:${port}/#work`);
+  await fallback.waitForTimeout(800);
+  assert.equal(await fallback.locator("canvas").count(), 0);
+  assert.equal(await fallback.locator(".reference-work-art").evaluate(el => getComputedStyle(el).opacity), "1");
+  await fallback.locator('[data-stage="input"]').click();
+  assert.equal(await fallback.locator("#detail-dialog").evaluate(el => el.open), true);
+  await fallback.close();
+  passed("Browsers without WebGL retain project artwork and functional stage controls");
 
   assert.deepEqual(errors, []);
   assert.deepEqual(failedAssets, []);

@@ -2,9 +2,9 @@ const fs = require("node:fs");
 const path = require("node:path");
 const { execFileSync } = require("node:child_process");
 const root = path.resolve(__dirname, "../public");
-execFileSync(process.execPath, ["--check", path.join(root, "app.js")], {
-  stdio: "inherit",
-});
+for (const file of ["app.js", "motion.js", "project-scene.js", "ribbon-flow.js", "ribbon-shader.js"]) {
+  execFileSync(process.execPath, ["--check", path.join(root, file)], { stdio: "inherit" });
+}
 const html = fs.readFileSync(path.join(root, "index.html"), "utf8");
 const ids = [...html.matchAll(/\bid="([^"]+)"/g)].map((match) => match[1]);
 if (new Set(ids).size !== ids.length) throw new Error("Duplicate HTML IDs");
@@ -23,7 +23,7 @@ for (const [, candidates] of html.matchAll(/\b(?:srcset|imagesrcset)="([^"]+)"/g
       throw new Error(`Missing responsive image: ${reference}`);
   }
 }
-const css = ["style.css", "reference.css", "profile.css"]
+const css = ["style.css", "reference.css", "profile.css", "motion.css"]
   .map((file) => fs.readFileSync(path.join(root, file), "utf8"))
   .join("\n");
 for (const [, reference] of css.matchAll(/url\(["']?([^"')]+)["']?\)/g)) {

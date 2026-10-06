@@ -8,8 +8,8 @@
     "dev": "nodemon server.js",
     "install-client": "npm install",
     "preview": "node scripts/preview.cjs",
-    "build": "node scripts/check.cjs",
-    "test": "node tests/portfolio.cjs"
+    "build": "node scripts/vendor.cjs && node scripts/check.cjs",
+    "test": "node tests/portfolio.cjs && node tests/artwork.cjs && node tests/ribbons.cjs"
   },
   "keywords": [
     "portfolio",
@@ -25,6 +25,7 @@
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "openai": "^4.20.1",
+    "three": "0.180.0",
     "vercel": "^46.0.2"
   },
   "devDependencies": {

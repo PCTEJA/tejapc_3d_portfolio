@@ -1,5 +1,9 @@
 # Reference-derived artwork
 
+## PNG-backed interactive rendering
+
+The Work renderer uses `reference-work-art.png`, `reference-data-art.png`, and `reference-fullstack-art.png` directly as sRGB textures on a subdivided Three.js relief surface. The masters are unmodified. Their original glass, ribbons, objects, lettering and lighting supply every visible surface; there are no substitute boxes, processors, orbit rings or particles. Small, smoothly blended depth offsets respond to pointer position, stage focus and replay. Captions and outer boundaries remain anchored. This is image-based 2.5D relief, not a full 360-degree model reconstructed from a single view. Existing WebP copies remain visible until the selected PNG finishes loading and whenever rendering fails. `tests/artwork.cjs` compares paused WebGL renders against the PNGs and verifies mobile alignment, loading races and fallback behavior.
+
 ## About and Experience source recovery
 
 Both chapters use artwork extracted from the user-supplied 1672×941 reference frames, with built-in imagegen used only to recover artwork occluded by interface elements. Visible source ribbon regions were composited back onto the recovered backgrounds. Exact source pixels are retained in those regions; hidden portions are reconstructed and are not claimed to be pixel-exact. Main copy, principles, statistics, company buttons and discipline tabs are semantic HTML.

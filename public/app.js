@@ -62,11 +62,12 @@ function syncChapterPosition() {
       link.setAttribute("aria-current", "page");
     else link.removeAttribute("aria-current");
   });
+  document.dispatchEvent(new CustomEvent("portfolio:chapter", { detail: panels[activePanel].id }));
 }
 
 // Keep the document itself still. Wheel input becomes movement along the chapter rail.
 // Small screens retain native horizontal swipe and can scroll tall chapter content vertically.
-// The only animation frame loop runs while a requested chapter transition is moving.
+// Chapter navigation stops requesting frames once it reaches its destination.
 function animateScroll(now) {
   const elapsed = scrollTimestamp ? Math.min(now - scrollTimestamp, 64) : 16;
   scrollTimestamp = now;
@@ -201,10 +202,9 @@ window.addEventListener("hashchange", () => {
   if (index >= 0) goToPanel(index);
 });
 
-// Pre-rendered artwork uses compositor-friendly CSS transforms. There is no idle
-// JavaScript rendering loop, and only the current chapter's ambience is enabled.
+// The motion layer shares this state, including visibility and OS preferences.
 function updateMotion() {
-  const paused = ambientPaused || document.hidden;
+  const paused = ambientPaused || reducedMotion.matches || document.hidden;
   root.dataset.motionPaused = String(paused);
   document.body.classList.toggle("motion-paused", paused);
   motionToggle.setAttribute("aria-pressed", String(ambientPaused));
@@ -213,6 +213,7 @@ function updateMotion() {
     ambientPaused ? "Resume ambient animation" : "Pause ambient animation",
   );
   $("span", motionToggle).textContent = ambientPaused ? "▷" : "Ⅱ";
+  document.dispatchEvent(new CustomEvent("portfolio:motion"));
   if (document.hidden) {
     clearTimeout(settleTimer);
     settleTimer = undefined;
@@ -381,14 +382,7 @@ function selectProject(key) {
   $("#next-project strong").textContent = project.nextTitle;
   $("#next-project > span:nth-child(2) > span").textContent =
     project.nextDescription;
-  if (!reducedMotion.matches && !ambientPaused)
-    $("#project-visual").animate(
-      [
-        { opacity: 0, transform: "translateY(8px)" },
-        { opacity: 1, transform: "translateY(0)" },
-      ],
-      { duration: 450, easing: "ease-out" },
-    );
+  document.dispatchEvent(new CustomEvent("portfolio:project", { detail: key }));
 }
 $$("[data-project]").forEach((tab) =>
   tab.addEventListener("click", () => selectProject(tab.dataset.project)),
@@ -438,6 +432,7 @@ function showDetails(title, html) {
   dialog.showModal();
   dialog.scrollTop = 0;
   $("#close-dialog").focus();
+  document.dispatchEvent(new CustomEvent("portfolio:dialog"));
 }
 $("#close-dialog").addEventListener("click", () => dialog.close());
 dialog.addEventListener("click", (event) => {
@@ -530,6 +525,7 @@ function selectExperience(key, reveal = false) {
     button.setAttribute("aria-selected", String(active));
     button.tabIndex = active ? 0 : -1;
   });
+  document.dispatchEvent(new CustomEvent("portfolio:experience"));
   if (reveal && mobile.matches) $("#experience").scrollTo({ top: $(".experience-sidebar").offsetHeight, behavior: reducedMotion.matches ? "instant" : "smooth" });
 }
 $$("[data-company]").forEach(button => button.addEventListener("click", () => selectExperience(button.dataset.company, true)));
@@ -646,6 +642,7 @@ function setAssistant(open) {
   $("#assistant-toggle").setAttribute("aria-expanded", String(open));
   if (open) $("#chat-input").focus({ preventScroll: true });
   else $("#assistant-toggle").focus({ preventScroll: true });
+  if (open) document.dispatchEvent(new CustomEvent("portfolio:assistant"));
 }
 $("#assistant-toggle").addEventListener("click", () =>
   setAssistant($("#assistant-panel").hidden),
