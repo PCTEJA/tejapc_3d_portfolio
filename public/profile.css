@@ -7,7 +7,6 @@
 @media (min-width: 761px) and (orientation: landscape) and (max-aspect-ratio: 8/5) {
   .reference-intro-art img { position: absolute; bottom: 0; height: auto; width: 100%; }
   .reference-work-art { object-fit: contain; }
-  .about-person img { height: auto; }
 }
 @media ((max-width: 760px) or ((max-width: 1024px) and (orientation: portrait))) {
   .hero-panel { overflow-x: hidden; overflow-y: auto; }
@@ -98,7 +97,39 @@
 .about-editorial-heading h2 { font-weight: 800; line-height: 1; letter-spacing: -.055em; }
 .about-editorial-heading h2 em { font-weight: 400; font-size: 1.06em; letter-spacing: -.05em; }
 .about-person { margin: 0; }
-.about-person img { display: block; width: 100%; height: auto; border-radius: 28px; }
+.about-portrait-glass {
+  position: relative;
+  aspect-ratio: 372 / 315;
+  overflow: hidden;
+  border-radius: 28px;
+  background:
+    radial-gradient(ellipse at 12% 8%, #ffffffd9, transparent 62%),
+    radial-gradient(ellipse at 90% 85%, #c9b8ff70, transparent 70%),
+    linear-gradient(135deg, #f4f0ff9e, #e9e5ff66 55%, #ffffff80);
+  -webkit-backdrop-filter: blur(24px) saturate(1.15);
+  backdrop-filter: blur(24px) saturate(1.15);
+  box-shadow: 0 14px 36px #64529c1a;
+}
+/* Keep the sheen behind the transparent portrait so the face stays crisp. */
+.about-portrait-glass::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(125deg, #ffffffa6, #ffffff26 32%, transparent 46%, #ffffff40 48%, transparent 65%);
+  border: 1px solid #ffffffbf;
+  border-radius: inherit;
+  box-shadow: inset 0 1px 0 #fff, inset 0 -1px 12px #ffffff66;
+}
+.about-portrait-glass img {
+  position: absolute;
+  top: -4.2%;
+  left: -12.5%;
+  display: block;
+  width: 125%;
+  max-width: none;
+  height: auto;
+}
 .about-person figcaption strong, .about-person figcaption span { display: block; }
 .about-person figcaption span { color: #717497; }
 .about-story h3 { font-weight: 800; line-height: 1.12; letter-spacing: -.035em; }
@@ -176,7 +207,7 @@
   .about-editorial-heading { left: calc(71 * var(--u)); top: calc(34 * var(--v)); }
   .about-editorial-heading h2 { font-size: calc(82 * var(--u)); margin: calc(18 * var(--v)) 0 0; }
   .about-person { left: calc(118 * var(--u)); top: calc(247 * var(--v)); width: calc(372 * var(--u)); }
-  .about-person img { height: calc(315 * var(--v)); object-fit: cover; object-position: top; border-radius: calc(28 * var(--u)); }
+  .about-portrait-glass { height: calc(315 * var(--v)); aspect-ratio: auto; border-radius: calc(28 * var(--u)); }
   .about-person figcaption { padding-top: calc(5 * var(--v)); }
   .about-person figcaption strong { font-size: calc(25 * var(--u)); line-height: 1.3; }
   .about-person figcaption span { font-size: calc(19 * var(--u)); }
@@ -246,6 +277,7 @@
   .about-person figcaption strong { font-size: 22px; }
   .about-person figcaption span { font-size: 15px; }
   .about-story { padding: 22px; border-radius: 20px; }
+  .about-story-copy::before { inset: -20px -22px -28px; }
   .about-story h3 { font-size: 25px; margin: 0; }
   .about-story-copy > p { font-size: 16px; margin-top: 14px; }
   .about-socials { margin-top: 22px; gap: 10px; }
