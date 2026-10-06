@@ -1552,28 +1552,61 @@ a {
   position: fixed;
   right: 23px;
   bottom: calc(var(--footer) + 20px);
-  width: 41px;
-  height: 41px;
+  width: 54px;
+  height: 54px;
   display: grid;
   place-items: center;
   z-index: 12;
-  background: #fff;
-  border: 1px solid #e7e3f6;
-  border-radius: 50%;
-  box-shadow: 0 4px 18px #403e7912;
-  color: #7954eb;
+  background: linear-gradient(145deg, #9275f4 0%, #7650de 48%, #5331b6 100%);
+  border: 2px solid #fff;
+  border-radius: 19px;
+  box-shadow: 0 6px 20px #5535ad30, inset 0 1px 1px #ffffff55;
+  color: #fff;
+  transition: transform .2s ease, box-shadow .2s ease;
 }
 .assistant-toggle:hover {
-  transform: rotate(20deg);
-  box-shadow: 0 7px 22px #7854eb25;
+  transform: translateY(-3px);
+  box-shadow: 0 9px 26px #5535ad45, inset 0 1px 1px #ffffff55;
 }
 .assistant-toggle svg {
-  width: 20px;
-  height: 20px;
+  grid-area: 1 / 1;
+  width: 31px;
+  height: 31px;
+  stroke-width: 1.8;
+  transition: opacity .18s ease, transform .18s ease;
+}
+.assistant-toggle:focus-visible {
+  outline: 3px solid #5331b6;
+  outline-offset: 4px;
+}
+.assistant-toggle:active { transform: translateY(0) scale(.96); }
+.assistant-toggle .assistant-dismiss-icon { opacity: 0; transform: scale(.6); width: 24px; height: 24px; }
+.assistant-toggle[aria-expanded="true"] .assistant-launch-icon { opacity: 0; transform: scale(.6); }
+.assistant-toggle[aria-expanded="true"] .assistant-dismiss-icon { opacity: 1; transform: scale(1); }
+.assistant-tooltip {
+  position: absolute;
+  right: calc(100% + 12px);
+  padding: 8px 12px;
+  border: 1px solid #e7e0f4;
+  border-radius: 10px;
+  background: #fff;
+  color: #49356e;
+  box-shadow: 0 4px 16px #403e7912;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateX(4px);
+  transition: opacity .18s ease, transform .18s ease;
+}
+.assistant-toggle:focus-visible[aria-expanded="false"] .assistant-tooltip { opacity: 1; transform: none; }
+@media (hover: hover) {
+  .assistant-toggle:hover[aria-expanded="false"] .assistant-tooltip { opacity: 1; transform: none; }
 }
 .assistant-panel {
   position: fixed;
-  bottom: calc(var(--footer) + 71px);
+  bottom: calc(var(--footer) + 86px);
   right: 23px;
   width: 350px;
   max-width: calc(100vw - 32px);
@@ -1599,7 +1632,8 @@ a {
   font-weight: 600;
 }
 .assistant-header > span svg {
-  width: 18px;
+  width: 25px;
+  height: 25px;
   color: #7954eb;
 }
 .icon-button {
@@ -2843,15 +2877,17 @@ body.motion-paused *:after {
   .assistant-toggle {
     right: 15px;
     bottom: calc(var(--footer) + 12px);
-    width: 33px;
-    height: 33px;
+    width: 48px;
+    height: 48px;
+    border-radius: 16px;
   }
   .assistant-toggle svg {
-    width: 16px;
+    width: 28px;
+    height: 28px;
   }
   .assistant-panel {
     right: 15px;
-    bottom: calc(var(--footer) + 54px);
+    bottom: calc(var(--footer) + 72px);
   }
   dialog {
     padding: 23px;
@@ -3440,7 +3476,7 @@ body.motion-paused *:after {
   .next-project { padding: 14px 12px; }
   .next-project strong { font-size: 13px; }
   .next-project > span > span { font-size: 11px; }
-  .assistant-toggle { width: 38px; height: 38px; }
+  .assistant-toggle { width: 48px; height: 48px; }
 }
 @media ((min-width: 1025px) or ((min-width: 761px) and (orientation: landscape))) and (max-height: 600px) {
   .hero-panel { overflow-y: auto; min-height: 0; }

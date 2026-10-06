@@ -136,7 +136,7 @@
   .nav-arrow { width: calc(48 * var(--u)); height: calc(48 * var(--u)); }
   .nav-arrow svg { width: calc(23 * var(--u)); height: calc(23 * var(--u)); }
   /* Reserve the far corner without sitting over cards or chapter controls. */
-  .assistant-toggle { right: calc(14 * var(--u)); bottom: calc(var(--footer) + 10 * var(--u)); width: calc(34 * var(--u)); height: calc(34 * var(--u)); opacity: .85; }
+  .assistant-toggle { right: max(16px, calc(14 * var(--u))); bottom: calc(var(--footer) + 16px); }
 }
 @media ((min-width: 1025px) or ((min-width: 761px) and (orientation: landscape))) and (max-height: 800px) and (min-height: 601px) {
   .work-sidebar { min-height: 0; padding-bottom: calc(24 * var(--v)); }

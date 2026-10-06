@@ -61,6 +61,11 @@
         <symbol id="i-spark" viewBox="0 0 24 24">
           <path d="m12 2 2.5 7.5L22 12l-7.5 2.5L12 22l-2.5-7.5L2 12l7.5-2.5Z" />
         </symbol>
+        <symbol id="i-assistant" viewBox="0 0 32 32">
+          <path d="M20 6H11a6 6 0 0 0-6 6v8a6 6 0 0 0 6 6h1l5 3v-3h4a6 6 0 0 0 6-6v-5" />
+          <path d="M12 13v2m8-2v2m-8 5c2.2 2 5.8 2 8 0" />
+          <path d="m26 3 1.2 3.8L31 8l-3.8 1.2L26 13l-1.2-3.8L21 8l3.8-1.2Z" fill="currentColor" stroke="none" />
+        </symbol>
         <symbol id="i-book" viewBox="0 0 24 24"><path d="M12 5C8 2 4 3 2 4v16c3-2 7-2 10 0 3-2 7-2 10 0V4c-3-1-7-2-10 1v15"/></symbol>
         <symbol id="i-check" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="18" rx="4"/><path d="m6 11 4 4 8-8"/></symbol>
         <symbol id="i-cloud" viewBox="0 0 24 24"><path d="M6 19h13a4 4 0 0 0 0-8 7 7 0 0 0-14-1 4.5 4.5 0 0 0 1 9Z"/></symbol>
@@ -433,8 +438,11 @@
       id="assistant-toggle"
       aria-label="Ask about Teja"
       aria-expanded="false"
+      aria-controls="assistant-panel"
     >
-      <svg><use href="#i-spark" /></svg>
+      <svg class="assistant-launch-icon" aria-hidden="true"><use href="#i-assistant" /></svg>
+      <svg class="assistant-dismiss-icon" aria-hidden="true"><use href="#i-close" /></svg>
+      <span class="assistant-tooltip" aria-hidden="true">Ask Teja</span>
     </button>
     <aside
       id="assistant-panel"
@@ -444,7 +452,7 @@
     >
       <div class="assistant-header">
         <span
-          ><svg><use href="#i-spark" /></svg> A little more about Teja</span
+          ><svg aria-hidden="true"><use href="#i-assistant" /></svg> A little more about Teja</span
         ><button
           id="assistant-close"
           class="icon-button"
