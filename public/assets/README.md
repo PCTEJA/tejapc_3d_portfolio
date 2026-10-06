@@ -1,5 +1,10 @@
 # Local artwork
 
+## Current reference extraction
+
+The active Intro and AI Work artwork now comes from the supplied page references. See [REFERENCE-ART.md](REFERENCE-ART.md) for exact crop coordinates, saved PNGs, editing prompts and fidelity evidence. `reference.css` controls the measured layout. Earlier generated assets below remain retained source material; they are no longer the desktop Intro or AI Work scene.
+
+
 The page uses locally hosted, pre-rendered artwork with responsive WebP delivery. The original PNGs remain available as source assets. Decorative ribbon motion uses small CSS transforms rather than redrawing the surface on a full-page canvas.
 
 ## Portrait source
@@ -31,9 +36,9 @@ WebP derivatives were produced from the PNG sources with Pillow using Lanczos re
 
 Use width-descriptor `srcset` with layout-specific `sizes`. Portrait candidates are `teja-portrait-640.webp 640w, teja-portrait-960.webp 960w`; ribbon candidates are `flow-ribbon-1200.webp 1200w, flow-ribbon-2172.webp 2172w`. Preserve intrinsic aspect ratios with `width`/`height` attributes. Avoid requesting the retained PNGs on the normal page path. At the largest candidate sizes, the two WebP assets total 307,524 bytes, approximately 88% less than their PNG sources; actual selected requests depend on viewport and device pixel ratio.
 
-## Active generated artwork
+## Earlier generated artwork (retained)
 
-Following Teja's request for a new ribbon PNG and a closer Work-page match, the live site now uses `ribbon-flow-v2` and `work-extraction-scene`. Both transparent 2172×724 PNG masters were created with the built-in imagegen tool. Full prompts and provenance are in [GENERATED-ART.md](GENERATED-ART.md).
+Following Teja's request for a new ribbon PNG and a closer Work-page match, the preceding iteration used `ribbon-flow-v2` and `work-extraction-scene`. Both transparent 2172×724 PNG masters were created with the built-in imagegen tool. Full prompts and provenance are in [GENERATED-ART.md](GENERATED-ART.md).
 
 | Active artwork derivative | Dimensions | Bytes |
 | --- | --- | ---: |

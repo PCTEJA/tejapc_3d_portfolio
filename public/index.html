@@ -10,12 +10,11 @@
     />
     <title>Teja PC — Human curiosity. Engineered impact.</title>
     <link rel="icon" href="tab_icon.png" />
-    <link rel="preload" as="image" href="assets/teja-portrait-960.webp"
-      imagesrcset="assets/teja-portrait-640.webp 640w, assets/teja-portrait-960.webp 960w"
-      imagesizes="(max-width: 760px) 380px, (max-height: 800px) 650px, 760px" fetchpriority="high" />
+    <link rel="preload" as="image" href="assets/reference-intro-art-1672.webp" media="(min-width: 761px)" fetchpriority="high" />
     <link rel="preload" as="font" type="font/woff2" href="assets/fonts/manrope-latin.woff2" crossorigin />
     <link rel="preload" as="font" type="font/woff2" href="assets/fonts/dm-sans-latin.woff2" crossorigin />
     <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="reference.css" />
     <script src="app.js" defer></script>
   </head>
   <body>
@@ -83,6 +82,7 @@
         class="journey"
         aria-label="Portfolio chapters. Scroll or swipe sideways to explore."
       >
+        <div class="journey-flow-bridge" aria-hidden="true"><img src="assets/reference-flow-bridge.webp" width="2060" height="763" alt="" decoding="async" /></div>
         <div class="panel-track" id="panel-track">
           <section
             id="home"
@@ -90,12 +90,16 @@
             aria-labelledby="hero-title"
             tabindex="-1"
           >
+            <picture class="reference-intro-art">
+              <source media="(min-width: 761px)" srcset="assets/reference-intro-art-1672.webp" />
+              <img src="assets/reference-intro-art-960.webp" width="1672" height="760" alt="Teja P C in a navy suit, surrounded by flowing iridescent ribbons" fetchpriority="high" decoding="async" />
+            </picture>
             <div class="hero-flow-placement" aria-hidden="true">
               <div class="flow-ambient">
-                <img src="assets/ribbon-flow-v2-2172.webp"
-                  srcset="assets/ribbon-flow-v2-1200.webp 1200w, assets/ribbon-flow-v2-2172.webp 2172w"
+                <img src="assets/reference-flow-bridge-2060.webp"
+                  srcset="assets/reference-flow-bridge-1200.webp 1200w, assets/reference-flow-bridge-2060.webp 2060w"
                   sizes="(max-width: 760px) 850px, 116vw"
-                  width="2172" height="724" alt="" decoding="async" />
+                  width="2060" height="763" alt="" decoding="async" loading="lazy" />
               </div>
             </div>
             <div class="hero-copy">
@@ -136,17 +140,18 @@
                 width="1254"
                 height="1254"
                 alt="Teja P C in a navy suit and blue tie"
-                fetchpriority="high"
+                loading="lazy"
+                decoding="async"
               />
             </div>
             <div class="flow-pin pin-data"><span>DATA</span><i></i></div>
             <div class="flow-pin pin-ai"><span>AI</span><i></i></div>
             <div class="flow-pin pin-product"><span>PRODUCT</span><i></i></div>
             <div class="hero-front-flow" aria-hidden="true">
-              <img src="assets/ribbon-flow-v2-2172.webp"
-                srcset="assets/ribbon-flow-v2-1200.webp 1200w, assets/ribbon-flow-v2-2172.webp 2172w"
+              <img src="assets/reference-flow-bridge-2060.webp"
+                srcset="assets/reference-flow-bridge-1200.webp 1200w, assets/reference-flow-bridge-2060.webp 2060w"
                 sizes="(max-width: 760px) 850px, 116vw"
-                width="2172" height="724" alt="" decoding="async" />
+                width="2060" height="763" alt="" decoding="async" loading="lazy" />
             </div>
             <div class="hero-projects">
               <button class="mini-project" data-project-jump="ai">
@@ -266,10 +271,11 @@
                 </p>
               </div>
               <div
-                class="project-visual"
+                class="project-visual reference-scene-active"
                 id="project-visual"
                 aria-label="Interactive document processing pipeline"
               >
+                <img class="reference-work-art" src="assets/reference-work-art-1381.webp" width="1381" height="379" alt="Invoices, receipts and forms pass through AI extraction into validated structured data, with JSON, CSV, database and API outputs." decoding="async" loading="lazy" />
                 <div class="scene-frame">
                   <img class="work-scene" src="assets/work-extraction-scene-1200.webp"
                     srcset="assets/work-extraction-scene-1200.webp 1200w, assets/work-extraction-scene-2172.webp 2172w"
@@ -277,10 +283,10 @@
                     width="2172" height="724" alt="" aria-hidden="true" decoding="async" loading="lazy" />
                 <div class="diagram-flow" aria-hidden="true">
                   <div class="flow-ambient">
-                    <img src="assets/ribbon-flow-v2-2172.webp"
-                      srcset="assets/ribbon-flow-v2-1200.webp 1200w, assets/ribbon-flow-v2-2172.webp 2172w"
+                    <img src="assets/reference-flow-bridge-2060.webp"
+                      srcset="assets/reference-flow-bridge-1200.webp 1200w, assets/reference-flow-bridge-2060.webp 2060w"
                       sizes="(max-width: 760px) 850px, 116vw"
-                      width="2172" height="724" alt="" decoding="async" loading="lazy" />
+                      width="2060" height="763" alt="" decoding="async" loading="lazy" />
                   </div>
                 </div>
                 <button

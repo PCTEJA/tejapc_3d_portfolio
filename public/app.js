@@ -11,6 +11,7 @@ const previousPanel = $("#previous-panel");
 const nextPanel = $("#next-panel");
 const chapterLinks = $$(".chapter-nav a, .primary-nav a");
 const motionToggle = $("#motion-toggle");
+const journeyFlowBridge = $(".journey-flow-bridge");
 const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
 const mobile = matchMedia("(max-width: 760px)");
 let activePanel = 0;
@@ -39,6 +40,11 @@ function syncChapterPosition() {
   const progress = position / Math.max(1, panels.length - 1);
   chapterProgress.style.transform = `scaleX(${progress})`;
   root.style.setProperty("--journey-progress", progress.toFixed(4));
+  const transition = Math.max(0, Math.min(1, position));
+  const bridgeOpacity = position > 0 && position < 1 ? Math.pow(Math.sin(transition * Math.PI), 2) : 0;
+  root.style.setProperty("--flow-bridge-opacity", bridgeOpacity.toFixed(3));
+  journeyFlowBridge.style.opacity = bridgeOpacity.toFixed(3);
+  journeyFlowBridge.style.transform = `translate3d(${(0.5 - transition) * 12}%, ${(0.5 - transition) * 28}px, 0)`;
   activePanel = Math.round(position);
   // Navigation and ambient state only change when crossing into a chapter.
   if (renderedPanel === activePanel) return;
@@ -338,6 +344,7 @@ function alternateDiagram(key) {
 function selectProject(key) {
   if (!projects[key]) return;
   selectedProject = key;
+  $("#project-visual").classList.toggle("reference-scene-active", key === "ai");
   const project = projects[key];
   $$("[data-project]").forEach((tab) => {
     tab.setAttribute("aria-selected", String(tab.dataset.project === key));

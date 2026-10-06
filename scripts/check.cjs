@@ -23,7 +23,9 @@ for (const [, candidates] of html.matchAll(/\b(?:srcset|imagesrcset)="([^"]+)"/g
       throw new Error(`Missing responsive image: ${reference}`);
   }
 }
-const css = fs.readFileSync(path.join(root, "style.css"), "utf8");
+const css = ["style.css", "reference.css"]
+  .map((file) => fs.readFileSync(path.join(root, file), "utf8"))
+  .join("\n");
 for (const [, reference] of css.matchAll(/url\(["']?([^"')]+)["']?\)/g)) {
   if (/^(https?:|data:|#)/.test(reference)) continue;
   if (!fs.existsSync(path.join(root, reference)))

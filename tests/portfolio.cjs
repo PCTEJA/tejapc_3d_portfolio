@@ -70,22 +70,21 @@ const passed = (label) => {
     );
   await page.goto(`http://127.0.0.1:${port}`);
   await page.evaluate(() => document.fonts.ready);
-  await page.locator(".hero-portrait").evaluate((img) => img.decode());
+  await page.locator(".reference-intro-art img").evaluate((img) => img.decode());
   await page.waitForTimeout(1200);
   assert.equal(
     await page
-      .locator(".hero-portrait")
-      .evaluate((img) => img.naturalWidth > 0),
+      .locator(".reference-intro-art img")
+      .evaluate((img) => img.naturalWidth > 1000),
     true,
   );
   await page.screenshot({ path: path.join(output, "desktop-home.png") });
   passed("Desktop introduction and portrait load");
 
-  const ribbonImages = page.locator('img[src*="ribbon-flow-v2-"]');
-  assert.ok(await ribbonImages.count() >= 3, "Artwork appears in rear, foreground, and pipeline layers");
-  const heroRibbons = page.locator('#home img[src*="ribbon-flow-v2-"]');
-  await heroRibbons.evaluateAll((images) => Promise.all(images.map((img) => img.decode())));
-  assert.equal(await heroRibbons.evaluateAll((images) => images.every((img) => img.naturalWidth > 0)), true);
+  assert.equal(await page.locator(".reference-intro-art img").count(), 1);
+  assert.equal(await page.locator(".reference-work-art").count(), 1);
+  const bridge = page.locator(".journey-flow-bridge img");
+  await bridge.evaluate(img => img.decode());
   const initialResources = await page.evaluate(() => {
     const entries = [
       ...performance.getEntriesByType("navigation"),
@@ -110,7 +109,7 @@ const passed = (label) => {
   assert.equal(await page.evaluate(() => window.scrollY), 0);
   assert.equal(await page.locator("#page-number").textContent(), "02");
   assert.equal(await page.locator("#work .hero-portrait").count(), 0);
-  await page.locator("#work .work-scene").evaluateAll((images) => Promise.all(images.map((img) => img.decode())));
+  await page.locator("#work .reference-work-art").evaluateAll((images) => Promise.all(images.map((img) => img.decode())));
   assert.ok(await page.locator(".scene-frame").evaluate(el => el.clientWidth > 600), "Work scene must retain visible dimensions");
   await expectIdle("Work chapter");
   await page.screenshot({ path: path.join(output, "desktop-work.png") });
@@ -271,6 +270,26 @@ const passed = (label) => {
     assert.ok(height <= 1, `Work overflow at ${viewport.width}: ${height}`);
   }
   passed("Laptop and large desktop layouts");
+
+  await page.setViewportSize({ width: 1672, height: 941 });
+  await page.getByRole("tab", { name: "AI & MLOps" }).click();
+  await page.locator("#project-visual").evaluate(el => Promise.all(el.getAnimations().map(animation => animation.finished)));
+  const artworkBounds = await page.locator(".reference-work-art").evaluate(img => {
+    const r = img.getBoundingClientRect();
+    return [r.x, r.y, r.width, r.height].map(Math.round);
+  });
+  assert.deepEqual(artworkBounds, [291, 260, 1381, 379], "Work illustration must align with the supplied reference");
+  await page.getByRole("link", { name: "Teja PC, home" }).click();
+  await chapter(0);
+  await expectIdle("Before checking the transition artwork");
+  await page.evaluate(() => { document.querySelector("#panel-track").scrollLeft = innerWidth / 2; });
+  await page.waitForFunction(() => +getComputedStyle(document.querySelector(".journey-flow-bridge")).opacity > .99);
+  assert.equal(await page.locator(".journey-flow-bridge").evaluate(el => getComputedStyle(el).pointerEvents), "none");
+  await page.screenshot({ path: path.join(output, "reference-transition.png") });
+  await page.locator('.chapter-nav a[href="#work"]').click();
+  await chapter(1);
+  assert.equal(await page.locator(".journey-flow-bridge").evaluate(el => +getComputedStyle(el).opacity), 0);
+  passed("Reference artwork alignment and connected Intro-to-Work ribbon transition");
 
   await page.setViewportSize({ width: 390, height: 844 });
   await page.getByRole("link", { name: "Teja PC, home" }).click();
