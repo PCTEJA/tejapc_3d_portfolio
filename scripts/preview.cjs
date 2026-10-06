@@ -1,6 +1,7 @@
 const http = require("node:http");
 const fs = require("node:fs");
 const path = require("node:path");
+const os = require("node:os");
 
 const root = path.resolve(__dirname, "../public");
 const types = {
@@ -49,6 +50,7 @@ const server = http.createServer((request, response) => {
       return;
     }
     response.writeHead(200, {
+      "Cache-Control": "no-store",
       "Content-Type":
         types[path.extname(filename)] || "application/octet-stream",
     });
@@ -56,6 +58,15 @@ const server = http.createServer((request, response) => {
   });
 });
 const port = process.env.PORT || 4173;
-server.listen(port, "127.0.0.1", () =>
-  console.log(`Portfolio preview: http://127.0.0.1:${port}`),
-);
+const host = process.env.HOST || "0.0.0.0";
+server.listen(port, host, () => {
+  console.log(`Portfolio preview: http://127.0.0.1:${port}`);
+  if (host === "0.0.0.0") {
+    for (const addresses of Object.values(os.networkInterfaces())) {
+      for (const address of addresses || []) {
+        if (address.family === "IPv4" && !address.internal)
+          console.log(`Wi-Fi / LAN preview: http://${address.address}:${port}`);
+      }
+    }
+  }
+});

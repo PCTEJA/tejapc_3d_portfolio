@@ -115,13 +115,13 @@ const passed = (label) => {
   await page.screenshot({ path: path.join(output, "desktop-work.png") });
   passed("A small vertical mouse-wheel gesture travels sideways to work");
 
-  await page.getByRole("tab", { name: "Data Engineering" }).click();
+  await page.locator("#work").getByRole("tab", { name: "Data Engineering" }).click();
   await page.locator(".reference-work-art").evaluate(img => img.decode());
   assert.match(await page.locator(".reference-work-art").getAttribute("src"), /reference-data-art/);
   await page.getByRole("button", { name: "Explore forecasting models", exact: true }).click();
   assert.equal(await page.locator("#dialog-title").textContent(), "Learning the patterns");
   await page.keyboard.press("Escape");
-  await page.getByRole("tab", { name: "Data Engineering" }).focus();
+  await page.locator("#work").getByRole("tab", { name: "Data Engineering" }).focus();
   assert.equal(
     await page.locator("#project-title").textContent(),
     "Industrial Solar Forecasting",
@@ -202,6 +202,33 @@ const passed = (label) => {
   assert.equal(await page.locator("#dialog-content img").count(), 8);
   await page.keyboard.press("Escape");
   passed("All chapters fit desktop; research and gallery open");
+
+  await page.locator('.chapter-nav a[href="#experience"]').click();
+  await chapter(2);
+  for (const [key, role, metric] of [
+    ["now", "Data Engineer", "10M+"],
+    ["unt", "Graduate TeachingAssistant", "180+"],
+    ["footlocker", "Software EngineeringIntern", "REST"],
+    ["cotality", "Machine LearningOperations Engineer", "70%"],
+  ]) {
+    await page.locator(`[data-company="${key}"]`).click();
+    assert.equal(await page.locator("#experience-role-title").textContent(), role);
+    assert.equal(await page.locator("#experience-metric-one").textContent(), metric);
+    assert.equal(await page.locator(`[data-company="${key}"]`).getAttribute("aria-pressed"), "true");
+    assert.equal(await page.locator(`[data-experience="${key}"]`).getAttribute("aria-selected"), "true");
+  }
+  await page.locator("#experience-ai").focus();
+  await page.keyboard.press("ArrowDown");
+  assert.equal(await page.locator("#experience-data").getAttribute("aria-selected"), "true");
+  await page.keyboard.press("End");
+  assert.equal(await page.locator("#experience-teaching").getAttribute("aria-selected"), "true");
+  await page.keyboard.press("Home");
+  await page.locator('.chapter-nav a[href="#about"]').click();
+  await chapter(3);
+  await page.locator("#about-teaching").click();
+  await chapter(2);
+  assert.equal(await page.locator("#experience-metric-one").textContent(), "180+");
+  passed("Company selectors, keyboard disciplines and About teaching link show matching experience");
 
   await page.getByRole("link", { name: "Teja PC, home" }).click();
   await chapter(0);
@@ -285,7 +312,7 @@ const passed = (label) => {
   passed("Laptop and large desktop layouts");
 
   await page.setViewportSize({ width: 1672, height: 941 });
-  await page.getByRole("tab", { name: "AI & MLOps" }).click();
+  await page.locator("#work").getByRole("tab", { name: "AI & MLOps" }).click();
   await page.locator("#project-visual").evaluate(el => Promise.all(el.getAnimations().map(animation => animation.finished)));
   const artworkBounds = await page.locator(".reference-work-art").evaluate(img => {
     const r = img.getBoundingClientRect();
@@ -333,6 +360,43 @@ const passed = (label) => {
   await chapter(2);
   passed("Mobile layouts and vertical scrolling inside a tall chapter");
 
+  await page.locator('.chapter-nav a[href="#work"]').click();
+  await chapter(1);
+  for (const key of ["ai", "data", "fullstack"]) {
+    await page.locator(`#tab-${key}`).click();
+    await page.locator(".reference-work-art").evaluate(img => img.decode());
+    assert.equal(await page.locator(".companion-stage-label").count(), 3);
+    assert.ok(await page.evaluate(() => Number(getComputedStyle(document.querySelector(".project-heading")).zIndex) > Number(getComputedStyle(document.querySelector(".project-visual")).zIndex)), "Work artwork must stay behind text");
+    for (const stage of ["input", "engine", "output"]) {
+      await page.locator(`[data-stage="${stage}"]`).click();
+      assert.equal(await page.locator("#detail-dialog").evaluate(el => el.open), true);
+      await page.keyboard.press("Escape");
+    }
+    await page.locator("#work").evaluate(el => el.scrollTop = 0);
+  }
+  passed("All three mobile Work projects share readable stage cards and artwork behind text");
+
+  const compactPage = await browser.newPage({ reducedMotion: "reduce" });
+  for (const viewport of [{ width: 320, height: 740 }, { width: 768, height: 1024 }, { width: 1024, height: 1366 }]) {
+    await compactPage.setViewportSize(viewport);
+    await compactPage.goto(`http://127.0.0.1:${port}`);
+    await compactPage.evaluate(() => document.fonts.ready);
+    for (const name of ["home", "work", "experience", "about", "contact"]) {
+      await compactPage.locator(`.chapter-nav a[href="#${name}"]`).click();
+      assert.ok(await compactPage.locator(`#${name}`).evaluate(el => el.scrollWidth - el.clientWidth <= 1), `${name} horizontal overflow at ${viewport.width}`);
+      assert.deepEqual(await compactPage.locator(".panel").evaluateAll(panels => panels.filter(panel => !panel.inert).map(panel => panel.id)), [name], "Only the current chapter should accept keyboard focus");
+      if (name === "home") {
+        assert.ok(await compactPage.evaluate(() => document.querySelector(".hero-copy").getBoundingClientRect().bottom <= document.querySelector(".portrait-stage").getBoundingClientRect().top), "Compact hero copy must stay above the portrait");
+      }
+      if (name === "work") {
+        await compactPage.locator(".reference-work-art").evaluate(img => img.decode());
+        assert.ok(await compactPage.locator(".reference-work-art").evaluate(img => Math.abs(img.clientWidth / img.clientHeight - img.naturalWidth / img.naturalHeight) < .03), "Tablet artwork must retain its proportions");
+      }
+    }
+  }
+  await compactPage.close();
+  passed("Narrow phones and tablets keep content readable, artwork proportional and off-screen chapters inert");
+
   const touchPage = await browser.newPage({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
   touchPage.on("pageerror", error => errors.push(error.message));
   await touchPage.goto(`http://127.0.0.1:${port}`);
@@ -350,12 +414,14 @@ const passed = (label) => {
   await page.setViewportSize({ width: 1024, height: 550 });
   await page.locator('.chapter-nav a[href="#work"]').click();
   await chapter(1);
-  await page.mouse.move(620, 320);
-  await page.mouse.wheel(0, 220);
-  await page.waitForTimeout(400);
-  assert.ok(await page.locator('#work').evaluate(panel => panel.scrollTop > 0));
+  assert.equal(await page.locator('.work-panel').evaluate(panel => getComputedStyle(panel).display), 'grid');
+  assert.equal(await page.locator('.reference-work-art').evaluate(img => getComputedStyle(img).display), 'block');
+  await page.getByRole('link', { name: 'Teja PC, home' }).click();
+  await chapter(0);
+  assert.equal(await page.locator('.reference-intro-art').evaluate(el => getComputedStyle(el).display), 'block');
+  await page.locator('.chapter-nav a[href="#work"]').click();
   await chapter(1);
-  passed("Short desktop windows keep overflowing content reachable");
+  passed("Scaled laptop windows retain the desktop hero and Work layout");
 
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.getByRole("link", { name: "Teja PC, home" }).click();

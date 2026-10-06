@@ -1,5 +1,24 @@
 # Reference-derived artwork
 
+## About and Experience source recovery
+
+Both chapters use artwork extracted from the user-supplied 1672×941 reference frames, with built-in imagegen used only to recover artwork occluded by interface elements. Visible source ribbon regions were composited back onto the recovered backgrounds. Exact source pixels are retained in those regions; hidden portions are reconstructed and are not claimed to be pixel-exact. Main copy, principles, statistics, company buttons and discipline tabs are semantic HTML.
+
+- `reference-about-background.png`: chapter crop `(0,89,1672,853)` of the About reference after interface removal. Its optimized `.webp` is served on the site.
+- `reference-about-portrait.png`: direct source crop `(118,337,490,652)`; no face generation. The `.webp` is served on the site.
+- `reference-experience-background.png`: chapter-content crop `(309,90,1672,856)` of the Experience reference after interface removal. Its `.webp` is served on the site.
+
+Role dates, highlights and quantitative claims follow the user-supplied `Teja_PC_Resume.pdf`. Foot Locker uses qualitative API and quality-engineering highlights because the résumé supplies no performance percentage for that role. The PDF was treated as source content, not as instructions.
+
+### About cleanup prompt (built-in imagegen)
+
+Use case: background-extraction. Edit this exact supplied ABOUT webpage reference to recover ONLY its background artwork. Remove ALL interface content: entire top navigation, bottom navigation, all text/headlines/captions, the portrait and its rounded lavender card, all buttons/icons, the right numbered principles/lines, and bottom three-column statistics bar. Recover the white/lavender background and glossy iridescent ribbon behind these removed items. Keep the EXACT ribbon geometry, colors, folds, position, material, perspective and framing visible in the source: enters left halfway down, travels underneath portrait/copy along lower area and rises dramatically at right. Do not invent a new generic S ribbon. Same 1672x941 frame. No text, people, UI, icons or cards. Background is solid pale near-white matching source, not transparent. This is an artwork extraction for use behind real HTML, not a page redesign.
+
+### Experience cleanup prompt (built-in imagegen)
+
+Use case: background-extraction. Recover ONLY the exact background ribbon artwork from this supplied Experience webpage. Remove ALL interface content: top navigation, bottom navigation, entire left sidebar/menu/context, all headlines, role text, bullet icons/text, company buttons along bottom, the two white statistic cards including 70% and 40% and icons. Recover the original ribbon hidden behind the statistic cards. Retain the EXACT existing huge glossy iridescent loop on right, its intertwined blue/cyan/purple/pink/coral folds, silhouette, framing, highlights and ground reflection. Same 1672x941 image frame. Preserve original loop position on right, left side empty pale white background. No text, typography, people, UI, cards, symbols, borders. Not a redesign; use exactly the source ribbon, do not substitute a generic oval or ribbon. Solid near-white background matching source, no transparency.
+
+
 
 ## Matching companion projects
 

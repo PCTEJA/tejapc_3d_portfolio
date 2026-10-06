@@ -10,11 +10,12 @@
     />
     <title>Teja PC — Human curiosity. Engineered impact.</title>
     <link rel="icon" href="tab_icon.png" />
-    <link rel="preload" as="image" href="assets/reference-intro-art-1672.webp" media="(min-width: 761px)" fetchpriority="high" />
+    <link rel="preload" as="image" href="assets/reference-intro-art-1672.webp" media="((min-width: 1025px) or ((min-width: 761px) and (orientation: landscape)))" fetchpriority="high" />
     <link rel="preload" as="font" type="font/woff2" href="assets/fonts/manrope-latin.woff2" crossorigin />
     <link rel="preload" as="font" type="font/woff2" href="assets/fonts/dm-sans-latin.woff2" crossorigin />
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="reference.css" />
+    <link rel="stylesheet" href="profile.css" />
     <script src="app.js" defer></script>
   </head>
   <body>
@@ -58,6 +59,12 @@
         <symbol id="i-spark" viewBox="0 0 24 24">
           <path d="m12 2 2.5 7.5L22 12l-7.5 2.5L12 22l-2.5-7.5L2 12l7.5-2.5Z" />
         </symbol>
+        <symbol id="i-book" viewBox="0 0 24 24"><path d="M12 5C8 2 4 3 2 4v16c3-2 7-2 10 0 3-2 7-2 10 0V4c-3-1-7-2-10 1v15"/></symbol>
+        <symbol id="i-check" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="18" rx="4"/><path d="m6 11 4 4 8-8"/></symbol>
+        <symbol id="i-cloud" viewBox="0 0 24 24"><path d="M6 19h13a4 4 0 0 0 0-8 7 7 0 0 0-14-1 4.5 4.5 0 0 0 1 9Z"/></symbol>
+        <symbol id="i-bolt" viewBox="0 0 24 24"><path d="m14 2-9 12h7l-2 8 9-13h-7Z"/></symbol>
+        <symbol id="i-grad" viewBox="0 0 24 24"><path d="m1 8 11-5 11 5-11 5ZM5 10v8l7 3 7-3v-8M22 9v8"/></symbol>
+        <symbol id="i-people" viewBox="0 0 24 24"><circle cx="12" cy="7" r="3"/><path d="M5 22v-3a7 7 0 0 1 14 0v3M4 4a3 3 0 0 0 0 6m16-6a3 3 0 0 1 0 6M1 18v-2a5 5 0 0 1 4-4m18 6v-2a5 5 0 0 0-4-4"/></symbol>
       </defs>
     </svg>
     <a class="skip-link" href="#work">Skip to work</a>
@@ -91,7 +98,7 @@
             tabindex="-1"
           >
             <picture class="reference-intro-art">
-              <source media="(min-width: 761px)" srcset="assets/reference-intro-art-1672.webp" />
+              <source media="((min-width: 1025px) or ((min-width: 761px) and (orientation: landscape)))" srcset="assets/reference-intro-art-1672.webp" />
               <img src="assets/reference-intro-art-960.webp" width="1672" height="760" alt="Teja P C in a navy suit, surrounded by flowing iridescent ribbons" fetchpriority="high" decoding="async" />
             </picture>
             <div class="hero-flow-placement" aria-hidden="true">
@@ -271,72 +278,12 @@
                 </p>
               </div>
               <div
-                class="project-visual reference-scene-active"
+                class="project-visual reference-scene-active companion-scene"
                 id="project-visual"
                 aria-label="Interactive document processing pipeline"
               >
                 <img class="reference-work-art" src="assets/reference-work-art-1381.webp" width="1381" height="379" alt="Invoices, receipts and forms pass through AI extraction into validated structured data, with JSON, CSV, database and API outputs." decoding="async" loading="lazy" />
-                <div class="scene-frame">
-                  <img class="work-scene" src="assets/work-extraction-scene-1200.webp"
-                    srcset="assets/work-extraction-scene-1200.webp 1200w, assets/work-extraction-scene-2172.webp 2172w"
-                    sizes="(max-width: 760px) 760px, (max-width: 1500px) 1100px, 1400px"
-                    width="2172" height="724" alt="" aria-hidden="true" decoding="async" loading="lazy" />
-                <div class="diagram-flow" aria-hidden="true">
-                  <div class="flow-ambient">
-                    <img src="assets/reference-flow-bridge-2060.webp"
-                      srcset="assets/reference-flow-bridge-1200.webp 1200w, assets/reference-flow-bridge-2060.webp 2060w"
-                      sizes="(max-width: 760px) 850px, 116vw"
-                      width="2060" height="763" alt="" decoding="async" loading="lazy" />
-                  </div>
-                </div>
-                <button
-                  class="document-stack pipeline-node"
-                  data-stage="input"
-                  aria-label="Explore source documents"
-                >
-                  <span class="document-names" aria-hidden="true"><span>Invoices</span><span>Receipts</span><span>Forms</span></span>
-                  <span class="paper paper-back"><span>Forms</span><i></i><i></i><i></i><i></i></span
-                  ><span class="paper paper-middle"><span>Receipts</span><i></i><i></i><i></i><i></i></span
-                  ><span class="paper paper-front"
-                    ><span class="paper-label"
-                      >Invoices <svg><use href="#i-file" /></svg></span
-                    ><i></i><i></i
-                    ><i></i><i></i
-                    ><span class="paper-footer">01 / SOURCE</span></span
-                  ><span class="node-caption">Documents in</span></button
-                ><button
-                  class="ai-engine pipeline-node"
-                  data-stage="engine"
-                  aria-label="Explore the AI extraction stage"
-                >
-                  <span class="engine-inner"
-                    ><strong>AI</strong
-                    ><span>EXTRACTION</span
-                    ><i class="engine-status">PROCESSING</i></span
-                  ><span class="node-caption"
-                    >Extract & validate</span
-                  ></button
-                ><button
-                  class="structured-card pipeline-node"
-                  data-stage="output"
-                  aria-label="Explore structured output"
-                >
-                  <span class="structured-title"
-                    >Structured data <span>✓</span></span
-                  ><span class="data-row"><b>◇</b> Name <i></i></span
-                  ><span class="data-row"><b>▦</b> Date <i></i></span
-                  ><span class="data-row"><b>$</b> Amount <i></i></span
-                  ><span class="data-row"><b>▤</b> Vendor <i></i></span
-                  ><span class="data-row"><b>▧</b> Category <i></i></span
-                  ><span class="node-caption">Structured output</span>
-                </button>
-                <div class="output-formats">
-                  <span><b>{ }</b> JSON</span><span><b>▦</b> CSV</span
-                  ><span
-                    ><svg><use href="#i-data" /></svg> Database</span
-                  ><span><b>↗</b> API ready</span>
-                </div>
-                </div>
+                <div class="scene-frame"><button class="document-stack pipeline-node" data-stage="input" aria-label="Explore source documents"><span class="companion-stage-label"><small>01 / INPUT</small><strong>Documents in</strong><span>Explore stage ↗</span></span></button><button class="ai-engine pipeline-node" data-stage="engine" aria-label="Explore the AI extraction stage"><span class="companion-stage-label"><small>02 / ENGINE</small><strong>Extract & validate</strong><span>Explore stage ↗</span></span></button><button class="structured-card pipeline-node" data-stage="output" aria-label="Explore structured output"><span class="companion-stage-label"><small>03 / OUTPUT</small><strong>Structured output</strong><span>Explore stage ↗</span></span></button></div>
               </div>
               <div class="project-bottom">
                 <div>
@@ -363,163 +310,43 @@
               </button>
             </div>
           </section>
-          <section
-            id="experience"
-            class="panel experience-panel"
-            aria-labelledby="experience-title"
-            tabindex="-1"
-          >
-            <div class="section-topline">
-              <p class="eyebrow">02 / THE JOURNEY SO FAR</p>
-              <span class="quiet-label"
-                >Ideas become impact through experience.</span
-              >
-            </div>
-            <div class="section-intro">
-              <h2 id="experience-title">
-                Built with purpose.<br />Grown through <em>experience.</em>
-              </h2>
-              <p>
-                From forecasting solar energy to engineering cloud-native ML
-                systems. Always learning. Always building.
-              </p>
-            </div>
-            <div class="experience-grid">
-              <article class="experience-card">
-                <span class="timeline-node"></span>
-                <div class="experience-meta">
-                  <span>01 / INDUSTRY</span><span>2022 — PRESENT</span>
-                </div>
-                <span class="company-monogram">tcs<span>_</span></span>
-                <h3>MLOps Engineer</h3>
-                <h4>Tata Consultancy Services</h4>
-                <p>
-                  Scalable machine learning pipelines, automated model training,
-                  and reliable cloud-based solutions on Google Cloud.
-                </p>
-                <div class="tags">
-                  <span>Python</span><span>GCP</span><span>MLOps</span>
-                </div>
-                <button class="text-button" data-detail="tcs">
-                  The work behind the role <svg><use href="#i-up" /></svg>
-                </button>
-              </article>
-              <article class="experience-card">
-                <span class="timeline-node"></span>
-                <div class="experience-meta">
-                  <span>02 / FOUNDATIONS</span><span>FEB — JUN 2022</span>
-                </div>
-                <span class="company-monogram light">tcs<span>_</span></span>
-                <h3>Software Engineer Intern</h3>
-                <h4>TCS · AVIVA</h4>
-                <p>
-                  Personalized customer experiences through real-time video
-                  messaging and natural language processing.
-                </p>
-                <div class="tags"><span>NLP</span><span>Engineering</span></div>
-                <button class="text-button" data-detail="intern">
-                  Explore the experience <svg><use href="#i-up" /></svg>
-                </button>
-              </article>
-              <article class="experience-card">
-                <span class="timeline-node"></span>
-                <div class="experience-meta">
-                  <span>03 / DISCOVERY</span><span>JUN — AUG 2019</span>
-                </div>
-                <span class="company-monogram university"
-                  >UrFU<span>↗</span></span
-                >
-                <h3>Data Science Intern</h3>
-                <h4>Ural Federal University · Russia</h4>
-                <p>
-                  Solar generation forecasting for a real power plant. Research,
-                  experimentation, and a first-place project award.
-                </p>
-                <div class="tags">
-                  <span>Forecasting</span><span>Research</span>
-                </div>
-                <button class="text-button" data-detail="ural">
-                  Where the curiosity started <svg><use href="#i-up" /></svg>
-                </button>
-              </article>
-            </div>
-            <div class="experience-footnote">
-              <span
-                ><svg><use href="#i-spark" /></svg> Two-time Best Team Member ·
-                TCS</span
-              ><a href="gallery/tejacv.pdf" target="_blank" rel="noopener"
-                >The full story, on paper <svg><use href="#i-up" /></svg
-              ></a>
+          <section id="experience" class="panel experience-panel experience-explorer" aria-labelledby="experience-title" tabindex="-1">
+            <aside class="experience-sidebar">
+              <p class="eyebrow">EXPLORE MY JOURNEY</p>
+              <div class="experience-categories" role="tablist" aria-label="Experience disciplines" aria-orientation="vertical">
+                <button id="experience-ai" role="tab" aria-controls="experience-content" aria-selected="true" data-experience="cotality"><svg><use href="#i-ai"/></svg>AI &amp; MLOps<svg><use href="#i-arrow"/></svg></button>
+                <button id="experience-data" role="tab" aria-controls="experience-content" aria-selected="false" tabindex="-1" data-experience="now"><svg><use href="#i-data"/></svg>Data Engineering<svg><use href="#i-arrow"/></svg></button>
+                <button id="experience-fullstack" role="tab" aria-controls="experience-content" aria-selected="false" tabindex="-1" data-experience="footlocker"><svg><use href="#i-code"/></svg>Full Stack<svg><use href="#i-arrow"/></svg></button>
+                <button id="experience-teaching" role="tab" aria-controls="experience-content" aria-selected="false" tabindex="-1" data-experience="unt"><svg><use href="#i-book"/></svg>Teaching<svg><use href="#i-arrow"/></svg></button>
+              </div>
+              <div class="experience-context"><p class="eyebrow">ROLE CONTEXT</p><strong id="experience-company">TATA CONSULTANCY SERVICES</strong><p id="experience-client">Client: Cotality</p><p id="experience-dates">2022 — 2025</p></div>
+              <a href="gallery/tejacv.pdf" target="_blank" rel="noopener" class="button button-white experience-resume"><svg><use href="#i-file"/></svg>Résumé<svg><use href="#i-up"/></svg></a>
+            </aside>
+            <div class="experience-content" id="experience-content" role="tabpanel" aria-labelledby="experience-ai">
+              <img class="experience-art chapter-art" src="assets/reference-experience-background.webp" width="1363" height="766" alt="" decoding="async" loading="lazy"/>
+              <div class="experience-topline"><p class="eyebrow">03 / EXPERIENCE</p><p class="eyebrow">SELECTED EXPERIENCE / <span id="experience-number">01</span></p></div>
+              <h2 id="experience-title">The systems behind<br><em>the impact.</em></h2>
+              <div class="experience-role"><h3 id="experience-role-title">Machine Learning<br>Operations Engineer</h3><p id="experience-summary">Turning unstructured documents into reliable, production-ready data.</p><ul id="experience-highlights">
+                <li><span class="icon-tile"><svg><use href="#i-file"/></svg></span><span><strong>Extract with Gemini + OCR</strong><small>From unstructured documents to useful data.</small></span></li>
+                <li><span class="icon-tile"><svg><use href="#i-check"/></svg></span><span><strong>Validate structured outputs</strong><small>Quality checks to ensure reliable results.</small></span></li>
+                <li><span class="icon-tile"><svg><use href="#i-cloud"/></svg></span><span><strong>Deploy with FastAPI + Cloud Run</strong><small>Scalable, production-ready services.</small></span></li>
+              </ul></div>
+              <div class="experience-metrics" aria-live="polite"><div class="experience-metric"><strong id="experience-metric-one">70%</strong><span id="experience-metric-one-label">less manual data entry</span><svg><use href="#i-file"/></svg></div><div class="experience-metric"><strong id="experience-metric-two">40%</strong><span id="experience-metric-two-label">lower serving latency</span><svg><use href="#i-bolt"/></svg></div></div>
+              <nav class="company-switcher" aria-label="Choose a company">
+                <button data-company="now" aria-pressed="false"><span><strong>NOW Pensions</strong><small>2020 — 2022</small></span><span class="round-arrow"><svg><use href="#i-arrow"/></svg></span></button>
+                <button data-company="cotality" aria-pressed="true"><span><strong>Cotality</strong><small>2022 — 2025</small></span><span class="round-arrow"><svg><use href="#i-arrow"/></svg></span></button>
+                <button data-company="unt" aria-pressed="false"><span><strong>UNT</strong><small>2025 — 2026</small></span><span class="round-arrow"><svg><use href="#i-arrow"/></svg></span></button>
+                <button data-company="footlocker" aria-pressed="false"><span><strong>Foot Locker</strong><small>2026 — Present</small></span><span class="round-arrow"><svg><use href="#i-arrow"/></svg></span></button>
+              </nav>
             </div>
           </section>
-          <section
-            id="about"
-            class="panel about-panel"
-            aria-labelledby="about-title"
-            tabindex="-1"
-          >
-            <div class="about-main">
-              <p class="eyebrow">03 / THE HUMAN BEHIND THE SYSTEMS</p>
-              <h2 id="about-title">
-                An engineer’s mind.<br />A researcher’s<br /><em>curiosity.</em>
-              </h2>
-              <p class="about-description">
-                I’m Teja, an MLOps engineer and computer science graduate
-                student. I like connecting the dots between research, reliable
-                systems, and things people actually use.
-              </p>
-              <p class="about-location">
-                <span class="status-dot"></span> Based in Denton, Texas ·
-                Building beyond borders
-              </p>
-              <div class="about-links">
-                <a
-                  class="text-button"
-                  href="https://github.com/PCTEJA/"
-                  target="_blank"
-                  rel="noopener"
-                  >GitHub <svg><use href="#i-up" /></svg></a
-                ><a
-                  class="text-button"
-                  href="https://www.linkedin.com/in/tejapc"
-                  target="_blank"
-                  rel="noopener"
-                  >LinkedIn <svg><use href="#i-up" /></svg></a
-                ><button class="text-button" data-detail="gallery">
-                  Life & milestones <svg><use href="#i-up" /></svg>
-                </button>
-              </div>
-              <div class="skill-cloud">
-                <span>Python</span><span>TensorFlow</span><span>PyTorch</span
-                ><span>GCP</span><span>Docker</span><span>Kubernetes</span
-                ><span>React</span><span>PostgreSQL</span><span>CI/CD</span>
-              </div>
-            </div>
-            <div class="about-aside">
-              <div class="education-block">
-                <p class="eyebrow">ALWAYS A STUDENT</p>
-                <h3>MS, Computer Science</h3>
-                <p>University of North Texas</p>
-                <span>2025 — 2027 · Denton, Texas</span>
-                <div class="education-divider"></div>
-                <h3>BTech, Computer Science</h3>
-                <p>Bharath Institute of Higher Education and Research</p>
-                <span>2018 — 2022 · 9.33 / 10 GPA</span>
-              </div>
-              <button class="research-card" data-detail="research">
-                <span class="eyebrow">CURIOSITY, PUBLISHED</span
-                ><span class="research-number">05<span>publications</span></span
-                ><span>Energy. Machine learning. Real-world questions.</span
-                ><span class="research-cta"
-                  >Explore my research <svg><use href="#i-up" /></svg
-                ></span></button
-              ><button
-                class="text-button certificates-link"
-                data-detail="certificates"
-              >
-                Certifications & recognition <svg><use href="#i-up" /></svg>
-              </button>
-            </div>
+          <section id="about" class="panel about-panel about-editorial" aria-labelledby="about-title" tabindex="-1">
+            <img class="about-art chapter-art" src="assets/reference-about-background.webp" width="1672" height="764" alt="" decoding="async" loading="lazy"/>
+            <div class="about-editorial-heading"><p class="eyebrow"><span class="tiny-line"></span>04 / ABOUT</p><h2 id="about-title">Engineering with<br><em>a human point of view.</em></h2></div>
+            <figure class="about-person"><img src="assets/reference-about-portrait.webp" width="372" height="315" alt="Teja PC" decoding="async" loading="lazy"/><figcaption><strong>Teja PC</strong><span>Engineer. Educator. Builder.</span></figcaption></figure>
+            <div class="about-story"><h3>I like making complicated<br>things feel simple.</h3><p>My work spans AI systems, data engineering and full-stack development. Teaching and building ZHuddle keep me focused on the people using what I create.</p><div class="about-socials"><a class="button button-primary" href="https://github.com/PCTEJA/" target="_blank" rel="noopener">GitHub<svg><use href="#i-up"/></svg></a><a class="button button-white" href="https://www.linkedin.com/in/tejapc" target="_blank" rel="noopener">LinkedIn<svg><use href="#i-up"/></svg></a></div><div class="about-more"><button data-detail="research">Research ↗</button><button data-detail="gallery">Life &amp; milestones ↗</button><button data-detail="certificates">Recognition ↗</button></div></div>
+            <ol class="about-principles"><li><span>01</span><div><h3>Build for real use</h3><p>Solutions that solve<br>actual problems.</p></div></li><li><span>02</span><div><h3>Make the complex clear</h3><p>Turn technical depth<br>into practical understanding.</p></div></li><li><span>03</span><div><h3>Keep learning</h3><p>Stay curious, explore more<br>domains, and keep building.</p></div></li></ol>
+            <div class="about-facts"><div><span class="icon-tile"><svg><use href="#i-grad"/></svg></span><span><small>EDUCATION</small><strong>M.S. Computer Science</strong><span>University of North Texas</span></span></div><a href="https://zhuddle.com" target="_blank" rel="noopener"><span class="icon-tile"><svg><use href="#i-people"/></svg></span><span><small>COMMUNITY</small><strong>550+ students</strong><span>Learning Python with ZHuddle</span></span></a><button id="about-teaching"><span class="icon-tile"><svg><use href="#i-book"/></svg></span><span><small>TEACHING</small><strong>180+ students</strong><span>Python · ML · AI</span></span></button></div>
           </section>
           <section
             id="contact"
@@ -527,7 +354,7 @@
             aria-labelledby="contact-title"
             tabindex="-1"
           >
-            <p class="eyebrow">04 / THE NEXT CONNECTION</p>
+            <p class="eyebrow">05 / THE NEXT CONNECTION</p>
             <span class="contact-star" aria-hidden="true">✳</span>
             <h2 id="contact-title">
               Great things start<br />with a <em>conversation.</em>

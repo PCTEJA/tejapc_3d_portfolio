@@ -13,7 +13,7 @@ const chapterLinks = $$(".chapter-nav a, .primary-nav a");
 const motionToggle = $("#motion-toggle");
 const journeyFlowBridge = $(".journey-flow-bridge");
 const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
-const mobile = matchMedia("(max-width: 760px)");
+const mobile = matchMedia("((max-width: 760px) or ((max-width: 1024px) and (orientation: portrait)))");
 let activePanel = 0;
 let renderedPanel = -1;
 let trackWidth = track.clientWidth;
@@ -52,6 +52,7 @@ function syncChapterPosition() {
   root.dataset.activeChapter = panels[activePanel].id;
   panels.forEach((panel, index) => {
     panel.classList.toggle("is-active", index === activePanel);
+    panel.inert = index !== activePanel;
   });
   pageNumber.textContent = String(activePanel + 1).padStart(2, "0");
   previousPanel.disabled = activePanel === 0;
@@ -350,7 +351,7 @@ function selectProject(key) {
   selectedProject = key;
   $("#work").classList.toggle("companion-project", key !== "ai");
   $("#project-visual").classList.add("reference-scene-active");
-  $("#project-visual").classList.toggle("companion-scene", key !== "ai");
+  $("#project-visual").classList.add("companion-scene");
   const project = projects[key];
   $$("[data-project]").forEach((tab) => {
     tab.setAttribute("aria-selected", String(tab.dataset.project === key));
@@ -474,6 +475,76 @@ $("#project-visual").addEventListener("click", (event) => {
     `<p>${description}</p><div class="tags">${projects[selectedProject].tags.map((tag) => `<span>${tag}</span>`).join("")}</div>`,
   );
 });
+// Experience content follows the supplied résumé; the visual reference supplies
+// the layout, while each company button selects its own role and evidence.
+const experiences = {
+  cotality: {
+    tab: "experience-ai", number: "01", company: "TATA CONSULTANCY SERVICES", client: "Client: Cotality", dates: "2022 — 2025",
+    title: "The systems behind<br><em>the impact.</em>", role: "Machine Learning<br>Operations Engineer",
+    summary: "Turning unstructured documents into reliable, production-ready data.",
+    highlights: [["i-file", "Extract with Gemini + OCR", "From unstructured documents to useful data."], ["i-check", "Validate structured outputs", "Quality checks to ensure reliable results."], ["i-cloud", "Deploy with FastAPI + Cloud Run", "Scalable, production-ready services."]],
+    metrics: [["70%", "less manual data entry"], ["40%", "lower serving latency"]],
+  },
+  now: {
+    tab: "experience-data", number: "02", company: "TATA CONSULTANCY SERVICES", client: "Client: NOW Pensions · UK", dates: "2020 — 2022",
+    title: "Better foundations.<br><em>Reliable data.</em>", role: "Data Engineer",
+    summary: "Moving millions of records through reliable production data pipelines.",
+    highlights: [["i-data", "Build with Python + SQL", "Optimize queries and production pipelines."], ["i-check", "Migrate with Talend ETL", "Millions of records moved with zero data loss."], ["i-cloud", "Automate reliable releases", "CI/CD, Docker and Kubernetes deployments."]],
+    metrics: [["10M+", "records processed"], ["30%", "shorter release cycles"]],
+  },
+  unt: {
+    tab: "experience-teaching", number: "03", company: "UNIVERSITY OF NORTH TEXAS", client: "Graduate teaching · Denton, Texas", dates: "Oct 2025 — May 2026",
+    title: "Make the complex<br><em>feel simple.</em>", role: "Graduate Teaching<br>Assistant",
+    summary: "Helping students put Python, machine learning and AI into practice.",
+    highlights: [["i-book", "Teach Python, ML + AI", "Connect the curriculum to practical learning."], ["i-code", "Review algorithms and code", "Give detailed, actionable technical feedback."], ["i-people", "Mentor with intention", "Weekly sessions for concepts and debugging."]],
+    metrics: [["180+", "students supported"], ["50+", "technical assignments reviewed"]],
+  },
+  footlocker: {
+    tab: "experience-fullstack", number: "04", company: "FOOT LOCKER", client: "Enterprise technology · USA", dates: "Jun 2026 — Present",
+    title: "Connected systems.<br><em>Better experiences.</em>", role: "Software Engineering<br>Intern",
+    summary: "Connecting interfaces, APIs and quality across retail systems.",
+    highlights: [["i-code", "Build responsive experiences", "JavaScript interfaces for store and commerce."], ["i-cloud", "Connect back-end services", "REST APIs supporting orders and digital platforms."], ["i-check", "Validate the full stack", "Regression automation and cross-platform QE."]],
+    metrics: [["REST", "connected services & APIs"], ["QE", "full-stack quality engineering"]],
+  },
+};
+function selectExperience(key, reveal = false) {
+  const entry = experiences[key];
+  if (!entry) return;
+  $("#experience-title").innerHTML = entry.title;
+  $("#experience-role-title").innerHTML = entry.role;
+  $("#experience-summary").textContent = entry.summary;
+  $("#experience-company").textContent = entry.company;
+  $("#experience-client").textContent = entry.client;
+  $("#experience-dates").textContent = entry.dates;
+  $("#experience-number").textContent = entry.number;
+  $("#experience-content").setAttribute("aria-labelledby", entry.tab);
+  $("#experience-highlights").innerHTML = entry.highlights.map(([icon, title, body]) => `<li><span class="icon-tile"><svg><use href="#${icon}"/></svg></span><span><strong>${title}</strong><small>${body}</small></span></li>`).join("");
+  entry.metrics.forEach(([value, label], index) => {
+    const id = index ? "two" : "one";
+    $(`#experience-metric-${id}`).textContent = value;
+    $(`#experience-metric-${id}-label`).textContent = label;
+  });
+  $$("[data-company]").forEach(button => button.setAttribute("aria-pressed", String(button.dataset.company === key)));
+  $$("[data-experience]").forEach(button => {
+    const active = button.dataset.experience === key;
+    button.setAttribute("aria-selected", String(active));
+    button.tabIndex = active ? 0 : -1;
+  });
+  if (reveal && mobile.matches) $("#experience").scrollTo({ top: $(".experience-sidebar").offsetHeight, behavior: reducedMotion.matches ? "instant" : "smooth" });
+}
+$$("[data-company]").forEach(button => button.addEventListener("click", () => selectExperience(button.dataset.company, true)));
+$$("[data-experience]").forEach(button => button.addEventListener("click", () => selectExperience(button.dataset.experience)));
+$(".experience-categories").addEventListener("keydown", event => {
+  const tabs = $$("[data-experience]");
+  const current = tabs.indexOf(event.target);
+  if (current < 0 || !["ArrowDown", "ArrowUp", "ArrowRight", "ArrowLeft", "Home", "End"].includes(event.key)) return;
+  event.preventDefault();
+  const index = event.key === "Home" ? 0 : event.key === "End" ? tabs.length - 1 : (current + (["ArrowDown", "ArrowRight"].includes(event.key) ? 1 : -1) + tabs.length) % tabs.length;
+  selectExperience(tabs[index].dataset.experience);
+  tabs[index].focus({ preventScroll: true });
+});
+$("#about-teaching").addEventListener("click", () => { selectExperience("unt"); goToPanel(2); });
+
 const publications = [
   ["Industrial Solar Forecasting System", "https://doi.org/10.3390/rs12203420"],
   [

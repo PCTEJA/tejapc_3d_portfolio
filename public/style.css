@@ -2119,7 +2119,7 @@ body.motion-paused *:after {
     font-size: 6vw;
   }
 }
-@media (min-width: 761px) and (max-height: 750px) {
+@media ((min-width: 1025px) or ((min-width: 761px) and (orientation: landscape))) and (max-height: 750px) {
   :root {
     --header: 70px;
     --footer: 62px;
@@ -2283,7 +2283,7 @@ body.motion-paused *:after {
     bottom: 19px;
   }
 }
-@media (max-width: 760px) {
+@media ((max-width: 760px) or ((max-width: 1024px) and (orientation: portrait))) {
   :root {
     --header: 70px;
     --footer: 72px;
@@ -3001,7 +3001,7 @@ body.motion-paused *:after {
     grid-template-columns: 1fr;
   }
 }
-@media (max-width: 760px) and (max-height: 720px) {
+@media ((max-width: 760px) or ((max-width: 1024px) and (orientation: portrait))) and (max-height: 720px) {
   .hero-copy {
     padding-top: 23px;
   }
@@ -3048,7 +3048,7 @@ body.motion-paused *:after {
     margin-top: 30px;
   }
 }
-@media (min-width: 761px) and (max-height: 600px) {
+@media ((min-width: 1025px) or ((min-width: 761px) and (orientation: landscape))) and (max-height: 600px) {
   .panel {
     overflow-y: auto;
     overscroll-behavior-y: contain;
@@ -3095,7 +3095,7 @@ body.motion-paused *:after {
 .project-content {
   overflow: clip;
 }
-@media (max-width: 760px) {
+@media ((max-width: 760px) or ((max-width: 1024px) and (orientation: portrait))) {
   .work-sidebar {
     background: transparent;
   }
@@ -3270,7 +3270,7 @@ body.motion-paused *:after {
   from { transform: translate3d(0, -5px, 0) rotate(-0.2deg); }
   to { transform: translate3d(0, 5px, 0) rotate(0.2deg); }
 }
-@media (min-width: 761px) {
+@media ((min-width: 1025px) or ((min-width: 761px) and (orientation: landscape))) {
   :root {
     --header: 80px;
     --footer: 64px;
@@ -3321,7 +3321,7 @@ body.motion-paused *:after {
   .project-bottom { margin: 10px 0 20px; }
   .project-bottom h3 { font-size: 23px; }
 }
-@media (min-width: 761px) and (max-width: 1150px) {
+@media ((min-width: 1025px) or ((min-width: 761px) and (orientation: landscape))) and (max-width: 1150px) {
   .work-panel { grid-template-columns: 205px minmax(0, 1fr); }
   .work-sidebar { padding: 26px 18px; }
   .project-context dl div { font-size: 10px; }
@@ -3337,7 +3337,7 @@ body.motion-paused *:after {
   .mini-project strong { font-size: 12px; }
   .mini-project small { font-size: 10px; }
 }
-@media (min-width: 761px) and (max-height: 800px) {
+@media ((min-width: 1025px) or ((min-width: 761px) and (orientation: landscape))) and (max-height: 800px) {
   :root { --header: 70px; --footer: 58px; }
   .work-sidebar { padding-top: 26px; padding-bottom: 26px; }
   .hero-copy { padding-top: 30px; }
@@ -3359,7 +3359,7 @@ body.motion-paused *:after {
   .project-bottom { margin: 5px 0 14px; }
   .project-bottom h3 { font-size: 21px; }
 }
-@media (max-width: 760px) {
+@media ((max-width: 760px) or ((max-width: 1024px) and (orientation: portrait))) {
   .hero-panel {
     display: grid;
     grid-template-rows: auto 290px auto;
@@ -3442,7 +3442,7 @@ body.motion-paused *:after {
   .next-project > span > span { font-size: 11px; }
   .assistant-toggle { width: 38px; height: 38px; }
 }
-@media (min-width: 761px) and (max-height: 600px) {
+@media ((min-width: 1025px) or ((min-width: 761px) and (orientation: landscape))) and (max-height: 600px) {
   .hero-panel { overflow-y: auto; min-height: 0; }
   .hero-copy { min-height: 450px; }
   .hero-projects { position: relative; left: 0; bottom: auto; margin: 10px 0; }
@@ -3451,7 +3451,7 @@ body.motion-paused *:after {
 /* The Work art is a text-free render. Semantic HTML sits on its blank surfaces. */
 .work-scene { display: none; }
 .document-names { display: none; }
-@media (min-width: 761px) {
+@media ((min-width: 1025px) or ((min-width: 761px) and (orientation: landscape))) {
   .project-visual {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
@@ -3524,7 +3524,7 @@ body.motion-paused *:after {
   .chapter-nav > a { font-size: 11px; width: 60px; }
   .chapter-line { left: 30px; right: 30px; }
 }
-@media (max-width: 760px) {
+@media ((max-width: 760px) or ((max-width: 1024px) and (orientation: portrait))) {
   .project-visual { display: block; }
   .scene-frame {
     display: grid;

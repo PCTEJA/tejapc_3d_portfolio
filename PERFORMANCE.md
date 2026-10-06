@@ -26,4 +26,10 @@ The desktop transfer reduction is approximately 72%, including the additional Wo
 
 `npm run build` validates JavaScript syntax, local asset paths, responsive image candidates, font URLs, anchors and unique IDs. `npm test` covers navigation, project tabs, stage dialogs, assistant error and mocked success responses, touch swipes, tall-content scrolling, pause/reduced motion, hidden-tab recovery, absence of idle JavaScript rendering and the 750 KB desktop startup resource budget.
 
-Reference layouts were inspected at 1672×941, 1440×900, 1366×768, 1920×874 and 390×844. Mobile Work stacks readable stages with internal vertical scrolling. All three projects retain accessible stage controls. The Work illustration is directly extracted; the Intro includes locally recovered artwork behind UI. Font rendering, responsive adaptation and interactive controls mean the complete page is not claimed to be pixel-identical to a static image. All 16 browser checks pass.
+Reference layouts were inspected at 1672×941, 1440×900, 1366×768, 1920×874 and 390×844. Mobile Work stacks readable stages with internal vertical scrolling. All three projects retain accessible stage controls. The Work illustration is directly extracted; the Intro includes locally recovered artwork behind UI. Font rendering, responsive adaptation and interactive controls mean the complete page is not claimed to be pixel-identical to a static image. All 19 browser checks pass, including company selection, keyboard discipline tabs, the About teaching link and the shared mobile Work stage-card layout.
+
+## About and Experience revision
+
+About and Experience now use source-derived ribbon artwork, with hidden portions recovered by image editing. The three new WebP assets total about 175 KB and use lazy loading. Company buttons select four distinct, résumé-backed role views. Artwork sits below semantic text and controls; mobile uses a single-column layout with internal chapter scrolling. The earlier detailed timing table describes the Intro/Work measurement run, not a new measurement of this revision. The startup budget and absence of idle JavaScript rendering remain verified by the browser suite.
+
+A subsequent full UI review corrected tablet breakpoints, narrow-phone tab clipping and off-screen keyboard focus. See `UI-REVIEW.md` for the tested viewport matrix and practical limits.
