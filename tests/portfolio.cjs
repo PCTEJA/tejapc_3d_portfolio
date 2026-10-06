@@ -22,6 +22,7 @@ const ready = new Promise((resolve, reject) => {
 });
 let browser;
 const errors = [];
+const failedAssets = [];
 const checks = [];
 const passed = (label) => {
   checks.push(label);
@@ -35,6 +36,28 @@ const passed = (label) => {
     viewport: { width: 1440, height: 900 },
   });
   page.on("pageerror", (error) => errors.push(error.message));
+  page.on("response", (response) => {
+    if (response.status() >= 400 && !response.url().endsWith("/chat"))
+      failedAssets.push(`${response.status()} ${response.url()}`);
+  });
+  // Count application animation callbacks without creating an animation loop
+  // in the test itself. Ambient decoration should be handled by the compositor.
+  await page.addInitScript(() => {
+    window.__animationCallbacks = 0;
+    const requestFrame = window.requestAnimationFrame.bind(window);
+    window.requestAnimationFrame = (callback) =>
+      requestFrame((time) => {
+        window.__animationCallbacks += 1;
+        callback(time);
+      });
+  });
+  const expectIdle = async (label) => {
+    await page.waitForTimeout(250);
+    const before = await page.evaluate(() => window.__animationCallbacks);
+    await page.waitForTimeout(600);
+    const after = await page.evaluate(() => window.__animationCallbacks);
+    assert.equal(after - before, 0, `${label}: animation callbacks continue at rest`);
+  };
   const chapter = async (index) =>
     page.waitForFunction(
       (index) =>
@@ -58,11 +81,38 @@ const passed = (label) => {
   await page.screenshot({ path: path.join(output, "desktop-home.png") });
   passed("Desktop introduction and portrait load");
 
+  const ribbonImages = page.locator('img[src*="ribbon-flow-v2-"]');
+  assert.ok(await ribbonImages.count() >= 3, "Artwork appears in rear, foreground, and pipeline layers");
+  const heroRibbons = page.locator('#home img[src*="ribbon-flow-v2-"]');
+  await heroRibbons.evaluateAll((images) => Promise.all(images.map((img) => img.decode())));
+  assert.equal(await heroRibbons.evaluateAll((images) => images.every((img) => img.naturalWidth > 0)), true);
+  const initialResources = await page.evaluate(() => {
+    const entries = [
+      ...performance.getEntriesByType("navigation"),
+      ...performance.getEntriesByType("resource"),
+    ];
+    return {
+      bytes: entries.reduce((total, entry) => total + entry.transferSize, 0),
+      external: entries.filter((entry) => new URL(entry.name).origin !== location.origin).map((entry) => entry.name),
+      images: entries.filter((entry) => /\.(?:png|webp)(?:\?|$)/.test(entry.name)).map((entry) => entry.name),
+    };
+  });
+  assert.ok(initialResources.bytes < 750000, `Initial transfer exceeded 750 KB: ${initialResources.bytes}`);
+  assert.deepEqual(initialResources.external, [], "Initial rendering must not depend on external font services");
+  assert.equal(initialResources.images.some((url) => /teja-portrait\.png/.test(url)), false);
+  assert.equal(await page.locator("canvas").count(), 0);
+  await expectIdle("Introduction");
+  passed("Responsive artwork loads below the 750 KB startup budget without idle JavaScript animation");
+
   await page.mouse.move(700, 420);
   await page.mouse.wheel(0, 120);
   await chapter(1);
   assert.equal(await page.evaluate(() => window.scrollY), 0);
   assert.equal(await page.locator("#page-number").textContent(), "02");
+  assert.equal(await page.locator("#work .hero-portrait").count(), 0);
+  await page.locator("#work .work-scene").evaluateAll((images) => Promise.all(images.map((img) => img.decode())));
+  assert.ok(await page.locator(".scene-frame").evaluate(el => el.clientWidth > 600), "Work scene must retain visible dimensions");
+  await expectIdle("Work chapter");
   await page.screenshot({ path: path.join(output, "desktop-work.png") });
   passed("A small vertical mouse-wheel gesture travels sideways to work");
 
@@ -159,8 +209,14 @@ const passed = (label) => {
       .evaluate((body) => body.classList.contains("motion-paused")),
     true,
   );
+  await page.locator('.chapter-nav a[href="#work"]').click();
+  await chapter(1);
+  await expectIdle("Paused chapter navigation");
   await page.getByRole("button", { name: "Resume ambient animation" }).click();
-  passed("Keyboard chapter navigation and animation pause");
+  await page.getByRole("link", { name: "Teja PC, home" }).click();
+  await chapter(0);
+  await expectIdle("Resumed chapter navigation");
+  passed("Keyboard chapter navigation and usable navigation while animation is paused");
 
   await page.context().grantPermissions(["clipboard-read", "clipboard-write"]);
   await page.locator('.chapter-nav a[href="#contact"]').click();
@@ -197,13 +253,15 @@ const passed = (label) => {
 
   for (const viewport of [
     { width: 1280, height: 720 },
+    { width: 1366, height: 768 },
+    { width: 1920, height: 874 },
     { width: 1920, height: 1080 },
   ]) {
     await page.setViewportSize(viewport);
     await page.getByRole("link", { name: "Teja PC, home" }).click();
     await chapter(0);
     await page.screenshot({
-      path: path.join(output, `home-${viewport.width}.png`),
+      path: path.join(output, `home-${viewport.width}x${viewport.height}.png`),
     });
     await page.locator('.chapter-nav a[href="#work"]').click();
     await chapter(1);
@@ -278,22 +336,50 @@ const passed = (label) => {
   );
   assert.equal(
     await page
-      .locator(".ribbon-group")
+      .locator(".hero-front-flow")
       .first()
-      .evaluate((element) => getComputedStyle(element).animationName),
-    "none",
+      .evaluate((element) => {
+        const style = getComputedStyle(element);
+        return style.animationName === "none" || style.animationPlayState === "paused";
+      }),
+    true,
   );
   await page.locator('.chapter-nav a[href="#contact"]').click();
   await chapter(4);
+  await expectIdle("Reduced motion");
   passed(
     "Reduced motion disables ambient animation and keeps navigation usable",
   );
 
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.getByRole("link", { name: "Teja PC, home" }).click();
+  await chapter(0);
+  // Emulate the visibility lifecycle deterministically in headless Chromium.
+  // This also exercises cancellation while a chapter transition is in flight.
+  await page.evaluate(() => {
+    document.querySelector('.chapter-nav a[href="#contact"]').click();
+    Object.defineProperty(document, "hidden", { configurable: true, value: true });
+    document.dispatchEvent(new Event("visibilitychange"));
+  });
+  await expectIdle("Hidden document");
+  await page.evaluate(() => {
+    delete document.hidden;
+    document.dispatchEvent(new Event("visibilitychange"));
+  });
+  await page.getByRole("link", { name: "Teja PC, home" }).click();
+  await chapter(0);
+  await page.locator('.chapter-nav a[href="#experience"]').click();
+  await chapter(2);
+  await expectIdle("Visible document after resume");
+  passed("Hidden-document lifecycle cancels animation work and navigation recovers");
+
   assert.deepEqual(errors, []);
+  assert.deepEqual(failedAssets, []);
   passed("No JavaScript runtime errors");
   fs.writeFileSync(
     path.join(output, "test-results.json"),
-    JSON.stringify({ checks, errors }, null, 2),
+    JSON.stringify({ checks, errors, failedAssets, initialResources }, null, 2),
   );
   console.log(
     `${checks.length} browser checks passed. Screenshots in .artifacts/.`,

@@ -3,14 +3,18 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#f9faff" />
+    <meta name="theme-color" content="#ffffff" />
     <meta
       name="description"
       content="Teja P C — MLOps engineer building practical AI systems, thoughtful data products, and experiences that make a difference."
     />
     <title>Teja PC — Human curiosity. Engineered impact.</title>
     <link rel="icon" href="tab_icon.png" />
-    <link rel="preload" as="image" href="assets/teja-portrait.png" />
+    <link rel="preload" as="image" href="assets/teja-portrait-960.webp"
+      imagesrcset="assets/teja-portrait-640.webp 640w, assets/teja-portrait-960.webp 960w"
+      imagesizes="(max-width: 760px) 380px, (max-height: 800px) 650px, 760px" fetchpriority="high" />
+    <link rel="preload" as="font" type="font/woff2" href="assets/fonts/manrope-latin.woff2" crossorigin />
+    <link rel="preload" as="font" type="font/woff2" href="assets/fonts/dm-sans-latin.woff2" crossorigin />
     <link rel="stylesheet" href="style.css" />
     <script src="app.js" defer></script>
   </head>
@@ -79,7 +83,6 @@
         class="journey"
         aria-label="Portfolio chapters. Scroll or swipe sideways to explore."
       >
-        <canvas id="flow-canvas" aria-hidden="true"></canvas>
         <div class="panel-track" id="panel-track">
           <section
             id="home"
@@ -87,7 +90,14 @@
             aria-labelledby="hero-title"
             tabindex="-1"
           >
-            <div class="hero-aura" aria-hidden="true"></div>
+            <div class="hero-flow-placement" aria-hidden="true">
+              <div class="flow-ambient">
+                <img src="assets/ribbon-flow-v2-2172.webp"
+                  srcset="assets/ribbon-flow-v2-1200.webp 1200w, assets/ribbon-flow-v2-2172.webp 2172w"
+                  sizes="(max-width: 760px) 850px, 116vw"
+                  width="2172" height="724" alt="" decoding="async" />
+              </div>
+            </div>
             <div class="hero-copy">
               <p class="eyebrow">
                 <span class="tiny-line"></span> THE PORTFOLIO OF TEJA P C
@@ -120,7 +130,9 @@
             <div class="portrait-stage">
               <img
                 class="hero-portrait"
-                src="assets/teja-portrait.png"
+                src="assets/teja-portrait-960.webp"
+                srcset="assets/teja-portrait-640.webp 640w, assets/teja-portrait-960.webp 960w"
+                sizes="(max-width: 760px) 380px, (max-height: 800px) 650px, 760px"
                 width="1254"
                 height="1254"
                 alt="Teja P C in a navy suit and blue tie"
@@ -130,7 +142,12 @@
             <div class="flow-pin pin-data"><span>DATA</span><i></i></div>
             <div class="flow-pin pin-ai"><span>AI</span><i></i></div>
             <div class="flow-pin pin-product"><span>PRODUCT</span><i></i></div>
-            <div class="hero-front-flow" aria-hidden="true"></div>
+            <div class="hero-front-flow" aria-hidden="true">
+              <img src="assets/ribbon-flow-v2-2172.webp"
+                srcset="assets/ribbon-flow-v2-1200.webp 1200w, assets/ribbon-flow-v2-2172.webp 2172w"
+                sizes="(max-width: 760px) 850px, 116vw"
+                width="2172" height="724" alt="" decoding="async" />
+            </div>
             <div class="hero-projects">
               <button class="mini-project" data-project-jump="ai">
                 <span class="icon-tile"
@@ -154,9 +171,6 @@
                 ></span>
               </button>
             </div>
-            <span class="hero-caption"
-              >A little curiosity. A lot of possibility.</span
-            >
           </section>
           <section
             id="work"
@@ -219,9 +233,7 @@
               </div>
               <div class="sidebar-note">
                 <svg><use href="#i-spark" /></svg>
-                <p>
-                  Complex problems.<br /><strong>Clearer possibilities.</strong>
-                </p>
+                <p id="context-stack">Gemini · OCR<br />FastAPI · Cloud Run</p>
               </div>
               <a
                 href="gallery/tejacv.pdf"
@@ -258,18 +270,31 @@
                 id="project-visual"
                 aria-label="Interactive document processing pipeline"
               >
-                <div class="diagram-flow" aria-hidden="true"></div>
+                <div class="scene-frame">
+                  <img class="work-scene" src="assets/work-extraction-scene-1200.webp"
+                    srcset="assets/work-extraction-scene-1200.webp 1200w, assets/work-extraction-scene-2172.webp 2172w"
+                    sizes="(max-width: 760px) 760px, (max-width: 1500px) 1100px, 1400px"
+                    width="2172" height="724" alt="" aria-hidden="true" decoding="async" loading="lazy" />
+                <div class="diagram-flow" aria-hidden="true">
+                  <div class="flow-ambient">
+                    <img src="assets/ribbon-flow-v2-2172.webp"
+                      srcset="assets/ribbon-flow-v2-1200.webp 1200w, assets/ribbon-flow-v2-2172.webp 2172w"
+                      sizes="(max-width: 760px) 850px, 116vw"
+                      width="2172" height="724" alt="" decoding="async" loading="lazy" />
+                  </div>
+                </div>
                 <button
                   class="document-stack pipeline-node"
                   data-stage="input"
                   aria-label="Explore source documents"
                 >
-                  <span class="paper paper-back"></span
-                  ><span class="paper paper-middle"></span
+                  <span class="document-names" aria-hidden="true"><span>Invoices</span><span>Receipts</span><span>Forms</span></span>
+                  <span class="paper paper-back"><span>Forms</span><i></i><i></i><i></i><i></i></span
+                  ><span class="paper paper-middle"><span>Receipts</span><i></i><i></i><i></i><i></i></span
                   ><span class="paper paper-front"
                     ><span class="paper-label"
-                      >INVOICE <svg><use href="#i-file" /></svg></span
-                    ><b>Information,<br />waiting to flow.</b><i></i><i></i
+                      >Invoices <svg><use href="#i-file" /></svg></span
+                    ><i></i><i></i
                     ><i></i><i></i
                     ><span class="paper-footer">01 / SOURCE</span></span
                   ><span class="node-caption">Documents in</span></button
@@ -279,11 +304,11 @@
                   aria-label="Explore the AI extraction stage"
                 >
                   <span class="engine-inner"
-                    ><svg><use href="#i-ai" /></svg><strong>AI</strong
+                    ><strong>AI</strong
                     ><span>EXTRACTION</span
                     ><i class="engine-status">PROCESSING</i></span
                   ><span class="node-caption"
-                    >Intelligence at work</span
+                    >Extract & validate</span
                   ></button
                 ><button
                   class="structured-card pipeline-node"
@@ -297,13 +322,14 @@
                   ><span class="data-row"><b>$</b> Amount <i></i></span
                   ><span class="data-row"><b>▤</b> Vendor <i></i></span
                   ><span class="data-row"><b>▧</b> Category <i></i></span
-                  ><span class="node-caption">Ready for what’s next</span>
+                  ><span class="node-caption">Structured output</span>
                 </button>
                 <div class="output-formats">
                   <span><b>{ }</b> JSON</span><span><b>▦</b> CSV</span
                   ><span
                     ><svg><use href="#i-data" /></svg> Database</span
                   ><span><b>↗</b> API ready</span>
+                </div>
                 </div>
               </div>
               <div class="project-bottom">

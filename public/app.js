@@ -4,9 +4,19 @@ const $ = (selector, root = document) => root.querySelector(selector);
 const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
 const track = $("#panel-track");
 const panels = $$(".panel");
+const root = document.documentElement;
+const chapterProgress = $("#chapter-progress");
+const pageNumber = $("#page-number");
+const previousPanel = $("#previous-panel");
+const nextPanel = $("#next-panel");
+const chapterLinks = $$(".chapter-nav a, .primary-nav a");
+const motionToggle = $("#motion-toggle");
 const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
 const mobile = matchMedia("(max-width: 760px)");
 let activePanel = 0;
+let renderedPanel = -1;
+let trackWidth = track.clientWidth;
+let maxScroll = Math.max(0, track.scrollWidth - trackWidth);
 let targetScroll = 0;
 let scrollFrame = 0;
 let ambientPaused = reducedMotion.matches;
@@ -15,38 +25,76 @@ let pointerDown = false;
 let scrollTimestamp = 0;
 let wheelStart = 0;
 
+function stopScrollAnimation() {
+  cancelAnimationFrame(scrollFrame);
+  scrollFrame = 0;
+  scrollTimestamp = 0;
+}
+
+function syncChapterPosition() {
+  const position = Math.max(
+    0,
+    Math.min(panels.length - 1, track.scrollLeft / (trackWidth || 1)),
+  );
+  const progress = position / Math.max(1, panels.length - 1);
+  chapterProgress.style.transform = `scaleX(${progress})`;
+  root.style.setProperty("--journey-progress", progress.toFixed(4));
+  activePanel = Math.round(position);
+  // Navigation and ambient state only change when crossing into a chapter.
+  if (renderedPanel === activePanel) return;
+  renderedPanel = activePanel;
+  root.dataset.activeChapter = panels[activePanel].id;
+  panels.forEach((panel, index) => {
+    panel.classList.toggle("is-active", index === activePanel);
+  });
+  pageNumber.textContent = String(activePanel + 1).padStart(2, "0");
+  previousPanel.disabled = activePanel === 0;
+  nextPanel.disabled = activePanel === panels.length - 1;
+  chapterLinks.forEach((link) => {
+    if (link.hash === `#${panels[activePanel].id}`)
+      link.setAttribute("aria-current", "page");
+    else link.removeAttribute("aria-current");
+  });
+}
+
 // Keep the document itself still. Wheel input becomes movement along the chapter rail.
 // Small screens retain native horizontal swipe and can scroll tall chapter content vertically.
+// The only animation frame loop runs while a requested chapter transition is moving.
 function animateScroll(now) {
   const elapsed = scrollTimestamp ? Math.min(now - scrollTimestamp, 64) : 16;
   scrollTimestamp = now;
   const distance = targetScroll - track.scrollLeft;
-  if (Math.abs(distance) < 0.8 || reducedMotion.matches) {
+  if (Math.abs(distance) < 0.8 || reducedMotion.matches || document.hidden) {
     track.scrollLeft = targetScroll;
     scrollFrame = 0;
     scrollTimestamp = 0;
+    syncChapterPosition();
     return;
   }
-  track.scrollLeft += distance * (1 - Math.exp(-elapsed / 85));
+  const step = distance * (1 - Math.exp(-elapsed / 85));
+  // Browsers may round scroll offsets to whole pixels. Always reach the target
+  // instead of scheduling frames forever for a sub-pixel remainder.
+  track.scrollLeft +=
+    Math.sign(distance) * Math.min(Math.abs(distance), Math.max(1, Math.abs(step)));
   scrollFrame = requestAnimationFrame(animateScroll);
 }
 function scrollToPosition(position, immediate = false) {
-  targetScroll = Math.max(
-    0,
-    Math.min(position, track.scrollWidth - track.clientWidth),
-  );
-  if (immediate || reducedMotion.matches || mobile.matches) {
-    cancelAnimationFrame(scrollFrame);
-    scrollFrame = 0;
+  targetScroll = Math.max(0, Math.min(position, maxScroll));
+  if (immediate || reducedMotion.matches || mobile.matches || document.hidden) {
+    stopScrollAnimation();
     track.scrollTo({
       left: targetScroll,
-      behavior: immediate || reducedMotion.matches ? "instant" : "smooth",
+      behavior:
+        immediate || reducedMotion.matches || document.hidden ? "instant" : "smooth",
     });
+    syncChapterPosition();
   } else if (!scrollFrame) scrollFrame = requestAnimationFrame(animateScroll);
 }
 function goToPanel(index, focus = false) {
   index = Math.max(0, Math.min(index, panels.length - 1));
-  scrollToPosition(index * track.clientWidth);
+  clearTimeout(settleTimer);
+  settleTimer = undefined;
+  scrollToPosition(index * trackWidth);
   history.replaceState(null, "", `#${panels[index].id}`);
   if (focus) panels[index].focus({ preventScroll: true });
 }
@@ -73,7 +121,7 @@ track.addEventListener(
       event.deltaMode === 1
         ? 24
         : event.deltaMode === 2
-          ? track.clientWidth
+          ? trackWidth
           : 1;
     const delta = (vertical ? event.deltaY : event.deltaX) * multiplier;
     if (!settleTimer) wheelStart = track.scrollLeft;
@@ -81,14 +129,14 @@ track.addEventListener(
     scrollToPosition(targetScroll + delta * 1.35);
     clearTimeout(settleTimer);
     settleTimer = setTimeout(() => {
-      let destination = Math.round(targetScroll / track.clientWidth);
-      const startChapter = Math.round(wheelStart / track.clientWidth);
+      let destination = Math.round(targetScroll / trackWidth);
+      const startChapter = Math.round(wheelStart / trackWidth);
       if (
         destination === startChapter &&
         Math.abs(targetScroll - wheelStart) > 45
       )
         destination += Math.sign(targetScroll - wheelStart);
-      if (!pointerDown) scrollToPosition(destination * track.clientWidth);
+      if (!pointerDown) scrollToPosition(destination * trackWidth);
       settleTimer = undefined;
     }, 240);
   },
@@ -98,42 +146,18 @@ track.addEventListener(
   "pointerdown",
   () => {
     pointerDown = true;
-    cancelAnimationFrame(scrollFrame);
-    scrollFrame = 0;
+    stopScrollAnimation();
     clearTimeout(settleTimer);
     settleTimer = undefined;
   },
   { passive: true },
 );
-window.addEventListener(
-  "pointerup",
-  () => {
-    pointerDown = false;
-  },
-  { passive: true },
-);
-track.addEventListener(
-  "scroll",
-  () => {
-    const position = track.scrollLeft / track.clientWidth;
-    activePanel = Math.max(
-      0,
-      Math.min(panels.length - 1, Math.round(position)),
-    );
-    $("#chapter-progress").style.width =
-      `${(position / (panels.length - 1)) * 100}%`;
-    $("#page-number").textContent = String(activePanel + 1).padStart(2, "0");
-    $("#previous-panel").disabled = activePanel === 0;
-    $("#next-panel").disabled = activePanel === panels.length - 1;
-    $$(".chapter-nav a, .primary-nav a").forEach((link) => {
-      if (link.hash === `#${panels[activePanel].id}`)
-        link.setAttribute("aria-current", "page");
-      else link.removeAttribute("aria-current");
-    });
-    if (ambientPaused) drawFlow(performance.now());
-  },
-  { passive: true },
-);
+const releasePointer = () => {
+  pointerDown = false;
+};
+window.addEventListener("pointerup", releasePointer, { passive: true });
+window.addEventListener("pointercancel", releasePointer, { passive: true });
+track.addEventListener("scroll", syncChapterPosition, { passive: true });
 $$('a[href^="#"]').forEach((link) =>
   link.addEventListener("click", (event) => {
     const index = panels.findIndex((panel) => `#${panel.id}` === link.hash);
@@ -142,10 +166,8 @@ $$('a[href^="#"]').forEach((link) =>
     goToPanel(index, link.classList.contains("skip-link"));
   }),
 );
-$("#previous-panel").addEventListener("click", () =>
-  goToPanel(activePanel - 1),
-);
-$("#next-panel").addEventListener("click", () => goToPanel(activePanel + 1));
+previousPanel.addEventListener("click", () => goToPanel(activePanel - 1));
+nextPanel.addEventListener("click", () => goToPanel(activePanel + 1));
 window.addEventListener("keydown", (event) => {
   if (
     $("#detail-dialog").open ||
@@ -172,135 +194,43 @@ window.addEventListener("hashchange", () => {
   if (index >= 0) goToPanel(index);
 });
 
-// Vector ribbons are composed from translucent satin bands and travelling highlights.
-// Their paths are real geometry, so they stay crisp at every screen size.
-function ribbonMarkup(id) {
-  let paths = "";
-  for (let i = 0; i < 24; i++) {
-    const y = 50 + i * 4.2;
-    paths += `<path d="M-80 ${y + 12} C180 ${y + 170},260 ${y - 124},530 ${y + 12} S870 ${y + 160},1110 ${y + 22} S1350 ${y - 20},1520 ${y + 52}" stroke="url(#${id}-color)" stroke-width="${7 + Math.sin((i / 24) * Math.PI) * 4}" opacity="${0.45 + Math.sin((i / 24) * Math.PI) * 0.5}"/>`;
-    if (i % 5 === 0)
-      paths += `<path d="M-80 ${y + 12} C180 ${y + 170},260 ${y - 124},530 ${y + 12} S870 ${y + 160},1110 ${y + 22} S1350 ${y - 20},1520 ${y + 52}" stroke="white" stroke-width="${i % 10 === 0 ? 2 : 0.7}" opacity=".65"/>`;
-  }
-  return `<svg class="ribbon-svg" viewBox="0 0 1440 300" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><linearGradient id="${id}-color" x1="0" y1="0" x2="1" y2=".15"><stop stop-color="#ffad89"/><stop offset=".14" stop-color="#ed9be2"/><stop offset=".3" stop-color="#8e5bfc"/><stop offset=".43" stop-color="#c5b4ff"/><stop offset=".56" stop-color="#79dfff"/><stop offset=".68" stop-color="#6486ff"/><stop offset=".8" stop-color="#ac83ff"/><stop offset="1" stop-color="#bcefff"/></linearGradient><linearGradient id="${id}-shine" x1="0" y1="0" x2="0" y2="1"><stop stop-color="white" stop-opacity=".8"/><stop offset=".5" stop-color="white" stop-opacity="0"/><stop offset="1" stop-color="#ab7aff" stop-opacity=".3"/></linearGradient></defs><g class="ribbon-group" fill="none">${paths}<path class="flow-glint" d="M-80 106 C180 276,260 -30,530 106 S870 266,1110 116 S1350 74,1520 146" stroke="white" stroke-width="2.5" opacity=".75"/></g></svg>`;
-}
-$(".hero-front-flow").innerHTML = ribbonMarkup("foreground");
-$(".diagram-flow").innerHTML = ribbonMarkup("diagram");
-
-const canvas = $("#flow-canvas");
-const context = canvas.getContext("2d");
-let flowWidth = 0;
-let flowHeight = 0;
-let flowFrame = 0;
-let lastFrame = 0;
-let flowTime = 0;
-let lastFlowTime = 0;
-function sizeCanvas() {
-  flowWidth = canvas.clientWidth;
-  flowHeight = canvas.clientHeight;
-  const dpr = Math.min(devicePixelRatio || 1, 1.5);
-  canvas.width = flowWidth * dpr;
-  canvas.height = flowHeight * dpr;
-  context?.setTransform(dpr, 0, 0, dpr, 0, 0);
-  drawFlow(performance.now());
-}
-function drawFlow(now) {
-  if (!context || !flowWidth) return;
-  if (!ambientPaused && lastFlowTime)
-    flowTime += Math.min(now - lastFlowTime, 50) * 0.00022;
-  lastFlowTime = now;
-  const offset = track.scrollLeft;
-  const step = mobile.matches ? 6 : 12;
-  context.clearRect(0, 0, flowWidth, flowHeight);
-  const palettes = [
-    ["#fbbb91", "#ff9bbd", "#c389ff", "#8c69ff", "#83b6ff"],
-    ["#75e5f1", "#35ceff", "#638bff", "#9568ff", "#f0b5e8"],
-    ["#d5c9ff", "#9d92ff", "#76b6ff", "#9adaff", "#bea4ff"],
-  ];
-  for (let band = 0; band < 3; band++) {
-    const base = flowHeight * (mobile.matches ? 0.76 : 0.71) + band * 19;
-    const thickness = flowHeight * (0.087 + band * 0.012);
-    const curve = (x, edge) => {
-      const world = (x + offset) / flowWidth;
-      return (
-        base +
-        Math.sin(world * 5.3 + 0.5 + band * 0.29 + Math.sin(flowTime) * 0.1) *
-          flowHeight *
-          0.2 +
-        Math.sin(world * 9 - flowTime * 0.65 + band) * flowHeight * 0.025 +
-        edge * thickness * (1 + Math.sin(world * 7 + band + flowTime) * 0.36)
-      );
-    };
-    for (let stripe = 0; stripe < 22; stripe++) {
-      const edge = stripe / 22 - 0.5;
-      const gradient = context.createLinearGradient(
-        0,
-        0,
-        flowWidth,
-        flowHeight * 0.3,
-      );
-      palettes[band].forEach((color, index) =>
-        gradient.addColorStop(index / 4, color),
-      );
-      context.beginPath();
-      for (let x = -30; x <= flowWidth + 30; x += step) {
-        const y = curve(x, edge);
-        if (x === -30) context.moveTo(x, y);
-        else context.lineTo(x, y);
-      }
-      for (let x = flowWidth + 30; x >= -30; x -= step)
-        context.lineTo(x, curve(x, edge + 0.061));
-      context.closePath();
-      context.globalAlpha = 0.56 + Math.sin((stripe / 22) * Math.PI) * 0.32;
-      context.fillStyle = gradient;
-      context.fill();
-      if (stripe < 3 || stripe === 8 || stripe === 19) {
-        context.globalAlpha = stripe === 8 ? 0.28 : 0.48;
-        context.strokeStyle = "white";
-        context.lineWidth = stripe === 8 ? 4 : 0.65;
-        context.stroke();
-      }
-    }
-  }
-  context.globalAlpha = 1;
-}
-function frame(now) {
-  if (!ambientPaused && !document.hidden && now - lastFrame > 32) {
-    drawFlow(now);
-    lastFrame = now;
-  }
-  if (!ambientPaused && !document.hidden)
-    flowFrame = requestAnimationFrame(frame);
-}
+// Pre-rendered artwork uses compositor-friendly CSS transforms. There is no idle
+// JavaScript rendering loop, and only the current chapter's ambience is enabled.
 function updateMotion() {
-  document.body.classList.toggle("motion-paused", ambientPaused);
-  $("#motion-toggle").setAttribute("aria-pressed", String(ambientPaused));
-  $("#motion-toggle").setAttribute(
+  const paused = ambientPaused || document.hidden;
+  root.dataset.motionPaused = String(paused);
+  document.body.classList.toggle("motion-paused", paused);
+  motionToggle.setAttribute("aria-pressed", String(ambientPaused));
+  motionToggle.setAttribute(
     "aria-label",
     ambientPaused ? "Resume ambient animation" : "Pause ambient animation",
   );
-  $("#motion-toggle span").textContent = ambientPaused ? "▷" : "Ⅱ";
-  cancelAnimationFrame(flowFrame);
-  lastFlowTime = 0;
-  if (!ambientPaused && !document.hidden)
-    flowFrame = requestAnimationFrame(frame);
-  else drawFlow(performance.now());
+  $("span", motionToggle).textContent = ambientPaused ? "▷" : "Ⅱ";
+  if (document.hidden) {
+    clearTimeout(settleTimer);
+    settleTimer = undefined;
+    pointerDown = false;
+    if (scrollFrame) scrollToPosition(targetScroll, true);
+  }
 }
-$("#motion-toggle").addEventListener("click", () => {
+motionToggle.addEventListener("click", () => {
   ambientPaused = !ambientPaused;
   updateMotion();
 });
 reducedMotion.addEventListener("change", (event) => {
   ambientPaused = event.matches;
+  if (event.matches && scrollFrame) scrollToPosition(targetScroll, true);
   updateMotion();
 });
 document.addEventListener("visibilitychange", updateMotion);
 new ResizeObserver(() => {
-  cancelAnimationFrame(scrollFrame);
-  scrollFrame = 0;
-  targetScroll = activePanel * track.clientWidth;
-  track.scrollLeft = targetScroll;
-  sizeCanvas();
+  const width = track.clientWidth;
+  maxScroll = Math.max(0, track.scrollWidth - width);
+  if (width === trackWidth) return;
+  trackWidth = width;
+  clearTimeout(settleTimer);
+  settleTimer = undefined;
+  scrollToPosition(activePanel * trackWidth, true);
 }).observe($("#journey"));
 
 const projects = {
@@ -398,10 +328,12 @@ const projects = {
 };
 let selectedProject = "ai";
 const initialDiagram = $("#project-visual").innerHTML;
+const initialSceneArtwork = $(".work-scene", $("#project-visual")).outerHTML;
+const initialDiagramFlow = $(".diagram-flow", $("#project-visual")).outerHTML;
 const arrow = '<svg aria-hidden="true"><use href="#i-up"/></svg>';
 function alternateDiagram(key) {
   const data = key === "data";
-  return `<div class="diagram-flow" aria-hidden="true">${ribbonMarkup("diagram-" + key)}</div><button class="document-stack pipeline-node" data-stage="input" aria-label="Explore ${data ? "forecasting inputs" : "user questions"}"><span class="paper paper-back"></span><span class="paper paper-middle"></span><span class="paper paper-front"><span class="paper-label">${data ? "WEATHER + ENERGY" : "THE INTERFACE"}</span><b>${data ? "Signals for<br>a better forecast." : "Curiosity,<br>in conversation."}</b><i></i><i></i><i></i><i></i><span class="paper-footer">01 / INPUT</span></span><span class="node-caption">${data ? "Connected data" : "A visitor’s question"}</span></button><button class="ai-engine pipeline-node" data-stage="engine" aria-label="Explore ${data ? "forecasting models" : "the language model"}"><span class="engine-inner"><svg><use href="#${data ? "i-data" : "i-ai"}"/></svg><strong>${data ? "ML" : "LLM"}</strong><span>${data ? "FORECASTING" : "CONVERSATION"}</span><i class="engine-status">${data ? "LEARNING PATTERNS" : "CONNECTING IDEAS"}</i></span><span class="node-caption">${data ? "Patterns become predictions" : "Context + intelligence"}</span></button><button class="structured-card pipeline-node" data-stage="output" aria-label="Explore ${data ? "solar predictions" : "assistant responses"}"><span class="structured-title">${data ? "Solar forecast" : "Useful answers"} <span>✓</span></span>${(data ? ["Weather", "Generation", "Patterns", "Prediction", "Planning"] : ["Experience", "Skills", "Research", "Projects", "Connections"]).map((label, i) => `<span class="data-row"><b>${["◇", "▦", "↗", "▤", "▧"][i]}</b> ${label} <i></i></span>`).join("")}<span class="node-caption">${data ? "Energy, understood" : "A more personal experience"}</span></button><div class="output-formats">${(data ? ["Forecasts", "Research", "Insights", "Planning"] : ["Answers", "Context", "Discovery", "Connect"]).map((label, i) => `<span><b>${["↗", "◇", "▦", "✳"][i]}</b> ${label}</span>`).join("")}</div>`;
+  return `<div class="scene-frame">${initialSceneArtwork}${initialDiagramFlow}<button class="document-stack pipeline-node" data-stage="input" aria-label="Explore ${data ? "forecasting inputs" : "user questions"}"><span class="paper paper-back"></span><span class="paper paper-middle"></span><span class="paper paper-front"><span class="paper-label">${data ? "WEATHER + ENERGY" : "THE INTERFACE"}</span><b>${data ? "Signals for<br>a better forecast." : "Curiosity,<br>in conversation."}</b><i></i><i></i><i></i><i></i><span class="paper-footer">01 / INPUT</span></span><span class="node-caption">${data ? "Connected data" : "A visitor’s question"}</span></button><button class="ai-engine pipeline-node" data-stage="engine" aria-label="Explore ${data ? "forecasting models" : "the language model"}"><span class="engine-inner"><svg><use href="#${data ? "i-data" : "i-ai"}"/></svg><strong>${data ? "ML" : "LLM"}</strong><span>${data ? "FORECASTING" : "CONVERSATION"}</span><i class="engine-status">${data ? "LEARNING PATTERNS" : "CONNECTING IDEAS"}</i></span><span class="node-caption">${data ? "Patterns become predictions" : "Context + intelligence"}</span></button><button class="structured-card pipeline-node" data-stage="output" aria-label="Explore ${data ? "solar predictions" : "assistant responses"}"><span class="structured-title">${data ? "Solar forecast" : "Useful answers"} <span>✓</span></span>${(data ? ["Weather", "Generation", "Patterns", "Prediction", "Planning"] : ["Experience", "Skills", "Research", "Projects", "Connections"]).map((label, i) => `<span class="data-row"><b>${["◇", "▦", "↗", "▤", "▧"][i]}</b> ${label} <i></i></span>`).join("")}<span class="node-caption">${data ? "Energy, understood" : "A more personal experience"}</span></button><div class="output-formats">${(data ? ["Forecasts", "Research", "Insights", "Planning"] : ["Answers", "Context", "Discovery", "Connect"]).map((label, i) => `<span><b>${["↗", "◇", "▦", "✳"][i]}</b> ${label}</span>`).join("")}</div></div>`;
 }
 function selectProject(key) {
   if (!projects[key]) return;
@@ -418,6 +350,8 @@ function selectProject(key) {
   $("#project-description").textContent = project.description;
   $("#context-role").textContent = project.role;
   $("#context-focus").textContent = project.focus;
+  $("#context-stack").innerHTML =
+    `${project.tags.slice(0, 2).join(" · ")}<br>${project.tags.slice(2).join(" · ")}`;
   $("#project-number").textContent =
     `/ 0${Object.keys(projects).indexOf(key) + 1}`;
   $("#project-tags").innerHTML = project.tags
@@ -433,7 +367,7 @@ function selectProject(key) {
   $("#next-project strong").textContent = project.nextTitle;
   $("#next-project > span:nth-child(2) > span").textContent =
     project.nextDescription;
-  if (!reducedMotion.matches)
+  if (!reducedMotion.matches && !ambientPaused)
     $("#project-visual").animate(
       [
         { opacity: 0, transform: "translateY(8px)" },
@@ -683,14 +617,8 @@ $("#chat-form").addEventListener("submit", async (event) => {
   }
 });
 
-sizeCanvas();
 updateMotion();
 const initialPanel = panels.findIndex(
   (panel) => `#${panel.id}` === location.hash,
 );
-if (initialPanel >= 0) {
-  activePanel = initialPanel;
-  requestAnimationFrame(() =>
-    scrollToPosition(initialPanel * track.clientWidth, true),
-  );
-}
+scrollToPosition(Math.max(0, initialPanel) * trackWidth, true);

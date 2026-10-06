@@ -16,6 +16,19 @@ for (const [, reference] of html.matchAll(/(?:src|href)="([^"]+)"/g)) {
   } else if (!fs.existsSync(path.join(root, reference)))
     throw new Error(`Missing asset: ${reference}`);
 }
+for (const [, candidates] of html.matchAll(/\b(?:srcset|imagesrcset)="([^"]+)"/g)) {
+  for (const candidate of candidates.split(",")) {
+    const reference = candidate.trim().split(/\s+/)[0];
+    if (!fs.existsSync(path.join(root, reference)))
+      throw new Error(`Missing responsive image: ${reference}`);
+  }
+}
+const css = fs.readFileSync(path.join(root, "style.css"), "utf8");
+for (const [, reference] of css.matchAll(/url\(["']?([^"')]+)["']?\)/g)) {
+  if (/^(https?:|data:|#)/.test(reference)) continue;
+  if (!fs.existsSync(path.join(root, reference)))
+    throw new Error(`Missing stylesheet asset: ${reference}`);
+}
 console.log(
-  "Static site validated: JavaScript syntax, unique IDs, anchors, and local assets.",
+  "Static site validated: JavaScript syntax, unique IDs, anchors, responsive images, fonts, and local assets.",
 );
