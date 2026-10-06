@@ -103,9 +103,9 @@
   overflow: hidden;
   border-radius: 28px;
   background:
-    radial-gradient(ellipse at 12% 8%, #ffffffd9, transparent 62%),
-    radial-gradient(ellipse at 90% 85%, #c9b8ff70, transparent 70%),
-    linear-gradient(135deg, #f4f0ff9e, #e9e5ff66 55%, #ffffff80);
+    radial-gradient(ellipse at 12% 8%, #ffffffa6, transparent 62%),
+    radial-gradient(ellipse at 90% 85%, #c9b8ff50, transparent 70%),
+    linear-gradient(135deg, #f4f0ff70, #e9e5ff47 55%, #ffffff59);
   -webkit-backdrop-filter: blur(24px) saturate(1.15);
   backdrop-filter: blur(24px) saturate(1.15);
   box-shadow: 0 14px 36px #64529c1a;
@@ -116,7 +116,7 @@
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: linear-gradient(125deg, #ffffffa6, #ffffff26 32%, transparent 46%, #ffffff40 48%, transparent 65%);
+  background: linear-gradient(125deg, #ffffff80, #ffffff1a 32%, transparent 46%, #ffffff30 48%, transparent 65%);
   border: 1px solid #ffffffbf;
   border-radius: inherit;
   box-shadow: inset 0 1px 0 #fff, inset 0 -1px 12px #ffffff66;
