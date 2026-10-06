@@ -102,7 +102,23 @@
 .about-person figcaption strong, .about-person figcaption span { display: block; }
 .about-person figcaption span { color: #717497; }
 .about-story h3 { font-weight: 800; line-height: 1.12; letter-spacing: -.035em; }
-.about-story > p { color: #696d91; line-height: 1.38; }
+.about-story { isolation: isolate; }
+.about-story-copy { position: relative; }
+.about-story-copy::before {
+  content: "";
+  position: absolute;
+  inset: -20px -56px -28px;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(155deg, #ffffffcc, #ffffffb8 55%, #ffffff99);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 18%, #000 82%, transparent), linear-gradient(transparent, #000 20%, #000 76%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 18%, #000 82%, transparent), linear-gradient(transparent, #000 20%, #000 76%, transparent);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+  -webkit-backdrop-filter: blur(22px) saturate(.75);
+  backdrop-filter: blur(22px) saturate(.75);
+}
+.about-story-copy > p { color: #111331; line-height: 1.38; }
 .about-socials { display: flex; }
 .about-more { display: flex; flex-wrap: wrap; gap: 8px 16px; }
 .about-more button { color: #514789; background: #ffffffc9; border-radius: 6px; padding: 3px 5px; }
@@ -166,7 +182,7 @@
   .about-person figcaption span { font-size: calc(19 * var(--u)); }
   .about-story { left: calc(575 * var(--u)); top: calc(270 * var(--v)); width: calc(448 * var(--u)); }
   .about-story h3 { font-size: calc(32 * var(--u)); margin: 0; }
-  .about-story > p { font-size: calc(22 * var(--u)); margin-top: calc(13 * var(--v)); }
+  .about-story-copy > p { font-size: calc(22 * var(--u)); margin-top: calc(13 * var(--v)); }
   .about-socials { margin-top: calc(22 * var(--v)); gap: calc(18 * var(--u)); }
   .about-socials .button { min-height: calc(58 * var(--v)); font-size: calc(18 * var(--u)); padding: 0 calc(29 * var(--u)); gap: calc(19 * var(--u)); border-radius: calc(16 * var(--u)); }
   .about-socials svg { width: calc(23 * var(--u)); height: calc(23 * var(--u)); }
@@ -229,9 +245,9 @@
   .about-person figcaption { padding-top: 8px; }
   .about-person figcaption strong { font-size: 22px; }
   .about-person figcaption span { font-size: 15px; }
-  .about-story { background: #fffffff0; padding: 22px; border-radius: 20px; }
+  .about-story { padding: 22px; border-radius: 20px; }
   .about-story h3 { font-size: 25px; margin: 0; }
-  .about-story > p { font-size: 16px; margin-top: 14px; }
+  .about-story-copy > p { font-size: 16px; margin-top: 14px; }
   .about-socials { margin-top: 22px; gap: 10px; }
   .about-socials .button { min-height: 44px; padding: 0 18px; font-size: 14px; gap: 12px; }
   .about-more { margin-top: 18px; font-size: 11px; }
