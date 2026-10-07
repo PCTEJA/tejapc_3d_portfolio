@@ -106,8 +106,7 @@
     radial-gradient(ellipse at 12% 8%, #ffffffa6, transparent 62%),
     radial-gradient(ellipse at 90% 85%, #c9b8ff50, transparent 70%),
     linear-gradient(135deg, #f4f0ff70, #e9e5ff47 55%, #ffffff59);
-  -webkit-backdrop-filter: blur(24px) saturate(1.15);
-  backdrop-filter: blur(24px) saturate(1.15);
+  /* Tint and sheen provide clear glass without a blur kicking in after reveal. */
   box-shadow: 0 14px 36px #64529c1a;
 }
 /* Keep the sheen behind the transparent portrait so the face stays crisp. */
