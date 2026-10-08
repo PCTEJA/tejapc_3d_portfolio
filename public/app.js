@@ -648,6 +648,14 @@ $("#assistant-toggle").addEventListener("click", () =>
   setAssistant($("#assistant-panel").hidden),
 );
 $("#assistant-close").addEventListener("click", () => setAssistant(false));
+$("#assistant-resize").addEventListener("click", () => {
+  const expanded = $("#assistant-panel").classList.toggle("is-expanded");
+  const button = $("#assistant-resize");
+  const label = expanded ? "Restore assistant size" : "Expand assistant";
+  button.setAttribute("aria-pressed", String(expanded));
+  button.setAttribute("aria-label", label);
+  button.title = label;
+});
 $("#assistant-panel").addEventListener("keydown", (event) => {
   if (event.key === "Escape") {
     event.preventDefault();
@@ -655,8 +663,48 @@ $("#assistant-panel").addEventListener("keydown", (event) => {
   }
 });
 const conversationHistory = [];
+// Render only our small Markdown subset with DOM nodes. Model output is never HTML.
+function appendChatInline(parent, text) {
+  for (const part of text.split(/(\*\*[^*\n]+\*\*)/g)) {
+    if (part.startsWith("**") && part.endsWith("**") && part.length > 4) {
+      const strong = document.createElement("strong");
+      strong.textContent = part.slice(2, -2);
+      parent.append(strong);
+    } else {
+      parent.append(document.createTextNode(part));
+    }
+  }
+}
+function renderChatResponse(bubble, message) {
+  bubble.replaceChildren();
+  let paragraph;
+  let list;
+  for (const line of message.replace(/\r\n?/g, "\n").split("\n")) {
+    if (!line.trim()) { paragraph = null; list = null; continue; }
+    const item = line.match(/^\s*(?:[-*•]\s+|(\d+)[.)]\s+)(.*)$/);
+    if (item) {
+      const tag = item[1] ? "ol" : "ul";
+      if (!list || list.localName !== tag) {
+        list = document.createElement(tag);
+        if (item[1]) list.start = Number(item[1]);
+        bubble.append(list);
+      }
+      const li = document.createElement("li");
+      appendChatInline(li, item[2]);
+      list.append(li);
+      paragraph = null;
+    } else {
+      list = null;
+      if (!paragraph) {
+        paragraph = document.createElement("p");
+        bubble.append(paragraph);
+      } else paragraph.append(document.createElement("br"));
+      appendChatInline(paragraph, line);
+    }
+  }
+}
 function chatMessage(message, role) {
-  const bubble = document.createElement("p");
+  const bubble = document.createElement("div");
   bubble.className = `${role}-message`;
   bubble.textContent = message;
   $("#chat-messages").append(bubble);
@@ -690,7 +738,7 @@ $("#chat-form").addEventListener("submit", async (event) => {
     const result = await response.json();
     if (typeof result.response !== "string" || !result.response.trim())
       throw new Error("Empty response");
-    responseBubble.textContent = result.response;
+    renderChatResponse(responseBubble, result.response);
     conversationHistory.push({ role: "user", content: message }, { role: "assistant", content: result.response.slice(0, 3000) });
     conversationHistory.splice(0, Math.max(0, conversationHistory.length - 8));
   } catch {

@@ -14,7 +14,9 @@ For the live assistant locally, copy `.env.example` to `.env`, set `GEMINI_API_K
 
 ## Gemini assistant on Netlify
 
-`netlify.toml` builds from the repository root and publishes only `public/`. The server-side function at `netlify/functions/chat.mjs` handles `/chat`; its shared logic is in `lib/chat.cjs`. Keep professional facts current in `lib/resume.cjs` (sourced from the portfolio). Express and the legacy API entry point use the same implementation.
+`netlify.toml` builds from the repository root and publishes only `public/`. The server-side function at `netlify/functions/chat.mjs` handles `/chat`; its shared logic and recruiter answer guidance are in `lib/chat.cjs`. Keep facts current in `lib/resume.cjs` (sourced from the portfolio and Teja's approved achievements and preferences). This includes the experience summary, savings and migration achievements, relocation, work style and the approved family/girlfriend answer. Express and the legacy API entry point use the same implementation. These instructions supply Gemini with context on each request; they do not retrain the underlying model.
+
+The assistant supports expand/restore next to Close, responsive message scrolling and a lavender scrollbar. Responses render paragraphs, bold text and simple bullet/numbered lists through safe DOM nodes; raw HTML is displayed as text. `npm run test:chat` covers these behaviors on desktop, mobile and landscape screens with mocked responses. It does not verify live model phrasing.
 
 In Google AI Studio, create a dedicated project **without billing enabled**, confirm it shows **Free tier**, and create its API key. A key from a paid project uses paid pricing even for models that have a free tier. The default model is `gemini-3.5-flash-lite`; override with `GEMINI_MODEL` if needed. Google controls model availability and quota; the application cannot force an API project onto the free tier.
 

@@ -17,6 +17,14 @@ test('Gemini receives server key in header, trusted facts and mapped history', a
     assert.equal(options.headers['x-goog-api-key'], env.GEMINI_API_KEY);
     const payload = JSON.parse(options.body);
     assert.match(payload.systemInstruction.parts[0].text, /University of North Texas/);
+    const context = payload.systemInstruction.parts[0].text;
+    for (const fact of [/10\/10 — I am 100% confident/, /almost \$200,000/,
+      /almost 70%/, /10 million-plus records/, /5 years of industry experience with 14 months/,
+      /Yes, Teja is willing to relocate/, /Always Mom, Dad & Ammu/,
+      /Do not promise a fixed number of years/, /repetitive work patiently/,
+      /handles cross-domain work and pressure/, /closest real examples/]) {
+      assert.match(context, fact);
+    }
     assert.deepEqual(payload.contents.map(item => item.role), ['user', 'model', 'user']);
     assert.equal(payload.generationConfig.maxOutputTokens, 600);
     return success();
