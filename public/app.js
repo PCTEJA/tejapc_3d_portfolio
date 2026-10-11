@@ -109,7 +109,7 @@ function goToPanel(index, focus = false) {
 track.addEventListener(
   "wheel",
   (event) => {
-    if (event.ctrlKey || event.metaKey || $("#detail-dialog").open) return;
+    if (event.ctrlKey || event.metaKey || $("#detail-dialog").open || event.target.closest("video")) return;
     const panel = event.target.closest(".panel");
     const vertical = Math.abs(event.deltaY) >= Math.abs(event.deltaX);
     if (
@@ -185,7 +185,7 @@ window.addEventListener("keydown", (event) => {
     event.metaKey ||
     event.shiftKey ||
     event.target.closest(
-      'input, textarea, select, [role="tablist"], [contenteditable="true"], #assistant-panel',
+      'input, textarea, select, video, [role="tablist"], [contenteditable="true"], #assistant-panel',
     )
   )
     return;
@@ -310,10 +310,10 @@ const projects = {
     role: "Full-Stack Developer",
     focus: "Experience · APIs · AI",
     tags: ["JavaScript", "Node.js", "Netlify", "Gemini"],
-    next: "ai",
-    nextLabel: "AI & MLOPS",
-    nextTitle: "From documents to usable data",
-    nextDescription: "A connected, cloud-native extraction workflow.",
+    next: "zhuddle",
+    nextLabel: "FEATURED PROJECT",
+    nextTitle: "Meet Zhuddle",
+    nextDescription: "Big ideas. Small steps. Watch the film.",
     detail:
       "<p>This portfolio brings a responsive interface and a conversational assistant together. Visitors can explore the work visually or ask questions about experience, skills, and research.</p><h3>From interface to API</h3><p>A JavaScript frontend sends questions to an Express backend. The server provides résumé context to the language model and returns a response to the conversation.</p><h3>Built around the visitor</h3><p>Clear navigation, accessible controls, and useful error states keep the experience understandable. API credentials remain on the server.</p>",
     link: "https://github.com/PCTEJA/",
@@ -333,6 +333,18 @@ const projects = {
       ],
     },
   },
+  zhuddle: {
+    title: "Zhuddle",
+    heading: "Big ideas.<br><em>Small steps.</em>",
+    description: "Meet Zhuddle. A first look at my project, brought to life in a short brand film.",
+    role: "Creator",
+    focus: "Product · Brand",
+    tags: ["Personal project", "Brand film"],
+    next: "ai",
+    nextLabel: "AI & MLOPS",
+    nextTitle: "From documents to usable data",
+    nextDescription: "A connected, cloud-native extraction workflow.",
+  },
 };
 let selectedProject = "ai";
 const initialDiagram = $("#project-visual").innerHTML;
@@ -349,7 +361,10 @@ function alternateDiagram(key) {
 }
 function selectProject(key) {
   if (!projects[key]) return;
+  $("#zhuddle-video")?.pause();
   selectedProject = key;
+  const isVideo = key === "zhuddle";
+  $("#work").classList.toggle("video-project", isVideo);
   $("#work").classList.toggle("companion-project", key !== "ai");
   $("#project-visual").classList.add("reference-scene-active");
   $("#project-visual").classList.add("companion-scene");
@@ -373,10 +388,19 @@ function selectProject(key) {
     .map((tag) => `<span>${tag}</span>`)
     .join("");
   $("#project-visual").innerHTML =
-    key === "ai" ? initialDiagram : alternateDiagram(key);
+    isVideo ? `<figure class="zhuddle-film">
+      <div class="zhuddle-film-bar"><span>Zhuddle <b>·</b> THE INTRODUCTION</span><span>00:10 / FILM</span></div>
+      <video id="zhuddle-video" controls playsinline preload="metadata" width="1280" height="720"
+        poster="assets/zhuddle-poster.jpg" aria-label="Zhuddle — complete project introduction" aria-describedby="zhuddle-caption">
+        <source src="gallery/zhuddle.mp4" type="video/mp4">
+        Your browser does not support this video. <a href="gallery/zhuddle.mp4">Open the complete Zhuddle film</a>.
+      </video>
+      <figcaption id="zhuddle-caption"><span>Big ideas. Small steps.</span><a href="gallery/zhuddle.mp4" target="_blank" rel="noopener">Open full video ↗</a></figcaption>
+    </figure>` : key === "ai" ? initialDiagram : alternateDiagram(key);
+  $("#case-study-button").innerHTML = `${isVideo ? "Play the film" : "Explore project"} ${arrow}`;
   $("#project-visual").setAttribute(
     "aria-label",
-    `Interactive ${project.title} pipeline`,
+    isVideo ? "Zhuddle project film" : `Interactive ${project.title} pipeline`,
   );
   $("#next-project small").textContent = `UP NEXT / ${project.nextLabel}`;
   $("#next-project strong").textContent = project.nextTitle;
@@ -450,6 +474,14 @@ dialog.addEventListener("close", () =>
   dialogOpener?.focus({ preventScroll: true }),
 );
 $("#case-study-button").addEventListener("click", () => {
+  if (selectedProject === "zhuddle") {
+    const video = $("#zhuddle-video");
+    if (video.ended) video.currentTime = 0;
+    video.play().catch(() => video.focus());
+    video.scrollIntoView({ block: "nearest", inline: "nearest" });
+    video.focus({ preventScroll: true });
+    return;
+  }
   const project = projects[selectedProject];
   showDetails(
     project.title,
@@ -459,6 +491,12 @@ $("#case-study-button").addEventListener("click", () => {
         ? `<a class="button button-primary" href="${project.link}" target="_blank" rel="noopener">${project.linkLabel} ${arrow}</a>`
         : '<p>Interested in the implementation? <a href="mailto:pcteja2000@gmail.com">Let’s talk about the work ↗</a></p>'),
   );
+});
+document.addEventListener("portfolio:chapter", event => {
+  if (event.detail !== "work") $("#zhuddle-video")?.pause();
+});
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden) $("#zhuddle-video")?.pause();
 });
 $("#project-visual").addEventListener("click", (event) => {
   const stage = event.target.closest("[data-stage]");

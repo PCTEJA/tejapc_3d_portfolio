@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="reference.css" />
     <link rel="stylesheet" href="profile.css" />
     <link rel="stylesheet" href="motion.css" />
+    <link rel="stylesheet" href="zhuddle.css" />
     <script src="app.js" defer></script>
     <script src="motion.js" defer></script>
   </head>
@@ -179,12 +180,12 @@
                 ><span class="round-arrow"
                   ><svg><use href="#i-arrow" /></svg
                 ></span></button
-              ><button class="mini-project" data-project-jump="fullstack">
+              ><button class="mini-project zhuddle-shortcut" data-project-jump="zhuddle">
                 <span class="icon-tile pink"
-                  ><svg><use href="#i-code" /></svg></span
+                  ><svg><use href="#i-bolt" /></svg></span
                 ><span
-                  ><strong>Full-Stack LLM Integration</strong
-                  ><small>Intelligence, built into the experience.</small></span
+                  ><strong>Zhuddle · Featured project</strong
+                  ><small>Big ideas. Small steps. Watch the film.</small></span
                 ><span class="round-arrow"
                   ><svg><use href="#i-arrow" /></svg
                 ></span>
@@ -234,6 +235,11 @@
                 >
                   <svg><use href="#i-code" /></svg><span>Full Stack</span
                   ><svg><use href="#i-arrow" /></svg>
+                </button>
+                <button id="tab-zhuddle" role="tab" aria-selected="false"
+                  aria-controls="project-content" data-project="zhuddle" tabindex="-1">
+                  <svg><use href="#i-bolt" /></svg><span>Zhuddle</span>
+                  <svg><use href="#i-arrow" /></svg>
                 </button>
               </div>
               <div class="project-context">

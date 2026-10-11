@@ -45,7 +45,7 @@
         .catch(() => {});
     }
     ribbonFlow?.sync();
-    const work = root.dataset.activeChapter === "work";
+    const work = root.dataset.activeChapter === "work" && project !== "zhuddle";
     if (!scene && work && !reduce.matches && !failed) {
       if (!loading) loading = import("./project-scene.js")
         .then(({ createProjectScene }) => {

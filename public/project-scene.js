@@ -158,6 +158,12 @@ export function createProjectScene(host, onFailure) {
       sync();
       if (sourceImage) resizer.unobserve(sourceImage);
       sourceImage = host.querySelector(".reference-work-art");
+      // Video projects use their own player instead of an animated art surface.
+      if (!sourceImage || !artwork[key]) {
+        canvas.remove();
+        toolbar.remove();
+        return;
+      }
       resizer.observe(sourceImage);
       resize();
       try {
