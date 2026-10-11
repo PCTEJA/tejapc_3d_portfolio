@@ -3,9 +3,12 @@
 .project-tabs #tab-zhuddle { color: #24624e; }
 .project-tabs #tab-zhuddle[aria-selected="true"] { background: #e1f1e9; color: #104d38; }
 .video-project .project-heading h2 em { color: #227458; }
+.work-panel.video-project { overflow: hidden; height: 100%; min-height: 0; }
+.video-project .work-sidebar { min-height: 0; }
 .video-project .project-content {
-  display: flex; flex-direction: column; gap: 18px;
-  min-width: 0; min-height: 0; padding: 28px 4% 22px;
+  display: flex; flex-direction: column; gap: clamp(8px, 2vh, 18px);
+  min-width: 0; min-height: 0; overflow: hidden;
+  padding: clamp(10px, 3vh, 28px) 4% 70px;
   background: radial-gradient(ellipse at 65% 40%, #e5f2ea 0, transparent 65%);
 }
 .video-project .project-heading,
@@ -14,7 +17,7 @@
   position: static; width: auto; height: auto; margin: 0; flex-shrink: 0;
 }
 .video-project .project-heading { gap: 24px; }
-.video-project .project-heading h2 { font-size: clamp(30px, 3.2vw, 54px); }
+.video-project .project-heading h2 { font-size: clamp(24px, 4.8vh, 48px); }
 .video-project .project-heading > p { max-width: 300px; font-size: 14px; }
 .video-project #project-visual {
   position: relative; inset: auto; display: flex; justify-content: center; align-items: stretch;
@@ -41,16 +44,9 @@
 .zhuddle-film video:fullscreen { width: 100%; height: 100%; object-fit: contain; }
 .zhuddle-film figcaption { background: #f5faf6; color: #50675b; font-size: 12px; }
 .zhuddle-film figcaption a { color: #175f43; text-underline-offset: 3px; }
-.video-project .project-bottom h3 { font-size: 24px; margin-bottom: 6px; }
-.video-project .project-bottom { padding-right: 44px; flex-wrap: wrap; }
-.video-project .project-bottom .tags > span { padding: 5px 12px; font-size: 12px; }
-.video-project .project-bottom > .button { background: #145b42; min-height: 46px; font-size: 14px; }
-.video-project .next-project { min-height: 64px; padding: 10px 16px; }
-.video-project .next-project .icon-tile { width: 40px; height: 40px; }
-.video-project .next-project strong { font-size: 15px; }
-.video-project .next-project > span > span { font-size: 12px; }
+/* Native video controls replace the duplicated title, tags and play button. */
+.video-project .project-bottom, .video-project .next-project { display: none; }
 @media ((min-width: 1025px) or ((min-width: 761px) and (orientation: landscape))) {
-  .video-project .next-project { display: none; }
   .video-project .project-heading h2 br { display: none; }
   .video-project .project-heading > p { padding-top: 22px; }
   .work-sidebar .project-tabs { margin-bottom: calc(12 * var(--v)); gap: calc(4 * var(--v)); }
@@ -59,15 +55,24 @@
 }
 @media ((max-width: 760px) or ((max-width: 1024px) and (orientation: portrait))) {
   .work-sidebar .project-tabs { display: grid; grid-template-columns: 1fr 1fr; }
-  .video-project .project-content { padding: 24px 20px 48px; gap: 22px; }
-  .video-project .project-heading h2 { font-size: 38px; }
-  .video-project .project-heading > p { max-width: none; }
-  .video-project #project-visual { flex: none; }
-  .zhuddle-film video { flex: none; height: auto; }
+  .work-panel.video-project { display: flex; flex-direction: column; }
+  .video-project .work-sidebar { flex: none; padding: 12px 20px 0; }
+  .video-project .work-sidebar > .eyebrow { display: none; }
+  .video-project .project-tabs { margin: 0; padding-bottom: 8px; }
+  .video-project .project-tabs button { flex-direction: row; min-height: 36px; padding: 6px; }
+  .video-project .project-content { flex: 1; padding: 14px 20px 70px; gap: 12px; }
+  .video-project .project-heading h2 { font-size: clamp(24px, 4vh, 38px); margin-top: 8px; }
+  .video-project .project-heading h2 br { display: none; }
+  .video-project .project-heading > p { display: none; }
   .zhuddle-film-bar, .zhuddle-film figcaption { padding: 12px; font-size: 10px; }
   .zhuddle-film-bar { letter-spacing: .06em; }
   .zhuddle-film-bar b { padding: 0 3px; }
 }
 @media ((min-width: 1025px) or ((min-width: 761px) and (orientation: landscape))) and (max-height: 600px) {
-  .video-project .project-content { min-height: 780px; }
+  .video-project .work-sidebar { padding-top: 12px; padding-bottom: 12px; }
+  .video-project .project-context, .video-project .sidebar-note, .video-project .sidebar-resume { display: none; }
+  .video-project .project-heading > p { display: none; }
+  .video-project .project-heading h2 { margin-top: 4px; }
+  .video-project .project-content { padding-bottom: 14px; padding-right: 70px; }
+  .zhuddle-film-bar, .zhuddle-film figcaption { padding: 8px 12px; }
 }

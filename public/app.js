@@ -109,7 +109,7 @@ function goToPanel(index, focus = false) {
 track.addEventListener(
   "wheel",
   (event) => {
-    if (event.ctrlKey || event.metaKey || $("#detail-dialog").open || event.target.closest("video")) return;
+    if (event.ctrlKey || event.metaKey || $("#detail-dialog").open || document.fullscreenElement) return;
     const panel = event.target.closest(".panel");
     const vertical = Math.abs(event.deltaY) >= Math.abs(event.deltaX);
     if (
@@ -365,6 +365,7 @@ function selectProject(key) {
   selectedProject = key;
   const isVideo = key === "zhuddle";
   $("#work").classList.toggle("video-project", isVideo);
+  if (isVideo) $("#work").scrollTop = 0;
   $("#work").classList.toggle("companion-project", key !== "ai");
   $("#project-visual").classList.add("reference-scene-active");
   $("#project-visual").classList.add("companion-scene");

@@ -9,7 +9,7 @@
     "install-client": "npm install",
     "preview": "node scripts/preview.cjs",
     "build": "node scripts/vendor.cjs && node scripts/check.cjs",
-    "test": "node --test tests/chat.cjs && node tests/portfolio.cjs && node tests/artwork.cjs && node tests/ribbons.cjs",
+    "test": "node --test tests/chat.cjs && node tests/portfolio.cjs && node tests/zhuddle.cjs && node tests/artwork.cjs && node tests/ribbons.cjs",
     "test:chat": "node --test tests/chat.cjs && node tests/chat-ui.cjs"
   },
   "keywords": [
