@@ -5,6 +5,9 @@
   "installCommand": "npm ci --include=dev",
   "buildCommand": "npm run build",
   "outputDirectory": "public",
+  "redirects": [
+    { "source": "/hsupport", "destination": "/Support-Zhuddle-and-Outnumbered.pdf", "statusCode": 302 }
+  ],
   "rewrites": [
     { "source": "/chat", "destination": "/api/server" },
     { "source": "/health", "destination": "/api/server" }
